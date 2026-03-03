@@ -1,79 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tyto Sensory Labs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --accent: #FFD700;
-            --bg: #121212;
-            --panel: #1e1e1e;
-            --mono: 'Courier New', Courier, monospace;
-        }
-        body {
-            background: var(--bg);
-            color: #ccc;
-            font-family: var(--mono);
+        body { 
+            background-color: #1E1E1E; /* Tarmac Grey */
+            color: #CCCCCC; /* Light Grey Font */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+        }
+        h2, h1 { color: #6E603F; } /* Title Gold-Bronze */
+        
+        .section-container {
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: space-around;
+            padding: 0 10%;
+            border-bottom: 1px solid #2C2C2C; /* Subtle Border */
         }
-        /* The "HUD" scanline effect */
-        body::before {
-            content: " ";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-            z-index: 10;
+
+        .reveal-box {
+            background: #1e1e1e;
+            border: 1px solid #2C2C2C;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+            max-width: 500px;
         }
-        .header {
-            border-bottom: 2px solid var(--accent);
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-            letter-spacing: 5px;
-            text-transform: uppercase;
+
+        .reveal-box.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .main-container {
-            max-width: 900px;
-            padding: 40px;
-            border: 1px solid #333;
-            margin-top: 50px;
-            background: var(--panel);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-        .pro-badge {
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 2px 8px;
-            font-size: 0.8rem;
-        }
-        .cta-button {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 15px 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .cta-button:hover {
-            background: var(--accent);
-            color: black;
-            box-shadow: 0 0 15px var(--accent);
+
+        .logo-container img {
+            max-width: 300px;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
         }
     </style>
 </head>
 <body>
-    <div class="header">Tyto Sensory Labs // Systems Online</div>
-    <div class="main-container">
-        <h1>MCP4SH <span class="pro-badge">CODEC PRO</span></h1>
-        <p>> INITIALIZING HAPTIC INTERFACE...</p>
-        <p>> STATUS: OPERATIONAL</p>
-        <hr style="border-color: #444;">
-        <p>The **Multimodal Communications Protocol for Humanity** (MCP4H) haptics layer. Experience high-fidelity tactile feedback designed for the next generation of simulators.</p>
-        <button class="cta-button" onclick="window.location.href='YOUR_LEMON_SQUEEZY_URL'">DEPLOY LICENSE</button>
-    </div>
+
+    <section class="section-container">
+        <div class="logo-container">
+            <img src="Resources/MCP4SHlogo.jpg" alt="Tyto Logo"> </div>
+        <div class="reveal-box" id="box1">
+            <h2>TYTO SENSORY LABS</h2>
+            <p>Founded by Dirk Van Echelpoel, Tyto Sensory Labs focuses on the intersection of biological precision and digital telemetry. We build the bridges that allow humans to "feel" machines.</p>
+        </div>
+    </section>
+
+    <section class="section-container">
+        <div class="logo-container">
+            <img src="Resources/MCP4SHlogo.jpg" alt="MCP4H Protocol"> </div>
+        <div class="reveal-box" id="box2">
+            <h2>MCP4H PROTOCOL</h2>
+            <p>The Multimodal Communications Protocol for Humanity. A standardized schema for low-latency sensory data, ensuring that haptic feedback remains coherent and prioritized across any hardware environment.</p>
+        </div>
+    </section>
+
+    <section class="section-container">
+        <div class="logo-container">
+            <img src="Resources/MCP4SHlogo.jpg" alt="MCP4SH Plugin">
+        </div>
+        <div class="reveal-box" id="box3">
+            <h2>MCP4SH PLUGIN</h2>
+            <p>The flagship implementation for SimHub. MCP4SH translates complex racing physics into a layered haptic codec, preventing "signal smear" and providing drivers with intuitive traction and load cues.</p>
+        </div>
+    </section>
+
+    <script>
+        // Simple Intersection Observer to trigger the "Reveal"
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.reveal-box').forEach(box => {
+            observer.observe(box);
+        });
+    </script>
 </body>
 </html>
