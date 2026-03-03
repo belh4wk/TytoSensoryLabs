@@ -1,79 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --accent: #FFD700;
-            --bg: #121212;
-            --panel: #1e1e1e;
-            --mono: 'Courier New', Courier, monospace;
+        body { background-color: #0c0c0c; font-family: 'JetBrains Mono', monospace; }
+        .hud-border { border: 1px solid rgba(255, 215, 0, 0.3); }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .1) 51%);
+            background-size: 100% 4px;
         }
-        body {
-            background: var(--bg);
-            color: #ccc;
-            font-family: var(--mono);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        /* The "HUD" scanline effect */
-        body::before {
-            content: " ";
+        /* Sticky HUD Gauges */
+        .hud-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
             pointer-events: none;
-            z-index: 10;
-        }
-        .header {
-            border-bottom: 2px solid var(--accent);
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-        }
-        .main-container {
-            max-width: 900px;
-            padding: 40px;
-            border: 1px solid #333;
-            margin-top: 50px;
-            background: var(--panel);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-        .pro-badge {
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 2px 8px;
-            font-size: 0.8rem;
-        }
-        .cta-button {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 15px 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .cta-button:hover {
-            background: var(--accent);
-            color: black;
-            box-shadow: 0 0 15px var(--accent);
+            z-index: 50;
         }
     </style>
 </head>
-<body>
-    <div class="header">Tyto Sensory Labs // Systems Online</div>
-    <div class="main-container">
-        <h1>MCP4SH <span class="pro-badge">CODEC PRO</span></h1>
-        <p>> INITIALIZING HAPTIC INTERFACE...</p>
-        <p>> STATUS: OPERATIONAL</p>
-        <hr style="border-color: #444;">
-        <p>The **Multimodal Communications Protocol for Humanity** (MCP4H) haptics layer. Experience high-fidelity tactile feedback designed for the next generation of simulators.</p>
-        <button class="cta-button" onclick="window.location.href='YOUR_LEMON_SQUEEZY_URL'">DEPLOY LICENSE</button>
+<body class="text-zinc-400">
+
+    <div class="hud-overlay p-6 flex flex-col justify-between border-4 border-double border-yellow-600/20">
+        <div class="flex justify-between items-start">
+            <div class="hud-border p-2 bg-black/50">
+                <div class="text-[10px] text-yellow-500">SYSTEM_AUTH: TYTO_LABS</div>
+                <div class="text-xs font-bold text-white uppercase tracking-widest">MCP4H PROTOCOL v4.0.0-H</div>
+            </div>
+            <div class="hud-border p-2 bg-black/50 text-right">
+                <div class="text-[10px] text-yellow-500">COORDINATES</div>
+                <div class="text-xs font-bold text-white uppercase tracking-widest">53.3498° N, 6.2603° W</div>
+            </div>
+        </div>
+        <div class="flex justify-center mb-4">
+             <div class="h-1 w-64 bg-yellow-600/20 overflow-hidden hud-border">
+                <div class="h-full bg-yellow-500 animate-pulse w-1/3"></div>
+             </div>
+        </div>
     </div>
+
+    <main class="relative z-0">
+        <section class="h-screen flex flex-col items-center justify-center text-center px-4">
+            <img src="Resources/MCP4SHlogo.jpg" class="w-48 mb-8 hud-border p-1 shadow-[0_0_30px_rgba(255,215,0,0.2)]">
+            <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter mb-4">TYTO SENSORY LABS</h1>
+            <p class="text-yellow-500 tracking-[0.3em] uppercase text-sm mb-12">Precision Haptic Codecs for Simulation</p>
+            <div class="animate-bounce text-yellow-500/50">▼ SCROLL TO INITIALIZE</div>
+        </section>
+
+        <section class="h-screen sticky top-0 flex items-center justify-center overflow-hidden bg-zinc-900/50 border-y border-white/5">
+            <div class="max-w-4xl grid md:grid-cols-2 gap-12 p-8">
+                <div>
+                    <h2 class="text-yellow-500 text-2xl font-bold mb-4">// 01: MCP4H PROTOCOL</h2>
+                    <p class="leading-relaxed mb-6">Inspired by the Tyto Alba, our protocol filters raw telemetry into a spatial sensory map. It is the "Nervous System" of your sim-rig.</p>
+                </div>
+                <div class="hud-border bg-black/80 p-6 relative">
+                    <div class="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-yellow-500"></div>
+                    <code class="text-xs text-green-500">
+                        [PKT_IN]: TELEMETRY_STREAM<br>
+                        [PROC]: SENSORY_MAPPING...<br>
+                        [OUT]: HAPTIC_CODEC_V4
+                    </code>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen flex flex-col items-center justify-center">
+            <h2 class="text-3xl text-white mb-8">Ready to Deploy?</h2>
+            <button onclick="window.location.href='#'" class="hud-border px-12 py-4 text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-300 font-bold tracking-widest">
+                ACCESS PIONEER LICENSE ($12.99)
+            </button>
+        </section>
+    </main>
+
 </body>
 </html>
