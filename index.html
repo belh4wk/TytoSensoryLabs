@@ -1,92 +1,533 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyto Sensory Labs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { 
-            background-color: #111111; /* Tarmac Grey */
-            color: #CCCCCC; /* Light Grey Font */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-        }
-        h2, h1 { color: #6E603F; } /* Title Gold-Bronze */
-        
-        .section-container {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 10%;
-            border-bottom: 1px solid #2C2C2C; /* Subtle Border */
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tyto Sensory Labs</title>
+  <meta name="description" content="Tyto Sensory Labs — dark, subtle scrollytelling homepage for Tyto, MCP4H, and MCP4SH." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --bg-soft: #131313;
+      --panel: rgba(18, 18, 18, 0.74);
+      --border: rgba(255,255,255,0.08);
+      --text: #d6d6d6;
+      --muted: #8d8d8d;
+      --accent: #6e603f;
+      --accent-soft: rgba(110, 96, 63, 0.26);
+      --glow: rgba(110, 96, 63, 0.45);
+      --track: rgba(255,255,255,0.09);
+      --track-edge: rgba(255,255,255,0.16);
+      --line: rgba(255,255,255,0.10);
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
 
-        .reveal-box {
-            background: #111111;
-            border: 1px solid #2C2C2C;
-            padding: 2rem;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-            max-width: 500px;
-        }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 20% 10%, #191919 0%, var(--bg) 35%, #090909 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
 
-        .reveal-box.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .grain::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05) 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 60%, rgba(255,255,255,0.03) 0 1px, transparent 1px);
+      background-size: 10px 10px, 14px 14px;
+      mix-blend-mode: soft-light;
+      z-index: 2;
+    }
 
-        .logo-container img {
-            max-width: 300px;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
-        }
-    </style>
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(10,10,10,0.68);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navlink {
+      color: var(--muted);
+      transition: 160ms ease;
+    }
+    .navlink:hover { color: #f3f3f3; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      border-radius: 999px;
+      padding: 0.9rem 1.25rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+      will-change: transform;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: var(--accent);
+      color: #111;
+      border: 1px solid var(--accent);
+      box-shadow: 0 10px 24px rgba(110,96,63,0.18);
+    }
+    .btn-primary:hover { background: #857552; }
+    .btn-secondary {
+      background: rgba(18,18,18,0.72);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: rgba(110,96,63,0.45);
+      color: #f5f5f5;
+    }
+
+    .bg-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 40%, transparent 0%, rgba(0,0,0,0.05) 42%, rgba(0,0,0,0.55) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.28) 100%);
+      z-index: 3;
+    }
+
+    .track-scene {
+      position: absolute;
+      inset: -8%;
+      transform-origin: center center;
+      will-change: transform, filter, opacity;
+      transition: transform 180ms linear, filter 180ms linear, opacity 180ms linear;
+      z-index: 1;
+    }
+
+    .scene-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(circle at center, black 20%, transparent 85%);
+      opacity: 0.45;
+    }
+
+    .track-wrap {
+      position: absolute;
+      inset: 0;
+      transform: perspective(1400px) rotateX(64deg) rotateZ(-9deg) scale(1.1);
+      transform-origin: 50% 50%;
+      filter: saturate(0.8);
+    }
+
+    .track-outline,
+    .track-racing-line,
+    .track-glow,
+    .track-markers {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .track-outline path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .track-outline .road {
+      stroke: var(--track);
+      stroke-width: 64;
+      filter: drop-shadow(0 0 28px rgba(255,255,255,0.05));
+    }
+    .track-outline .edge {
+      stroke: var(--track-edge);
+      stroke-width: 2.5;
+      opacity: 0.65;
+    }
+
+    .track-racing-line path {
+      fill: none;
+      stroke: rgba(215, 198, 159, 0.68);
+      stroke-width: 4.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 14 18;
+      filter: drop-shadow(0 0 10px rgba(110,96,63,0.22));
+      opacity: 0.55;
+    }
+
+    .track-glow path {
+      fill: none;
+      stroke: rgba(110,96,63,0.18);
+      stroke-width: 18;
+      filter: blur(22px);
+      opacity: 0.65;
+    }
+
+    .track-markers circle {
+      fill: rgba(255,255,255,0.06);
+      stroke: rgba(255,255,255,0.18);
+      stroke-width: 1.25;
+    }
+
+    .camera-label {
+      position: absolute;
+      right: 5vw;
+      bottom: 6vh;
+      z-index: 4;
+      font-size: 0.8rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.46);
+    }
+
+    .camera-label strong {
+      color: rgba(215,198,159,0.85);
+      font-weight: 600;
+    }
+
+    .content {
+      position: relative;
+      z-index: 5;
+    }
+
+    .story-block {
+      min-height: 170vh;
+      position: relative;
+    }
+
+    .story-inner {
+      position: sticky;
+      top: 84px;
+      min-height: calc(100vh - 96px);
+      display: flex;
+      align-items: center;
+      padding: 4rem 1.25rem;
+    }
+
+    .panel {
+      max-width: 720px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(20,20,20,0.78) 0%, rgba(15,15,15,0.68) 100%);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+    }
+
+    .eyebrow {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .headline {
+      color: white;
+      line-height: 1.03;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .accent { color: #d7c69f; }
+
+    .mini-rail {
+      position: absolute;
+      left: clamp(10px, 3vw, 40px);
+      top: 18vh;
+      bottom: 18vh;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.09), transparent);
+      z-index: 6;
+      border-radius: 999px;
+    }
+
+    .mini-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 22%;
+      background: linear-gradient(180deg, rgba(215,198,159,0.85), rgba(110,96,63,0.35));
+      border-radius: 999px;
+      box-shadow: 0 0 18px rgba(110,96,63,0.32);
+      transform-origin: top;
+      will-change: transform;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.72);
+      border-radius: 999px;
+      padding: 0.48rem 0.75rem;
+      font-size: 0.78rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(110,96,63,0.48);
+    }
+
+    .copy {
+      color: #bfbfbf;
+      line-height: 1.95;
+      max-width: 62ch;
+    }
+
+    .footer-nav {
+      border-top: 1px solid var(--border);
+      background: rgba(10,10,10,0.65);
+      backdrop-filter: blur(12px);
+    }
+
+    @media (max-width: 900px) {
+      .story-block { min-height: 145vh; }
+      .story-inner { top: 76px; min-height: calc(100vh - 84px); padding: 2.5rem 1rem; }
+      .panel { border-radius: 24px; }
+      .track-wrap { transform: perspective(1200px) rotateX(66deg) rotateZ(-8deg) scale(1.42) translateY(-2%); }
+      .camera-label { right: 1rem; bottom: 1rem; font-size: 0.72rem; letter-spacing: 0.16em; }
+      .mini-rail { display: none; }
+    }
+  </style>
 </head>
-<body>
+<body class="grain">
+  <script>
+    const MCP4SH_DOWNLOAD_URL = "https://tytosensorylabs.com/downloads/mcp4sh-latest";
+    const MCP4SH_LICENSE_URL = "https://tytosensorylabs.com/buy-license";
+  </script>
 
-    <section class="section-container">
-        <div class="logo-container">
-            <img src="Resources/belh4wkBanner.png" alt="Tyto Logo"> </div>
-        <div class="reveal-box" id="box1">
-            <h2>TYTO SENSORY LABS</h2>
-            <p>Tyto Sensory Labs was built around a simple idea: technology should not just output data, it should communicate meaning. My background spans military communications, IT, enterprise delivery, live operations, quality, and systems improvement. Across all of it, I kept running into the same problem: the right signal was often buried in noise, scattered across tools, or presented in ways that were harder to use than they should have been. Tyto grew out of that gap. It is a space for building and exploring better sensory systems — ways for machines and software to communicate more clearly through haptics, sound, light, and other human-readable cues. The work started in gaming, simulation, and telemetry-heavy environments, but the idea reaches far beyond them: wherever people need fast, intuitive understanding from complex systems, better communication matters. Tyto Sensory Labs exists to make that communication more natural, more useful, and more human.</p>
+  <div class="topbar">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+      <a href="#top" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
+      <div class="hidden items-center gap-5 text-sm md:flex">
+        <a class="navlink" href="#tyto">Tyto</a>
+        <a class="navlink" href="#mcp4h">MCP4H</a>
+        <a class="navlink" href="#mcp4sh">MCP4SH</a>
+        <a id="nav-download" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Download</a>
+      </div>
+      <a id="nav-license-mobile" class="btn btn-secondary !px-3 !py-2 text-sm md:hidden" href="#">License</a>
+    </div>
+  </div>
+
+  <div class="bg-stage" aria-hidden="true">
+    <div id="scene" class="track-scene">
+      <div class="scene-grid"></div>
+      <div class="track-wrap">
+        <svg class="track-glow" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+        </svg>
+        <svg class="track-outline" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path class="road" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+          <path class="edge" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+        </svg>
+        <svg class="track-racing-line" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path id="racingLine" d="M255 230 C216 224, 192 251, 194 301 C197 346, 245 385, 323 417 C414 454, 468 512, 514 618 C557 714, 626 761, 742 765 C847 768, 944 716, 1015 646" />
+        </svg>
+        <svg class="track-markers" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <circle cx="250" cy="230" r="10" />
+          <circle cx="318" cy="420" r="8" />
+          <circle cx="520" cy="620" r="8" />
+          <circle cx="742" cy="785" r="10" />
+          <circle cx="1030" cy="640" r="10" />
+        </svg>
+      </div>
+    </div>
+    <div class="camera-label"><span>Scroll camera:</span> <strong id="cameraLabel">La Source</strong></div>
+    <div class="bg-vignette"></div>
+  </div>
+
+  <div class="mini-rail" aria-hidden="true">
+    <div id="miniProgress" class="mini-progress"></div>
+  </div>
+
+  <main id="top" class="content">
+    <section id="tyto" class="story-block" data-scene="source">
+      <div class="story-inner mx-auto max-w-7xl">
+        <div class="panel p-8 md:p-12">
+          <div class="section-tag"><span class="dot"></span><span>Part I · Tyto Sensory Labs</span></div>
+          <p class="eyebrow mt-6">Where the line starts</p>
+          <h1 class="headline mt-3 text-4xl md:text-7xl">Signals made <span class="accent">human</span>.</h1>
+          <p class="copy mt-6 text-base md:text-lg">
+            Tyto Sensory Labs exists to make dense technical output easier to feel, read, and trust.
+            The goal is not more noise. It is better meaning, delivered through cues that feel coherent,
+            grounded, and usable under pressure.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#mcp4h" class="btn btn-secondary">See MCP4H</a>
+            <a href="#mcp4sh" class="btn btn-primary">See MCP4SH</a>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section class="section-container">
-        <div class="logo-container">
-            <img src="Resources/MCP4HLogo.png" alt="MCP4H Protocol"> </div>
-        <div class="reveal-box" id="box2">
-            <h2>MCP4H - The Multimodal Communications Protocol for Humanity</h2>
-            <p>The Human-Centric Governance Layer for AI. > Tyto Sensory Labs introduces MCP4H, a standardized architectural governance toolkit for the Model Context Protocol. By providing a unified schema for multi-sensory data, MCP4H ensures that autonomous agents remain transparent, auditable, and prioritize human intent across any hardware environment or output modality.</p>
+    <section id="mcp4h" class="story-block" data-scene="eaurouge">
+      <div class="story-inner mx-auto max-w-7xl justify-end">
+        <div class="panel p-8 md:p-12">
+          <div class="section-tag"><span class="dot"></span><span>Part II · MCP4H</span></div>
+          <p class="eyebrow mt-6">The protocol layer</p>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">A grammar for <span class="accent">attention</span>.</h2>
+          <p class="copy mt-6 text-base md:text-lg">
+            MCP4H — the Multimodal Communications Protocol for Humanity — is the deeper structure underneath the work.
+            It is about normalizing signals, prioritizing what matters, and translating machine state into forms people can interpret quickly.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#mcp4sh" class="btn btn-primary">Go to MCP4SH</a>
+            <a href="#tyto" class="btn btn-secondary">Back to Tyto</a>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section class="section-container">
-        <div class="logo-container">
-            <img src="Resources/MCP4SHLogo.png" alt="MCP4SH Plugin">
+    <section id="mcp4sh" class="story-block" data-scene="raidillon">
+      <div class="story-inner mx-auto max-w-7xl">
+        <div class="panel p-8 md:p-12">
+          <div class="section-tag"><span class="dot"></span><span>Part III · MCP4SH</span></div>
+          <p class="eyebrow mt-6">The flagship implementation</p>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">From telemetry to <span class="accent">usable feel</span>.</h2>
+          <p class="copy mt-6 text-base md:text-lg">
+            MCP4SH is the current live implementation: a SimHub-focused haptics system built to separate cues more clearly,
+            reduce smear, and make the rig feel more like one connected chassis instead of a pile of overlapping effects.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
+            <a id="hero-license" href="#" class="btn btn-secondary">Purchase license</a>
+          </div>
+          <p class="mt-5 text-sm leading-7 text-[#8f8f8f]">
+            Soft-launch posture: plugin path default, Core path improving, further split and MCP4H-reference cleanup continue afterwards.
+          </p>
         </div>
-        <div class="reveal-box" id="box3">
-            <h2>MCP4SH - SimHub Plugin</h2>
-            <p>The flagship implementation for SimHub. MCP4SH translates complex racing physics into a layered haptic codec, preventing "signal smear" and providing drivers with intuitive traction and load cues, making for a slightly more refined, usable set of haptics. For any game. Out of the box. Less buzzing, more car.</p>
-        </div>
+      </div>
     </section>
 
-    <script>
-        // Simple Intersection Observer to trigger the "Reveal"
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.5 });
+    <footer class="footer-nav">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between md:px-6">
+        <p class="text-sm text-[#8d8d8d]">Tyto Sensory Labs · dark, subtle, signal-first.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#tyto" class="btn btn-secondary !px-4 !py-2 text-sm">Tyto</a>
+          <a href="#mcp4h" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4H</a>
+          <a href="#mcp4sh" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4SH</a>
+          <a id="footer-download" href="#" class="btn btn-primary !px-4 !py-2 text-sm">Download</a>
+        </div>
+      </div>
+    </footer>
+  </main>
 
-        document.querySelectorAll('.reveal-box').forEach(box => {
-            observer.observe(box);
-        });
-    </script>
+  <script>
+    const scene = document.getElementById('scene');
+    const cameraLabel = document.getElementById('cameraLabel');
+    const miniProgress = document.getElementById('miniProgress');
+    const sections = Array.from(document.querySelectorAll('[data-scene]'));
+    const racingLine = document.getElementById('racingLine');
+
+    const sceneStates = {
+      source: {
+        label: 'La Source',
+        scale: 1.22,
+        x: 2,
+        y: 3,
+        rot: -8,
+        blur: 0.2,
+        opacity: 0.95,
+        dashOffset: 0
+      },
+      eaurouge: {
+        label: 'Eau Rouge',
+        scale: 1.34,
+        x: -3,
+        y: -1,
+        rot: -11,
+        blur: 0.35,
+        opacity: 1,
+        dashOffset: -42
+      },
+      raidillon: {
+        label: 'Raidillon',
+        scale: 1.5,
+        x: -8,
+        y: -10,
+        rot: -14,
+        blur: 0.6,
+        opacity: 0.96,
+        dashOffset: -88
+      }
+    };
+
+    function setScene(stateKey, blend = 0) {
+      const state = sceneStates[stateKey] || sceneStates.source;
+      scene.style.transform = `translate3d(${state.x}px, ${state.y}px, 0) scale(${state.scale}) rotate(${state.rot}deg)`;
+      scene.style.filter = `blur(${state.blur}px)`;
+      scene.style.opacity = state.opacity;
+      cameraLabel.textContent = state.label;
+      if (racingLine) racingLine.style.strokeDashoffset = String(state.dashOffset - blend * 26);
+    }
+
+    function updateScrollStory() {
+      const vh = window.innerHeight;
+      const totalScroll = Math.max(document.body.scrollHeight - vh, 1);
+      const scrollY = window.scrollY || window.pageYOffset;
+      const globalProgress = Math.min(Math.max(scrollY / totalScroll, 0), 1);
+      miniProgress.style.transform = `scaleY(${Math.max(globalProgress, 0.06)})`;
+
+      let activeKey = 'source';
+      let activeBlend = 0;
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const start = rect.top;
+        const end = rect.bottom;
+        const centerBias = vh * 0.5;
+
+        if (start <= centerBias && end >= centerBias) {
+          activeKey = section.dataset.scene;
+          const localProgress = Math.min(Math.max((centerBias - start) / Math.max(rect.height, 1), 0), 1);
+          activeBlend = localProgress;
+        }
+      });
+
+      setScene(activeKey, activeBlend);
+    }
+
+    function wireLinks() {
+      ['nav-download', 'hero-download', 'footer-download'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.href = MCP4SH_DOWNLOAD_URL;
+      });
+      ['hero-license', 'nav-license-mobile'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.href = MCP4SH_LICENSE_URL;
+      });
+    }
+
+    wireLinks();
+    updateScrollStory();
+    window.addEventListener('scroll', updateScrollStory, { passive: true });
+    window.addEventListener('resize', updateScrollStory);
+  </script>
 </body>
 </html>
