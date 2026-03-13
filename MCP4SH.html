@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MCP4SH™ | Tyto Sensory Labs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #090909;
+      --panel: #111111;
+      --panel2: #151515;
+      --text: #e7e7e7;
+      --muted: #b4b4b4;
+      --border: #2a2a2a;
+      --accent: #c69b63;
+      --accent2: #8f6a43;
+    }
+    body { background: radial-gradient(circle at top, #161616 0%, #090909 55%, #050505 100%); color: var(--text); }
+    .panel { background: linear-gradient(180deg, rgba(20,20,20,.92), rgba(12,12,12,.88)); border: 1px solid var(--border); }
+    .btn-primary { background: linear-gradient(180deg, var(--accent), var(--accent2)); color: #111; font-weight: 700; }
+    .btn-secondary { background: rgba(255,255,255,.04); border: 1px solid var(--border); color: var(--text); }
+  </style>
+</head>
+<body>
+  <script>
+    const DOWNLOAD_URL = "https://github.com/belh4wk/MCP4SH/releases";
+    const LICENSE_URL = "https://tytosensorylabs.lemonsqueezy.com/checkout/buy/4d400b6e-92aa-4d3f-9c77-6b9f96259e11";
+  </script>
+
+  <div class="mx-auto max-w-6xl px-4 py-6 md:px-6">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <a href="/" class="text-sm font-semibold uppercase tracking-[0.2em] text-white">Tyto Sensory Labs</a>
+      <div class="flex flex-wrap gap-3">
+        <a href="/" class="btn-secondary rounded-xl px-4 py-2 text-sm">Back to site</a>
+        <a id="top-download" href="#" class="btn-primary rounded-xl px-4 py-2 text-sm">Download</a>
+        <a id="top-license" href="#" class="btn-secondary rounded-xl px-4 py-2 text-sm">Purchase license</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-6xl px-4 pb-20 md:px-6">
+    <section class="panel rounded-3xl p-8 md:p-12">
+      <div class="grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-[#c69b63]">MCP4SH™</p>
+          <h1 class="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">Haptics that feel more like a chassis, and less like chaos.</h1>
+          <p class="mt-6 max-w-3xl text-base leading-8 text-[#cfcfcf] md:text-lg">
+            MCP4SH™ is a SimHub plugin built to make sim-racing haptics more coherent, more readable, and easier to trust.
+            It takes the messier side of telemetry and turns it into a more connected feel across grip, scrub, suspension,
+            drivetrain, braking, and weight transfer style cues.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a id="hero-download" href="#" class="btn-primary rounded-2xl px-5 py-3">Download v1.0</a>
+            <a id="hero-license" href="#" class="btn-secondary rounded-2xl px-5 py-3">Purchase license</a>
+          </div>
+        </div>
+        <div class="panel rounded-3xl p-6">
+          <img src="/Resources/MCP4SHLogo.png" alt="MCP4SH logo" class="mx-auto w-full max-w-md rounded-2xl" />
+          <div class="mt-6 grid gap-3 text-sm text-[#d2d2d2]">
+            <div class="rounded-2xl border border-[#2a2a2a] bg-[#0f0f0f] p-4"><strong>Built for:</strong> sim racers who want clearer information, not just more shaking.</div>
+            <div class="rounded-2xl border border-[#2a2a2a] bg-[#0f0f0f] p-4"><strong>Status:</strong> v1.0 soft release — usable, supported, still evolving.</div>
+            <div class="rounded-2xl border border-[#2a2a2a] bg-[#0f0f0f] p-4"><strong>Canonical home:</strong> GitHub for releases, hashes, docs, and ongoing updates.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-8 grid gap-8 lg:grid-cols-2">
+      <div class="panel rounded-3xl p-8">
+        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-[#c69b63]">What it does</p>
+        <ul class="mt-5 space-y-4 text-[#d6d6d6] leading-7">
+          <li><strong>Layers effects more intentionally</strong> so they feel connected instead of random.</li>
+          <li><strong>Improves readability</strong> of scrub, suspension, drivetrain, braking, and load-transfer cues.</li>
+          <li><strong>Normalises behaviour across sims</strong> so the plugin is less title-specific than typical haptics setups.</li>
+          <li><strong>Reduces re-tuning fatigue</strong> by giving you a more portable starting point.</li>
+        </ul>
+      </div>
+      <div class="panel rounded-3xl p-8">
+        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-[#c69b63]">What it is not</p>
+        <ul class="mt-5 space-y-4 text-[#d6d6d6] leading-7">
+          <li>It is not magic, and it will not make every rig feel identical.</li>
+          <li>It is not “more effects for the sake of it.”</li>
+          <li>It is not finished forever; v1.0 is the release baseline, not the last word.</li>
+          <li>It is not a replacement for sensible gain structure, good mounting, or decent telemetry from the game itself.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="mt-8 panel rounded-3xl p-8 md:p-10" id="licensing">
+      <p class="text-sm font-semibold uppercase tracking-[0.22em] text-[#c69b63]">Licensing</p>
+      <h2 class="mt-3 text-3xl font-semibold md:text-4xl">Base plugin first. Optional paid adaptive layer.</h2>
+      <p class="mt-5 max-w-4xl text-base leading-8 text-[#d0d0d0]">
+        MCP4SH includes a usable base release for personal sim-racing use. The optional paid license is there for the premium adaptive layer —
+        the part that helps the plugin decide what should come through more clearly, what should back off, and how the overall mix should stay intelligible.
+      </p>
+      <div class="mt-8 grid gap-6 lg:grid-cols-2">
+        <div class="rounded-3xl border border-[#2a2a2a] bg-[#0e0e0e] p-6">
+          <h3 class="text-xl font-semibold">Current / early-adopter</h3>
+          <p class="mt-3 text-[#d6d6d6] leading-7"><strong>Pioneer</strong> — <strong>12.99</strong> for <strong>up to 2 machines</strong>.</p>
+        </div>
+        <div class="rounded-3xl border border-[#2a2a2a] bg-[#0e0e0e] p-6">
+          <h3 class="text-xl font-semibold">Planned</h3>
+          <p class="mt-3 text-[#d6d6d6] leading-7"><strong>Supporter</strong> — planned at <strong>12.99</strong> for <strong>1 machine</strong>.</p>
+          <p class="mt-2 text-[#d6d6d6] leading-7"><strong>Pro</strong> — may follow later, likely <strong>19.99</strong>, with a higher machine allowance.</p>
+        </div>
+      </div>
+      <p class="mt-5 text-sm leading-7 text-[#b7b7b7]">Exact availability depends on what is live in the store. The store listing is the source of truth.</p>
+    </section>
+
+    <section class="mt-8 grid gap-8 lg:grid-cols-2">
+      <div class="panel rounded-3xl p-8">
+        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-[#c69b63]">What the paid version adds</p>
+        <p class="mt-5 text-[#d6d6d6] leading-8">
+          Honestly, the paid value-add is not “more shaking.” It is the adaptive layer that makes the plugin behave more intelligently.
+        </p>
+        <ul class="mt-5 space-y-3 text-[#d6d6d6] leading-7">
+          <li><strong>ST Tensioner</strong> — priority-aware cue management so important events push through more cleanly.</li>
+          <li><strong>ST Balancer</strong> — output rebalancing to help the plugin travel better across different games.</li>
+          <li><strong>ST Learner</strong> — adaptive shaping of scrub and engine/tyre behaviour.</li>
+        </ul>
+      </div>
+      <div class="panel rounded-3xl p-8">
+        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-[#c69b63]">Why that matters</p>
+        <p class="mt-5 text-[#d6d6d6] leading-8">
+          The goal is better clarity, not more volume. The licensed tools help the plugin manage attention more cleanly when several things are happening at once.
+          That is where a lot of the “connected chassis” feel comes from.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-8 panel rounded-3xl p-8 md:p-10">
+      <p class="text-sm font-semibold uppercase tracking-[0.22em] text-[#c69b63]">Reality check</p>
+      <div class="mt-5 grid gap-4 text-[#d4d4d4] leading-7 md:grid-cols-2">
+        <div class="rounded-2xl border border-[#2a2a2a] bg-[#0f0f0f] p-5">Telemetry quality still varies by sim. Some titles are cleaner than others.</div>
+        <div class="rounded-2xl border border-[#2a2a2a] bg-[#0f0f0f] p-5">Rig layout, mounting, seat construction, and gain structure still matter.</div>
+        <div class="rounded-2xl border border-[#2a2a2a] bg-[#0f0f0f] p-5">GT7 support is not yet where I want it to be.</div>
+        <div class="rounded-2xl border border-[#2a2a2a] bg-[#0f0f0f] p-5">v1.0 is stable enough to ship, but refinement will continue.</div>
+      </div>
+    </section>
+
+    <section class="mt-8 panel rounded-3xl p-8 md:p-10">
+      <p class="text-sm font-semibold uppercase tracking-[0.22em] text-[#c69b63]">Where to go next</p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a id="bottom-download" href="#" class="btn-primary rounded-2xl px-5 py-3">GitHub releases</a>
+        <a id="bottom-license" href="#" class="btn-secondary rounded-2xl px-5 py-3">Purchase license</a>
+        <a href="https://github.com/belh4wk/MCP4SH" class="btn-secondary rounded-2xl px-5 py-3">Repo</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    ['top-download','hero-download','bottom-download'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.href = DOWNLOAD_URL;
+    });
+    ['top-license','hero-license','bottom-license'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.href = LICENSE_URL;
+    });
+  </script>
+</body>
+</html>
