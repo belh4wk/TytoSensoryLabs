@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tyto Sensory Labs</title>
-  <meta name="description" content="Tyto Sensory Labs scrollytelling homepage for Tyto Sensory Labs, MCP4H, and MCP4SH." />
+  <meta name="description" content="Tyto Sensory Labs homepage for Tyto Sensory Labs, MCP4H, and MCP4SH." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -376,11 +376,14 @@
           class="w-full max-w-3xl rounded-2xl shadow-lg"/>
           <h1 class="headline mt-3 text-4xl md:text-7xl">Signals made <span class="accent">human</span>.</h1>
           <p class="copy mt-6 text-base md:text-lg">
-            Tyto Sensory Labs exists to make dense technical output easier to feel, read, and trust.
-            The goal is to reduce noise and enable projection of signals across systems. It is better meaning, delivered through cues that feel coherent,
-            grounded, and usable under pressure. I firmly believe we can unlock the next step in industrial evolution once we're able to more intuitively read
-			machine outputs, not just from displays. At Tyto Sensory Labs, the belief is that AI can help unlock this next step by providing a structure that
-			has trust and reliability of accuracy built into it.
+            Tyto Sensory Labs exists to make dense technical output easier to feel, read, and trust.<br><br>
+The broader idea behind it is MCP4H™ - the Multimodal Communications Protocol For Humanity: a structured way of turning raw machine output into cues that are more coherent, more intuitive, and more usable for real people under real conditions.<br><br>
+The problem is straightforward. Modern systems generate enormous amounts of information, but much of it still reaches people in forms that are hard to parse quickly: dashboards, graphs, raw telemetry, logs, alerts, or fragmented signals spread across multiple interfaces. In many environments, that is not just inconvenient. It is a communication problem.<br><br>
+MCP4H is my attempt to address that problem through translation rather than accumulation. The aim is not simply to output more information, but to wrap data in a structured envelope that can drive different output types - haptics, audio, visuals, lighting, or combinations of them - depending on what the person on the receiving end actually needs.<br><br>
+The first practical proving ground for that idea is MCP4SH™, which applies this thinking to sim-racing haptics. It uses sim telemetry as raw input, then works to shape that output into cues that feel more readable, more layered, and less like undifferentiated noise. That makes sim racing a useful testbed: the feedback loop is fast, the signal density is high, and the value of clearer machine-to-human communication becomes obvious very quickly.<br><br>
+Today, MCP4H is in an early but real state: documented, structured, and actively being tested through working implementations and supporting schemas, examples, and harmonization concepts. It is not a finished universal standard yet, but it is no longer just an idea either.<br><br>
+MCP4H is also complementary to the wider Model Context Protocol (MCP) ecosystem, not a replacement for it. MCP provides a standard way for AI applications to connect to external systems and expose resources, tools, and prompts. MCP4H focuses on a different but related layer: once information is available, how should it be normalized, prioritized, and delivered so that a person can understand it quickly and act on it with confidence?<br><br>
+The long-term ambition is simple: less noise, better interpretation, and more trustworthy cues between machines and people.
           </p>
           <div class="mt-8 flex flex-wrap gap-3">
             <a href="#mcp4h" class="btn btn-secondary">See MCP4H</a>
@@ -398,18 +401,25 @@
 		  alt="MCP4H™ logo"
           class="w-full max-w-3xl rounded-2xl shadow-lg"/>
           <p class="eyebrow mt-6">The protocol layer</p>
-          <h2 class="headline mt-3 text-4xl md:text-6xl">A grammar for <span class="accent">attention</span>.</h2>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">A grammar for <span class="accent">awareness</span>.</h2>
           <p class="copy mt-6 text-base md:text-lg">
-            MCP4H™ (Multimodal Communications Protocol For Humanity) is a protocol framework designed to translate complex machine, software, and system signals into clear,
-			human-usable communication across visual, audio, and haptic channels. Rather than leaving people to interpret raw data, fragmented alerts, or isolated outputs,
-			MCP4H helps structure information into coordinated cues that are easier to understand, prioritize, and act on in real time.
-			At its core, MCP4H is about reducing noise and improving clarity between systems and humans. It provides a common way to normalize events, context, urgency,
-			and intent so that different technologies can communicate more naturally through sight, sound, and touch. The goal is not just more data,
-			but better awareness - turning signals into meaningful guidance in environments where timing, focus, and usability matter.
+            Machines produce too much raw output<br>
+most people cannot interpret it quickly<br>
+MCP4H™ (Multimodal Communications Protocol For Humanity) is the layer that helps turn that output into clearer, perhaps more intuitive cues<br><br>
+The idea behind it is simple: turn dense data into communication people can use, more naturally, intuitively.<br><br>
+Modern systems produce vast amounts of data. They the problem is us having to make that data easy for people to understand, especially under pressure, in high volumes at lightspeed. Too often, important information shows up as scattered alerts, raw numbers, graphs, or isolated signals that force people to do the translation work themselves.<br><br>
+This is designed to close that gap.<br><br>
+It provides a structured way to take any variety of data (be it system, software, hardware, cognitive, research,...) and wrap it so it can be projected across visual, audio, and haptic channels. Instead of leaving people to decode disconnected outputs, MCP4H aims to organize information into communication that feels more coherent, more intuitive, and easier to act on in real time.<br><br>
+The goal is better, more intuitively interpretable signals.<br><br>
+At its core, MCP4H focuses on things like context, priority, timing, and intent so that different technologies can communicate in ways that are easier for us to read, trust, and respond to. That could mean helping a driver feel what a car is doing more clearly, helping an operator notice the right warning sooner, or helping technical systems present information in ways that are less overwhelming and more useful than yet another dashboard.<br><br>
+In (relatively) simple terms, MCP4H is about making data feel less like data and more like understanding.<br><br>
+MCP4H also strengthens the human side of AI workflows built on MCP.<br>
+MCP gives AI systems a common way to access tools, data, and structured prompts. MCP4H adds a people-facing layer on top of that by helping shape outputs into communication that is easier to inspect, compare, and sanity-check. The aim is less black-box ambiguity, more clarity about what the system is surfacing and how it should be understood. That matters most in places where trust, timing, and accuracy are not optional.
           </p>
           <div class="mt-8 flex flex-wrap gap-3">
             <a href="#mcp4sh" class="btn btn-primary">Go to MCP4SH</a>
             <a href="#tyto" class="btn btn-secondary">Back to Tyto</a>
+            <a href="https://github.com/belh4wk/MCP4H-protocol" class="btn btn-secondary">Learn more</a>
           </div>
         </div>
       </div>
@@ -423,26 +433,25 @@
 		  alt="MCP4SH™ logo"
           class="w-full max-w-3xl rounded-2xl shadow-lg"/>
           <p class="eyebrow mt-6">The flagship implementation</p>
-          <h2 class="headline mt-3 text-4xl md:text-6xl">From telemetry to <span class="accent">usable feel</span>.</h2>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">From telemetry to <span class="accent">weighted movement information</span>.</h2>
           <p class="copy mt-6 text-base md:text-lg">
             MCP4SH™ - String Theory Haptics for Simhub is a plugin built on the protocol's principles.
 			It aims to make haptics for simracing in particular feel more coherent. More like a connected chassis, rather than a pile of buzzing and vibrating.
-			The plugin is built to work as close to out-of-the-box as possible on most common driving titles. It uses deterministic logic to normalize telemetry and
-			dynamically prioritize effects based on their contextual relevance. The normalization is what makes the plugin game-agnostic, but the ST Tensioner system
-			is what ensures that the right effects back off and push through as needed. While this system is in a stable state now, it will keep being refined as development
+			The plugin is built to work as close to out-of-the-box as possible on most common driving titles. It uses deterministic logic to normalize (level; think MP3 codec) telemetry data and
+			dynamically prioritize effects based on their contextual relevance. The codec is what makes the plugin game-agnostic, but the ST Tensioner system
+			is what ensures that the right effects back off and push through as needed. While this system is in a stable, defined state now, it will keep being refined as development
 			on the plugin continues.
           </p>
           <div class="mt-6 rounded-2xl border border-[#2a2a2a] bg-[#111111cc] p-5">
             <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[#bfa483]">Licensing</p>
             <p class="copy mt-3 text-sm md:text-base">
-              MCP4SH includes a usable base release for personal sim-racing use, with an optional paid license for the premium adaptive layer.
+              MCP4SH is free and fully featured for personal use, with an optional paid license for the ST systems control and dynamic prioritization layer.
               The current early-adopter <strong>Pioneer</strong> option is <strong>12.99</strong> for <strong>up to 2 machines</strong>. A standard <strong>Supporter</strong>
               option is planned at the same price for <strong>1 machine</strong>, and a higher-capacity <strong>Pro</strong> tier may follow later if there is demand.
               Store availability is the source of truth for what is actually live.
             </p>
             <p class="copy mt-3 text-sm md:text-base">
-              The paid value-add is not “more shaking.” It is the premium adaptive layer: smarter balancing, clearer prioritisation, and better cue management through
-              systems like ST Tensioner, ST Balancer, and ST Learner.
+              The paid value-add is that you get more control over the effects and it permanently enables the codec's dynamic prioritization layer which increases distinction between active effects and reduces unnecessary masking.
             </p>
           </div>
           <div class="mt-8 flex flex-wrap gap-3">
