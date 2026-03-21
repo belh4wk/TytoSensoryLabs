@@ -690,8 +690,8 @@
       </div>
       <div class="panel p-6">
         <p class="eyebrow">How?</p>
-        <h2 class="mt-3 text-2xl font-semibold text-white">Less #brrrzzt</h2>
-        <p class="copy mt-4 text-sm md:text-base">The goal is to reduce noise in the vibration signals so the feedback feels more coherent and, more like a car. Near-constant buzzing and not really knowing where it's coming from or trying to tame it, gone.</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Less #brrrzt</h2>
+        <p class="copy mt-4 text-sm md:text-base">The goal is to reduce noise in the vibration signals so the feedback feels more coherent and, more like a moving chassis. Near-constant buzzing and not really knowing where it's coming from or trying to tame it, almost gone.</p>
       </div>
       <div class="panel p-6">
         <p class="eyebrow">And why should i care?</p>
@@ -703,9 +703,9 @@
     <section id="paid" class="mt-12 grid gap-6 lg:grid-cols-[1fr_0.95fr]">
       <div class="panel p-8">
         <p class="eyebrow">Licensing and roadmap</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">Free and good to go. <span class="accent">License</span> optional.</h2>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Good to go, for free. <span class="accent">License</span> optional.</h2>
         <div class="copy mt-6 space-y-4 text-sm md:text-base">
-          <p>The base plugin is there to be usable and honest on its own. The paid side is about the premium adaptive layer and about supporting the work that keeps the project moving.</p>
+          <p>The base plugin is there to be usable and honest on its own. The license enables the ST Tensioner and gives you finer control over the other ST systems, and supports the work that keeps the project moving.</p>
           <p><strong class="text-white">Current early-adopter option:</strong> Pioneer - 12.99 for up to 2 machines.</p> (early adopter bonus)
           <p><strong class="text-white">Planned standard option:</strong> Supporter - 12.99 for 1 machine.</p>
           <p><strong class="text-white">Planned later, if there's any demand:</strong> Pro - likely 19.99 with a higher machine allowance (5 and up).</p>
@@ -716,12 +716,27 @@
         <p class="eyebrow">What license?</p>
         <h2 class="mt-3 text-2xl font-semibold text-white">Why would I pay for it?</h2>
         <ul class="copy mt-6 space-y-4 text-sm md:text-base">
-		<p>It enables</p>
-          <li><strong class="text-white">ST Tensioner:</strong> adds dynamic prioritization for effects based on their relevance to the moment. Helps you more clearly feel the car's tension build-up from what your hands and feet are doing.</li>
-        <p>For finer control of</p> 
-		  <li><strong class="text-white">ST Balancer:</strong> helps the effects stay in their lane and play nice with each game.</li>
+		<p>It enables:</p>
+          <li><strong class="text-white">ST Tensioner:</strong> adds dynamic prioritization for effects based on their relevance to the moment. Helps you more clearly feel the car's tension build-up from what your hands and feet are doing. Tones some effects down and ramps up others relative to what's happening (burnout, slide, impacts, heave,...)</li>
+        <p>It allows for finer control of:</p> 
+		  <li><strong class="text-white">ST Balancer:</strong> helps the effects stay in their lane and play nice with each game. Allows you to record a baseline mix and re-use that for other games.</li>
           <li><strong class="text-white">ST Learners:</strong> the adaptive, per-session dynamic behaviour based on the signals it gets from the game.</li><br>
           <li><strong class="text-white">Future support:</strong> paid licenses also directly support future refinement, compatibility work, and general ongoing development.</li>
+        </ul>
+      </div>
+    </section>
+	
+	<section id="Still to come" class="mt-12">
+	  <div class="panel p-8">
+        <p class="eyebrow">So, is this it?</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Still to come</h2>
+        <ul class="copy mt-6 space-y-4 text-sm md:text-base">
+          <li>Further implement GT7 support</li>
+          <li>Further refine current haptic profiles</li>
+		  <li>Add profiles for complex multi-stereo setups</li>
+          <li>Expand on existing effects<br>(improve/add semantics for brake-state, suspension, flatspotting, sustained load/body load, traction transition,...)</li>
+		  <li>Expand on motion support implementation<br>(currently available for the daring, no official support, test at your own risk; look for MCP4SH.motion properties when experimenting)</li>
+		  <li>Looking into public API/SDK development</li>
         </ul>
       </div>
     </section>
@@ -773,7 +788,14 @@
         <details class="faq-item">
           <summary>Will this work on my hardware?</summary>
           <div class="faq-body">
-            If your current hardware is driven by SimHub ShakeIt Bass Shaker effects, then yes, it should.
+            <p>If your current hardware is driven by SimHub ShakeIt Bass Shaker effects, then yes, it should.<br>
+			However, and I can not stress this enough: Mounting discipline is crucial, not optional.<br><br>
+			As I learned myself, all transducers on any given rig should be:<br>
+			- <strong>mounted correctly</strong>: flush with it's mounting surface or virtual axle of energy-transfer<br>
+			- <strong>hard-mounted</strong>: nuts and bolts, heavy duty doublesided mounting tape or strong zip-ties<br>
+			- <strong>padded/pre-loaded</strong>: any gap inbetween should be filled to avoid dissonant reverberations<br>
+			- <strong>isolated/separated</strong>: use shock-absorbing washers or bushings to isolate each transducer (sounds counterintuitive, i know), this limits frame/rig cross-talk<br><br>
+			use this rule of thumb: if you can hear the shaker more than you feel it, it's not mounted right</p>
           </div>
         </details>
         <details class="faq-item">
@@ -790,7 +812,8 @@
 		<details class="faq-item">
           <summary>Is this better than default SimHub effects?</summary>
           <div class="faq-body">
-            No such claims are or will be made. Better or worse is subjective.
+            No such claims are or will be made. Better or worse are both subjective terms.<br>
+			That said, according to initial reviews and comments i've received, it is quicker to get going with something that's usable in most games. Tweaking for feel should be more intuitive.
 		  </div>
         </details>
 		<details class="faq-item">
@@ -808,11 +831,11 @@
         <details class="faq-item">
           <summary>What does the paid version add?</summary>
           <div class="faq-body">
-            The license unlocks control over the adaptive layer, includes ST Tensioner, ST Balancer, and ST Learner, and adds dynamic effects prioritization. Put simply, more control, better overall composure, and the more advanced, dynamic side of the system that sits above the already-usable base plugin.
+            The license unlocks control over the adaptive layer; this includes the ST Tensioner, ST Balancer, and ST Learner systems, and adds dynamic effects prioritization. Put simply, more control, better overall composure, and the more advanced, dynamic side of the plugin's codec. Also allows you to record the feel for your fav game and use that as the baseline mix for others (allows you to more or less transplant the feel from one game to another, not flawlessly, but still).
           </div>
         </details>
 		<details class="faq-item">
-		  <summary>So, how do I install?</summary>
+		  <summary>How do I install exactly?</summary>
 		  <div class="faq-body">
 		  <video class="w-full rounded-2xl bg-black" controls preload="metadata" playsinline poster="Resources/MCP4SHLogo.png">
           <source src="Resources/Base Install - Howto.mp4" type="video/mp4" />
@@ -823,10 +846,10 @@
     </section>
 
     <section class="mt-12 panel p-8">
-      <p class="eyebrow">A quick honesty check</p>
-      <h2 class="mt-3 text-2xl font-semibold text-white">Sanity/Reality check</h2>
+      <p class="eyebrow">Sanity/Reality check</p>
+      <h2 class="mt-3 text-2xl font-semibold text-white">Some disclaimers</h2>
       <p class="copy mt-4 text-sm md:text-base">
-        This is not magic, instant pace, or one-click perfection (almost, but not quite). It is however a serious attempt to make haptics more coherent and useful, and plug and play (ish). Your rig, transducer layout, amp chain, gain staging, and sims still matter. The goal is to start from a stronger place and give you something more readable to work with. It removes complexity in tuning without losing fidelity.
+        This is not magic, instant pace, or one-click perfection (almost, but not quite). It is however a serious attempt to make haptics more coherent and useful, and plug and play (ish). Your rig, transducer layout, amp chain, gain staging, and sims still matter. The goal is to start from a stronger place and give you something more ready-to-use. It removes complexity in tuning without losing fidelity. Do not treat this as an "automagically fix my haptics" solution. If mounting discipline (see FAQ re. hardware) is meh, this will not fix that.
       </p>
     </section>
   </main>
