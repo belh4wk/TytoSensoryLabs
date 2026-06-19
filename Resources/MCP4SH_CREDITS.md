@@ -1,10 +1,8 @@
 # MCP4SH credits
 
-This file is intentionally simple so it can be edited as the project grows.
-
 ## Thanks
 
-- Add tester / contributor / helper names here.
-- Keep entries short and public-safe.
-- Add links only when the person has agreed to be credited that way.
+- Bruno Silva for helping me figure out how to read live sound output status from SimHub
+- r/Rover1312 for testing and confirming the initial fix for device listing in the Setup Assistant
+- Wotever for the SimHub platform, enabling further development to push sim racing to new limits
 
