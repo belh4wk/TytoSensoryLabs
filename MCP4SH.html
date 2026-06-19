@@ -98,6 +98,14 @@
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item[open] summary { border-bottom: 1px solid var(--border); }
     .faq-body { padding: 1rem 1.25rem 1.2rem; color: #bdbdbd; line-height: 1.85; }
+    .credits-box {
+      white-space: pre-wrap;
+      color: #d7d7d7;
+      line-height: 1.85;
+      font-size: 0.96rem;
+      margin: 0;
+      font-family: inherit;
+    }
     .video-shell {
       position: relative;
       border-radius: 24px;
@@ -590,7 +598,7 @@
   <main class="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
     <section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
       <div class="space-y-6">
-        <div class="badge"><span class="dot"></span><span>MCP4SH™ · String Theory Haptics for SimHub · v1.1.6</span></div>
+        <div class="badge"><span class="dot"></span><span>MCP4SH™ · String Theory Haptics for SimHub</span></div>
         <p class="eyebrow">High-level plugin overview</p>
         <h1 class="headline text-4xl md:text-6xl">Haptics that aim to feel more like a <span class="accent">weighted, connected chassis</span>. Across games.</h1>
         <p class="copy text-base md:text-lg">
@@ -717,7 +725,7 @@
         <h2 class="headline mt-3 text-3xl md:text-5xl">Good to go, for free. <span class="accent">License</span> optional.</h2>
         <div class="copy mt-6 space-y-4 text-sm md:text-base">
           <p>The free version is not a crippled demo. It gives you the core MCP4SH String Theory Haptics experience and the Setup Assistant.</p>
-          <p>That means you can pick the shakers on your rig, test-pulse your sound outputs, generate a matching SimHub sound output profile, check mapped device/channel routing, and get driving without needing to become a SimHub routing expert first.</p>
+          <p>That means you can pick the shakers on your rig, test-pulse your sound outputs, generate a matching SimHub sound output profile, and get driving without needing to become a SimHub routing expert first.</p>
           <p><strong class="text-white">Current early-adopter option:</strong> Pioneer - 12.99 for up to 2 machines.</p>
           <p>The license adds the extra control layer: advanced haptic controls now, and deeper configuration/routing tools as they mature. It also directly supports continued MCP4SH development.</p>
           <p>The store listing is the source of truth for what is live right now. If the roadmap changes, the store and GitHub release notes will reflect that.</p>
@@ -743,8 +751,6 @@
           <li>- A full suite of custom-designed haptic effects, built to feel like connected moving parts of a whole.</li>
           <li>- Setup Assistant for shaker layout selection, test pulses, and generated SimHub sound output profiles.</li>
           <li>- SimHub Helper flow to make importing/applying generated profiles less confusing.</li>
-          <li>- Live read-only SimHub Sound Output routing readout for mapped shakers.</li>
-          <li>- Shared pulse visualization/status panel for MCP4SH-owned test pulses.</li>
           <li>- Integrated plugin UI for tuning and checking mapped device/channel/effect information.</li>
           <li>- FOV advisor, available in the plugin and via the dashboard.</li>
           <li>- Dashboard featuring raw/plugin haptics visualization, FOV advisor, and a digital rear-view mirror using SimHub screen capture.</li>
@@ -882,6 +888,15 @@
     document.getElementById('nav-download').href = MCP4SH_DOWNLOAD_URL;
     document.getElementById('hero-download').href = MCP4SH_DOWNLOAD_URL;
     document.getElementById('hero-license').href = MCP4SH_LICENSE_URL;
+
+    (function loadMcp4shCredits() {
+      const target = document.getElementById('mcp4sh-credits');
+      if (!target) return;
+      fetch('Resources/MCP4SH_CREDITS.md', { cache: 'no-cache' })
+        .then(response => response.ok ? response.text() : Promise.reject(new Error('credits unavailable')))
+        .then(text => { target.textContent = (text || '').trim() || 'Credits will be added here.'; })
+        .catch(() => { target.textContent = 'Credits will be added here.'; });
+    })();
   </script>
 
   <div class="shot-lightbox" id="shot-lightbox" aria-hidden="true" role="dialog" aria-label="Expanded screenshot view">
