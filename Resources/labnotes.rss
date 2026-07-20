@@ -6,6 +6,12 @@
     <description>Release commentary, setup notes, telemetry clarity context, and MCP4SH experiments.</description>
     <language>en</language>
     <item>
+      <title>Other Projects &amp; Conveniences</title>
+      <link>https://tytosensorylabs.com/labnotes/posts/other-projects-and-conveniences.html</link>
+      <description>A quick note about a few other SimHub-related tools I have built alongside MCP4SH, including LCD-box and Final Drive Lap Board.</description>
+      <category>Experiments</category>
+    </item>
+    <item>
       <title>MCP4SH v1.1.11 field notes</title>
       <link>https://tytosensorylabs.com/labnotes/posts/mcp4sh-v111-field-notes.html</link>
       <description>What v1.1.11 changed in practice: cleaner ST Haptics, better noisy-source handling, safer setup/licensing paths, and a stronger release baseline.</description>

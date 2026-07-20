@@ -2,7 +2,7 @@
   "version": "1.0",
   "updated": "2026-07-20",
   "notes": [
-        {
+    {
       "title": "Other Projects & Conveniences",
       "date": "2026-07-20",
       "category": "Experiments",
@@ -16,7 +16,7 @@
         "Final Drive Lap Board"
       ],
       "url": "labnotes/posts/other-projects-and-conveniences.html"
-    }
+    },
     {
       "title": "MCP4SH v1.1.11 field notes",
       "date": "2026-07-20",
