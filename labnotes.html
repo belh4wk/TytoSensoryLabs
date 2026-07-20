@@ -16,6 +16,9 @@
       --muted: #8d8d8d;
       --accent: #6e603f;
       --accent-2: #d7c69f;
+      --blueprint: #82e1eb;
+      --paper: #17150d;
+      --paper-2: #211d12;
       --shadow: 0 22px 48px rgba(0,0,0,0.36);
     }
     html { scroll-behavior: smooth; }
@@ -37,17 +40,20 @@
     .btn-primary:hover { background: #857552; }
     .btn-secondary { background: rgba(18,18,18,0.72); color: var(--text); border: 1px solid var(--border); }
     .btn-secondary:hover { border-color: rgba(110,96,63,0.45); color: #f5f5f5; }
+
     /* MCP4SH plugin/TCR palette */
     .pill {
       --chip: #d7c69f;
       display: inline-flex;
       align-items: center;
+      width: fit-content;
       border: 1px solid color-mix(in srgb, var(--chip) 54%, transparent);
       background: linear-gradient(180deg, color-mix(in srgb, var(--chip) 12%, transparent), rgba(0,0,0,0.18));
       color: color-mix(in srgb, var(--chip) 88%, white 12%);
       border-radius: 999px;
       padding: 0.42rem 0.7rem;
       font-size: 0.78rem;
+      line-height: 1;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.22), 0 0 18px color-mix(in srgb, var(--chip) 10%, transparent);
     }
     .pill-date, .pill-tag { --chip: #787878; color: #c7c7c7; background: rgba(255,255,255,0.025); }
@@ -57,10 +63,92 @@
     .cat-support { --chip: #c0c0c0; }
     .cat-experiments { --chip: #cd7f32; }
     .cat-all { --chip: #d7c69f; }
-    .note-card { border: 1px solid var(--border); border-radius: 24px; background: rgba(255,255,255,0.025); transition: border-color 160ms ease, transform 160ms ease; }
-    .note-card:hover { transform: translateY(-1px); border-color: rgba(212,175,55,0.42); }
     .category-link { --chip: #d7c69f; color: color-mix(in srgb, var(--chip) 85%, white 15%); border: 1px solid color-mix(in srgb, var(--chip) 35%, transparent); background: color-mix(in srgb, var(--chip) 8%, transparent); }
-    .category-link:hover { color: white; border-color: color-mix(in srgb, var(--chip) 62%, transparent); background: color-mix(in srgb, var(--chip) 13%, transparent); }
+    .category-link:hover, .category-link.active { color: white; border-color: color-mix(in srgb, var(--chip) 70%, transparent); background: color-mix(in srgb, var(--chip) 15%, transparent); }
+
+    /* Feed entries: listed, with a post-it + blueprint feel. */
+    .note-list { display: flex; flex-direction: column; gap: 1rem; }
+    .note-entry {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(7.5rem, 10rem) minmax(0, 1fr);
+      gap: 1.25rem;
+      overflow: hidden;
+      border-radius: 22px;
+      border: 1px solid rgba(130,225,235,0.16);
+      background:
+        linear-gradient(90deg, rgba(130,225,235,0.10) 0 1px, transparent 1px 100%),
+        linear-gradient(0deg, rgba(130,225,235,0.065) 0 1px, transparent 1px 100%),
+        linear-gradient(135deg, rgba(35,31,20,0.92), rgba(12,19,22,0.86));
+      background-size: 26px 26px, 26px 26px, auto;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.035);
+      padding: 1.2rem;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .note-entry:hover {
+      transform: translateY(-1px);
+      border-color: rgba(212,175,55,0.42);
+      box-shadow: 0 22px 52px rgba(0,0,0,0.34), 0 0 24px rgba(130,225,235,0.07), inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .note-entry::before {
+      content: "";
+      position: absolute;
+      left: 1.2rem;
+      top: 0;
+      width: 5.5rem;
+      height: 0.44rem;
+      border-radius: 0 0 8px 8px;
+      background: linear-gradient(90deg, rgba(212,175,55,0.18), rgba(130,225,235,0.12));
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+    .note-entry::after {
+      content: "";
+      position: absolute;
+      right: 1.1rem;
+      top: 1.1rem;
+      width: 3rem;
+      height: 3rem;
+      border-top: 1px solid rgba(130,225,235,0.28);
+      border-right: 1px solid rgba(130,225,235,0.28);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .note-rail {
+      display: flex;
+      flex-direction: column;
+      gap: 0.72rem;
+      padding-right: 1rem;
+      border-right: 1px dashed rgba(215,198,159,0.22);
+      min-width: 0;
+    }
+    .note-index {
+      color: rgba(130,225,235,0.82);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .note-body { min-width: 0; position: relative; z-index: 1; }
+    .note-title { color: white; font-weight: 720; letter-spacing: -0.025em; line-height: 1.12; }
+    .note-title a { text-decoration: none; color: inherit; }
+    .note-title a:hover { color: var(--accent-2); }
+    .note-summary { color: #c9c1ad; line-height: 1.75; }
+    .note-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    .note-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .read-link {
+      color: #f2e3bd;
+      border-bottom: 1px solid rgba(215,198,159,0.35);
+      text-decoration: none;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .read-link:hover { color: white; border-color: rgba(130,225,235,0.55); }
+    .feed-note { border-left: 3px solid rgba(130,225,235,0.32); }
+    @media (max-width: 720px) {
+      .note-entry { grid-template-columns: 1fr; }
+      .note-rail { border-right: 0; border-bottom: 1px dashed rgba(215,198,159,0.22); padding-right: 0; padding-bottom: 0.95rem; }
+      .note-footer { align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
@@ -85,7 +173,7 @@
         Conversational release notes, MCP4SH setup context, TCR explanations, support-boundary notes, hardware setup guidance, and experiments that do not quite belong in a formal changelog.
       </p>
       <p class="copy mt-4 max-w-3xl text-sm md:text-base">
-        For now, publishing and contributions stay GitHub-backed: no website login, no client-side secrets, and no custom database. The public site remains static; edits happen through GitHub history and permissions.
+        Publishing stays GitHub-backed for now: no website login, no client-side secrets, and no custom database. The public site remains static; edits happen through GitHub history and permissions.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#latest" class="btn btn-primary">Latest notes</a>
@@ -97,7 +185,7 @@
     <section id="categories" class="mt-10 panel p-6 md:p-8">
       <p class="eyebrow">Categories</p>
       <div class="mt-5 flex flex-wrap gap-3">
-        <a class="btn category-link cat-all" href="#latest" data-category="All">All</a>
+        <a class="btn category-link cat-all active" href="#latest" data-category="All">All</a>
         <a class="btn category-link cat-release" href="#latest" data-category="Release Notes">Release Notes</a>
         <a class="btn category-link cat-setup" href="#latest" data-category="Setup & Hardware">Setup & Hardware</a>
         <a class="btn category-link cat-tcr" href="#latest" data-category="Telemetry Clarity / TCR">Telemetry Clarity / TCR</a>
@@ -114,9 +202,9 @@
         </div>
         <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/new/main/labnotes/posts">New post on GitHub</a>
       </div>
-      <div id="notes-feed" class="grid gap-5 md:grid-cols-2"></div>
+      <div id="notes-feed" class="note-list"></div>
       <noscript>
-        <div class="panel p-6">
+        <div class="panel p-6 feed-note">
           <p class="copy">JavaScript is disabled. Open <a class="accent" href="Resources/labnotes.json">Resources/labnotes.json</a> for the feed index.</p>
         </div>
       </noscript>
@@ -130,12 +218,67 @@
       </p>
       <div class="mt-6 flex flex-wrap gap-3">
         <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose">Submit feedback on GitHub</a>
-        <a class="btn btn-secondary" href="LABNOTES_ADMIN.md">Publishing notes</a>
+        <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/tree/main/labnotes/templates">Note templates</a>
       </div>
     </section>
   </main>
 
   <script>
+    const fallbackNotes = [
+      {
+            "title": "MCP4SH v1.1.11 field notes",
+            "date": "2026-07-20",
+            "category": "Release Notes",
+            "slug": "mcp4sh-v111-field-notes",
+            "summary": "What v1.1.11 changed in practice: cleaner ST Haptics, better noisy-source handling, safer setup/licensing paths, and a stronger release baseline.",
+            "tags": [
+                  "MCP4SH",
+                  "v1.1.11",
+                  "ST Haptics",
+                  "release"
+            ],
+            "url": "labnotes/posts/mcp4sh-v111-field-notes.html"
+      },
+      {
+            "title": "What TCR means",
+            "date": "2026-07-20",
+            "category": "Telemetry Clarity / TCR",
+            "slug": "what-tcr-means",
+            "summary": "TCR is the Telemetry Clarity Rating: a plain-language way to set expectations for how clearly a title's telemetry translates into MCP4SH ST Haptics.",
+            "tags": [
+                  "TCR",
+                  "telemetry",
+                  "clarity"
+            ],
+            "url": "labnotes/posts/what-tcr-means.html"
+      },
+      {
+            "title": "The supported MCP4SH baseline",
+            "date": "2026-07-20",
+            "category": "Support Baseline",
+            "slug": "mcp4sh-supported-baseline",
+            "summary": "MCP4SH is not a standard SimHub effects stack. This note explains what counts as the supported reference and why manually separated formulas can be misleading.",
+            "tags": [
+                  "support",
+                  "SimHub",
+                  "profiles"
+            ],
+            "url": "labnotes/posts/mcp4sh-supported-baseline.html"
+      },
+      {
+            "title": "Hardware setup starts with mounting discipline",
+            "date": "2026-07-20",
+            "category": "Setup & Hardware",
+            "slug": "hardware-mounting-discipline",
+            "summary": "A quick hardware note on why shaker mounting, isolation, gain staging, and physical routing matter before software tuning starts.",
+            "tags": [
+                  "setup",
+                  "hardware",
+                  "shakers"
+            ],
+            "url": "labnotes/posts/hardware-mounting-discipline.html"
+      }
+];
     const feed = document.getElementById('notes-feed');
     const categoryLinks = Array.from(document.querySelectorAll('[data-category]'));
     let notes = [];
@@ -157,40 +300,52 @@
       return 'cat-all';
     }
 
+    function formatNoteNumber(index) {
+      return `NOTE ${String(index + 1).padStart(3, '0')}`;
+    }
+
     function renderNotes() {
       if (!feed) return;
       const visible = activeCategory === 'All' ? notes : notes.filter(note => note.category === activeCategory);
-      feed.innerHTML = visible.map(note => {
+      feed.innerHTML = visible.map((note, index) => {
         const tags = (note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`).join(' ');
-        return `<article class="note-card p-6">
-          <div class="flex flex-wrap items-center gap-2">
+        return `<article class="note-entry">
+          <aside class="note-rail">
+            <span class="note-index">${formatNoteNumber(index)}</span>
             <span class="pill ${pillClass(note.category)}">${escapeHtml(note.category)}</span>
             <span class="pill ${pillClass(note.date, 'date')}">${escapeHtml(note.date)}</span>
+          </aside>
+          <div class="note-body">
+            <h3 class="note-title text-2xl md:text-3xl"><a href="${escapeHtml(note.url)}">${escapeHtml(note.title)}</a></h3>
+            <p class="note-summary mt-3 text-sm md:text-base">${escapeHtml(note.summary)}</p>
+            <div class="note-footer mt-5">
+              <div class="note-tags">${tags}</div>
+              <a class="read-link" href="${escapeHtml(note.url)}">Read note →</a>
+            </div>
           </div>
-          <h3 class="mt-4 text-2xl font-semibold text-white"><a href="${escapeHtml(note.url)}" class="hover:text-[#d7c69f]">${escapeHtml(note.title)}</a></h3>
-          <p class="copy mt-3 text-sm md:text-base">${escapeHtml(note.summary)}</p>
-          <div class="mt-5 flex flex-wrap gap-2">${tags}</div>
-          <a class="btn btn-secondary mt-5" href="${escapeHtml(note.url)}">Read note</a>
         </article>`;
-      }).join('') || '<div class="panel p-6"><p class="copy">No notes in this category yet.</p></div>';
+      }).join('') || '<div class="panel p-6 feed-note"><p class="copy">No notes in this category yet.</p></div>';
+    }
+
+    function setActiveCategory(category) {
+      activeCategory = category || 'All';
+      categoryLinks.forEach(link => link.classList.toggle('active', (link.dataset.category || 'All') === activeCategory));
+      renderNotes();
     }
 
     categoryLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        activeCategory = link.dataset.category || 'All';
-        renderNotes();
-      });
+      link.addEventListener('click', () => setActiveCategory(link.dataset.category || 'All'));
     });
+
+    function loadNotes(data) {
+      notes = (data.notes || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(a.title).localeCompare(String(b.title)));
+      renderNotes();
+    }
 
     fetch('Resources/labnotes.json', { cache: 'no-cache' })
       .then(response => response.ok ? response.json() : Promise.reject(new Error('feed unavailable')))
-      .then(data => {
-        notes = (data.notes || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
-        renderNotes();
-      })
-      .catch(() => {
-        feed.innerHTML = '<div class="panel p-6"><p class="copy">Lab Notes feed is unavailable. Please try again later.</p></div>';
-      });
+      .then(loadNotes)
+      .catch(() => loadNotes({ notes: fallbackNotes }));
   </script>
 </body>
 </html>
