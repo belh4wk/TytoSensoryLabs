@@ -329,37 +329,11 @@
         <a class="navlink" href="#tyto">Tyto Sensory Labs</a>
         <a class="navlink" href="#mcp4h">MCP4H</a>
         <a class="navlink" href="#mcp4sh">MCP4SH</a>
+        <a class="navlink" href="labnotes.html">Lab Notes</a>
         <a id="nav-download" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Download</a>
       </div>
       <a id="nav-license-mobile" class="btn btn-secondary !px-3 !py-2 text-sm md:hidden" href="#">License</a>
     </div>
-  </div>
-
-  <div class="bg-stage" aria-hidden="true">
-    <div id="scene" class="track-scene">
-      <div class="scene-grid"></div>
-      <div class="track-wrap">
-        <svg class="track-glow" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
-          <path d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
-        </svg>
-        <svg class="track-outline" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
-          <path class="road" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
-          <path class="edge" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
-        </svg>
-        <svg class="track-racing-line" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
-          <path id="racingLine" d="M255 230 C216 224, 192 251, 194 301 C197 346, 245 385, 323 417 C414 454, 468 512, 514 618 C557 714, 626 761, 742 765 C847 768, 944 716, 1015 646" />
-        </svg>
-        <svg class="track-markers" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
-          <circle cx="250" cy="230" r="10" />
-          <circle cx="318" cy="420" r="8" />
-          <circle cx="520" cy="620" r="8" />
-          <circle cx="742" cy="785" r="10" />
-          <circle cx="1030" cy="640" r="10" />
-        </svg>
-      </div>
-    </div>
-    <div class="camera-label"><span>Scroll camera:</span> <strong id="cameraLabel">La Source</strong></div>
-    <div class="bg-vignette"></div>
   </div>
 
   <div class="mini-rail" aria-hidden="true">
@@ -454,7 +428,7 @@ MCP gives AI systems a common way to access tools, data, and structured prompts.
           <div class="mt-8 flex flex-wrap gap-3">
             <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
             <a id="hero-license" href="#" class="btn btn-secondary">Purchase license</a>
-            <a id="hero-info" href="/MCP4SH.html" class="btn btn-secondary">Learn more</a>
+            <a id="hero-info" href="mcp4sh.html" class="btn btn-secondary">Learn more</a>
           </div>
         </div>
       </div>
@@ -462,11 +436,12 @@ MCP gives AI systems a common way to access tools, data, and structured prompts.
 
     <footer class="footer-nav">
       <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between md:px-6">
-        <p class="text-sm text-[#8d8d8d]">Tyto Sensory Labs · Engineering Intuitiion.</p>
+        <p class="text-sm text-[#8d8d8d]">Tyto Sensory Labs · Engineering Intuition.</p>
         <div class="flex flex-wrap gap-3">
           <a href="#tyto" class="btn btn-secondary !px-4 !py-2 text-sm">Tyto Sensory Labs</a>
           <a href="#mcp4h" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4H</a>
           <a href="#mcp4sh" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4SH</a>
+          <a href="labnotes.html" class="btn btn-secondary !px-4 !py-2 text-sm">Lab Notes</a>
           <a id="footer-download" href="#" class="btn btn-primary !px-4 !py-2 text-sm">Download</a>
         </div>
       </div>
@@ -474,78 +449,15 @@ MCP gives AI systems a common way to access tools, data, and structured prompts.
   </main>
 
   <script>
-    const scene = document.getElementById('scene');
-    const cameraLabel = document.getElementById('cameraLabel');
     const miniProgress = document.getElementById('miniProgress');
-    const sections = Array.from(document.querySelectorAll('[data-scene]'));
-    const racingLine = document.getElementById('racingLine');
 
-    const sceneStates = {
-      source: {
-        label: 'La Source',
-        scale: 1.22,
-        x: 2,
-        y: 3,
-        rot: -8,
-        blur: 0.2,
-        opacity: 0.95,
-        dashOffset: 0
-      },
-      eaurouge: {
-        label: 'Eau Rouge',
-        scale: 1.34,
-        x: -3,
-        y: -1,
-        rot: -11,
-        blur: 0.35,
-        opacity: 1,
-        dashOffset: -42
-      },
-      raidillon: {
-        label: 'Raidillon',
-        scale: 1.5,
-        x: -8,
-        y: -10,
-        rot: -14,
-        blur: 0.6,
-        opacity: 0.96,
-        dashOffset: -88
-      }
-    };
-
-    function setScene(stateKey, blend = 0) {
-      const state = sceneStates[stateKey] || sceneStates.source;
-      scene.style.transform = `translate3d(${state.x}px, ${state.y}px, 0) scale(${state.scale}) rotate(${state.rot}deg)`;
-      scene.style.filter = `blur(${state.blur}px)`;
-      scene.style.opacity = state.opacity;
-      cameraLabel.textContent = state.label;
-      if (racingLine) racingLine.style.strokeDashoffset = String(state.dashOffset - blend * 26);
-    }
-
-    function updateScrollStory() {
+    function updateScrollProgress() {
+      if (!miniProgress) return;
       const vh = window.innerHeight;
       const totalScroll = Math.max(document.body.scrollHeight - vh, 1);
       const scrollY = window.scrollY || window.pageYOffset;
       const globalProgress = Math.min(Math.max(scrollY / totalScroll, 0), 1);
       miniProgress.style.transform = `scaleY(${Math.max(globalProgress, 0.06)})`;
-
-      let activeKey = 'source';
-      let activeBlend = 0;
-
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        const start = rect.top;
-        const end = rect.bottom;
-        const centerBias = vh * 0.5;
-
-        if (start <= centerBias && end >= centerBias) {
-          activeKey = section.dataset.scene;
-          const localProgress = Math.min(Math.max((centerBias - start) / Math.max(rect.height, 1), 0), 1);
-          activeBlend = localProgress;
-        }
-      });
-
-      setScene(activeKey, activeBlend);
     }
 
     function wireLinks() {
@@ -560,9 +472,9 @@ MCP gives AI systems a common way to access tools, data, and structured prompts.
     }
 
     wireLinks();
-    updateScrollStory();
-    window.addEventListener('scroll', updateScrollStory, { passive: true });
-    window.addEventListener('resize', updateScrollStory);
+    updateScrollProgress();
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateScrollProgress);
   </script>
 </body>
 </html>

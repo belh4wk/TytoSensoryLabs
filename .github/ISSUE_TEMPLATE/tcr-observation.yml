@@ -1,0 +1,42 @@
+name: TCR observation
+description: Share a title/car/track observation for MCP4SH Telemetry Clarity Rating.
+title: "TCR: <game> / <car>"
+labels: ["tcr", "feedback"]
+body:
+  - type: input
+    id: game
+    attributes:
+      label: Game / title
+      placeholder: Assetto Corsa, LMU, rF2, AMS2, etc.
+    validations:
+      required: true
+  - type: input
+    id: car_track
+    attributes:
+      label: Car and track
+      placeholder: Car, track, layout
+  - type: dropdown
+    id: impression
+    attributes:
+      label: TCR impression
+      options:
+        - Clean
+        - Balanced
+        - Rough but Usable
+        - Busy / Noisy
+        - Sparse
+        - Unknown / unsure
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: What did you feel?
+      description: Keep it practical. Which cues were clear, noisy, missing, or confusing?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: MCP4SH version
+      placeholder: v1.1.11

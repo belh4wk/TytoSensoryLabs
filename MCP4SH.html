@@ -18,8 +18,122 @@
       --accent-2: #d7c69f;
       --glow: rgba(110,96,63,0.35);
       --shadow: 0 22px 48px rgba(0,0,0,0.36);
+
+      --track: rgba(255,255,255,0.09);
+      --track-edge: rgba(255,255,255,0.16);
     }
+    * { box-sizing: border-box; }
+
     html { scroll-behavior: smooth; }
+
+    body { overflow-x: hidden; }
+    main { position: relative; z-index: 5; }
+    .mcp-bg-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .mcp-bg-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 40%, transparent 0%, rgba(0,0,0,0.05) 42%, rgba(0,0,0,0.62) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.34) 100%);
+      z-index: 3;
+    }
+    .mcp-track-scene {
+      position: absolute;
+      inset: -8%;
+      transform-origin: center center;
+      will-change: transform, filter, opacity;
+      transition: transform 180ms linear, filter 180ms linear, opacity 180ms linear;
+      z-index: 1;
+      opacity: 0.52;
+    }
+    .mcp-scene-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(circle at center, black 20%, transparent 85%);
+      opacity: 0.35;
+    }
+    .mcp-track-wrap {
+      position: absolute;
+      inset: 0;
+      transform: perspective(1400px) rotateX(64deg) rotateZ(-9deg) scale(1.1);
+      transform-origin: 50% 50%;
+      filter: saturate(0.78);
+    }
+    .mcp-track-outline,
+    .mcp-track-racing-line,
+    .mcp-track-glow,
+    .mcp-track-markers {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .mcp-track-outline path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .mcp-track-outline .road {
+      stroke: var(--track);
+      stroke-width: 64;
+      filter: drop-shadow(0 0 28px rgba(255,255,255,0.05));
+    }
+    .mcp-track-outline .edge {
+      stroke: var(--track-edge);
+      stroke-width: 2.5;
+      opacity: 0.65;
+    }
+    .mcp-track-racing-line path {
+      fill: none;
+      stroke: rgba(215, 198, 159, 0.68);
+      stroke-width: 4.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 14 18;
+      filter: drop-shadow(0 0 10px rgba(110,96,63,0.22));
+      opacity: 0.55;
+    }
+    .mcp-track-glow path {
+      fill: none;
+      stroke: rgba(110,96,63,0.18);
+      stroke-width: 18;
+      filter: blur(22px);
+      opacity: 0.65;
+    }
+    .mcp-track-markers circle {
+      fill: rgba(255,255,255,0.06);
+      stroke: rgba(255,255,255,0.18);
+      stroke-width: 1.25;
+    }
+    .mcp-camera-label {
+      position: fixed;
+      right: 5vw;
+      bottom: 6vh;
+      z-index: 4;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.34);
+      pointer-events: none;
+    }
+    .mcp-camera-label strong {
+      color: rgba(215,198,159,0.76);
+      font-weight: 600;
+    }
+    @media (max-width: 900px) {
+      .mcp-track-wrap { transform: perspective(1200px) rotateX(66deg) rotateZ(-8deg) scale(1.42) translateY(-2%); }
+      .mcp-camera-label { right: 1rem; bottom: 1rem; font-size: 0.66rem; letter-spacing: 0.14em; }
+    }
     body {
       margin: 0;
       background: radial-gradient(circle at 20% 0%, #191919 0%, var(--bg) 36%, #090909 100%);
@@ -577,6 +691,33 @@
   </style>
 </head>
 <body>
+
+  <div class="mcp-bg-stage" aria-hidden="true">
+    <div id="mcp-track-scene" class="mcp-track-scene">
+      <div class="mcp-scene-grid"></div>
+      <div class="mcp-track-wrap">
+        <svg class="mcp-track-glow" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+        </svg>
+        <svg class="mcp-track-outline" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path class="road" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+          <path class="edge" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+        </svg>
+        <svg class="mcp-track-racing-line" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path id="mcp-racing-line" d="M255 230 C216 224, 192 251, 194 301 C197 346, 245 385, 323 417 C414 454, 468 512, 514 618 C557 714, 626 761, 742 765 C847 768, 944 716, 1015 646" />
+        </svg>
+        <svg class="mcp-track-markers" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <circle cx="250" cy="230" r="10" />
+          <circle cx="318" cy="420" r="8" />
+          <circle cx="520" cy="620" r="8" />
+          <circle cx="742" cy="785" r="10" />
+          <circle cx="1030" cy="640" r="10" />
+        </svg>
+      </div>
+    </div>
+    <div class="mcp-camera-label"><span>Signal path:</span> <strong id="mcp-camera-label">Tyre scrub</strong></div>
+    <div class="mcp-bg-vignette"></div>
+  </div>
   <script>
     const MCP4SH_DOWNLOAD_URL = "https://github.com/belh4wk/MCP4SH/releases";
     const MCP4SH_LICENSE_URL = "https://tytosensorylabs.lemonsqueezy.com/checkout/buy/1f9c1205-e6c6-422f-bb82-ce822d53ee2a";
@@ -590,6 +731,7 @@
         <a class="text-[#8d8d8d] hover:text-white transition" href="#screenshots">Screenshots</a>
         <a class="text-[#8d8d8d] hover:text-white transition" href="#paid">Paid version</a>
         <a class="text-[#8d8d8d] hover:text-white transition" href="#faq">FAQ</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="labnotes.html">Lab Notes</a>
       </div>
       <a id="nav-download" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Download</a>
     </div>
@@ -614,6 +756,7 @@
           <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
           <a id="hero-license" href="#" class="btn btn-secondary">Buy / activate license</a>
           <a href="#faq" class="btn btn-secondary">Read the FAQ</a>
+          <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
         </div>
       </div>
       <div class="video-shell p-3 md:p-4">
@@ -771,6 +914,22 @@
       </div>
     </section>
 
+
+    <section id="support-baseline" class="mt-12 panel p-8">
+      <p class="eyebrow">Support baseline</p>
+      <h2 class="mt-3 text-2xl md:text-4xl font-semibold text-white">Not a standard SimHub effects stack.</h2>
+      <p class="copy mt-4 text-sm md:text-base">
+        MCP4SH is built as a telemetry-to-haptics codec rather than a usual SimHub profile made from standalone raw formulas. The plugin processes available telemetry signals from the game before exposing that as public outputs used by the supplied SimHub profile.
+      </p>
+      <p class="copy mt-4 text-sm md:text-base">
+        That means separated graphs, manually edited formulas, or heavily modified profiles can be useful for personal experimentation, but they are not the supported reference for accurately and methodically judging whether MCP4SH is behaving correctly. The supported baseline is the current supplied MCP4SH plugin, profile, generated channel map, and Setup Assistant workflow.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="labnotes/posts/mcp4sh-supported-baseline.html" class="btn btn-secondary">Read the baseline note</a>
+        <a href="labnotes/posts/what-tcr-means.html" class="btn btn-secondary">What TCR means</a>
+      </div>
+    </section>
+
     <section id="faq" class="mt-12">
       <div class="mb-6">
         <p class="eyebrow">FAQ</p>
@@ -851,6 +1010,14 @@
             Effects in SimHub are mostly separated, the more you enable, the harder it becomes to keep them all making sense, especially when it matters. With MCP4SH, even with all effects enabled, you can still reliably tell the difference between what's firing, making it more intuitive to feel what the car is doing underneath you.
 		  </div>
         </details>
+
+        <details class="faq-item">
+          <summary>Can I manually separate or edit MCP4SH formulas?</summary>
+          <div class="faq-body">
+            You can experiment, but that is outside the supported baseline. MCP4SH is not a standard SimHub effects setup where every effect should be treated as a raw standalone formula. Public outputs are already shaped by the plugin's normalization, cleanup, gating, routing, and ST balancing/tensioning layers. Manual separation can therefore be misleading if it is used to judge the full intended behaviour.
+          </div>
+        </details>
+
         <details class="faq-item">
           <summary>Why is there a paid version?</summary>
           <div class="faq-body">
@@ -1132,5 +1299,35 @@
       applyCoverflow();
     })();
   </script>
+  <script>
+    const mcpScene = document.getElementById('mcp-track-scene');
+    const mcpRacingLine = document.getElementById('mcp-racing-line');
+    const mcpCameraLabel = document.getElementById('mcp-camera-label');
+    const mcpSceneLabels = ['Tyre scrub', 'Road feel', 'Suspension', 'Drivetrain', 'Chassis load'];
+
+    function updateMcpTrackScene() {
+      if (!mcpScene) return;
+      const vh = window.innerHeight || 1;
+      const totalScroll = Math.max(document.body.scrollHeight - vh, 1);
+      const progress = Math.min(Math.max((window.scrollY || window.pageYOffset) / totalScroll, 0), 1);
+      const scale = 1.14 + progress * 0.34;
+      const rot = -9 - progress * 6;
+      const x = 8 - progress * 22;
+      const y = 4 - progress * 18;
+      const blur = 0.15 + progress * 0.5;
+      mcpScene.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rot}deg)`;
+      mcpScene.style.filter = `blur(${blur}px)`;
+      if (mcpRacingLine) mcpRacingLine.style.strokeDashoffset = String(-progress * 130);
+      if (mcpCameraLabel) {
+        const idx = Math.min(mcpSceneLabels.length - 1, Math.floor(progress * mcpSceneLabels.length));
+        mcpCameraLabel.textContent = mcpSceneLabels[idx];
+      }
+    }
+
+    updateMcpTrackScene();
+    window.addEventListener('scroll', updateMcpTrackScene, { passive: true });
+    window.addEventListener('resize', updateMcpTrackScene);
+  </script>
+
 </body>
 </html>

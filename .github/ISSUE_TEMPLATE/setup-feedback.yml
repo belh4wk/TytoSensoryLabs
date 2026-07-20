@@ -1,0 +1,31 @@
+name: Setup feedback
+description: Report setup, profile, routing, or hardware-mapping feedback for MCP4SH.
+title: "Setup: <short summary>"
+labels: ["setup", "feedback"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: MCP4SH version
+      placeholder: v1.1.11
+    validations:
+      required: true
+  - type: textarea
+    id: layout
+    attributes:
+      label: Rig / shaker layout
+      description: Include device count, channels, and shaker positions.
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What happened?
+      description: What did you expect, what happened, and where in the flow did it occur?
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Extra context
+      description: Optional logs, profile changes, or screenshots.

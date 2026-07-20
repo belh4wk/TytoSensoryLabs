@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab Notes | Tyto Sensory Labs</title>
+  <meta name="description" content="Lab Notes from Tyto Sensory Labs: MCP4SH release commentary, setup notes, telemetry clarity/TCR context, and future experiments." />
+  <link rel="alternate" type="application/rss+xml" title="Tyto Sensory Labs Lab Notes" href="Resources/labnotes.rss" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(18,18,18,0.84);
+      --border: rgba(255,255,255,0.08);
+      --text: #d6d6d6;
+      --muted: #8d8d8d;
+      --accent: #6e603f;
+      --accent-2: #d7c69f;
+      --shadow: 0 22px 48px rgba(0,0,0,0.36);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 18% 0%, #191919 0%, var(--bg) 38%, #090909 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .topbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(10,10,10,0.78); border-bottom: 1px solid var(--border); }
+    .panel { border: 1px solid var(--border); background: linear-gradient(180deg, rgba(20,20,20,0.88) 0%, rgba(15,15,15,0.8) 100%); backdrop-filter: blur(12px); box-shadow: var(--shadow); border-radius: 28px; }
+    .eyebrow { letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-size: 0.76rem; }
+    .headline { color: white; line-height: 1.03; font-weight: 700; letter-spacing: -0.03em; }
+    .accent { color: var(--accent-2); }
+    .copy { color: #bfbfbf; line-height: 1.9; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; border-radius: 999px; padding: 0.82rem 1.12rem; font-weight: 600; text-decoration: none; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #111; border: 1px solid var(--accent); box-shadow: 0 10px 24px rgba(110,96,63,0.18); }
+    .btn-primary:hover { background: #857552; }
+    .btn-secondary { background: rgba(18,18,18,0.72); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: rgba(110,96,63,0.45); color: #f5f5f5; }
+    /* MCP4SH plugin/TCR palette */
+    .pill {
+      --chip: #d7c69f;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid color-mix(in srgb, var(--chip) 54%, transparent);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--chip) 12%, transparent), rgba(0,0,0,0.18));
+      color: color-mix(in srgb, var(--chip) 88%, white 12%);
+      border-radius: 999px;
+      padding: 0.42rem 0.7rem;
+      font-size: 0.78rem;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.22), 0 0 18px color-mix(in srgb, var(--chip) 10%, transparent);
+    }
+    .pill-date, .pill-tag { --chip: #787878; color: #c7c7c7; background: rgba(255,255,255,0.025); }
+    .cat-release { --chip: #d4af37; }
+    .cat-setup { --chip: #82e1eb; }
+    .cat-tcr { --chip: #e5e4e2; }
+    .cat-support { --chip: #c0c0c0; }
+    .cat-experiments { --chip: #cd7f32; }
+    .cat-all { --chip: #d7c69f; }
+    .note-card { border: 1px solid var(--border); border-radius: 24px; background: rgba(255,255,255,0.025); transition: border-color 160ms ease, transform 160ms ease; }
+    .note-card:hover { transform: translateY(-1px); border-color: rgba(212,175,55,0.42); }
+    .category-link { --chip: #d7c69f; color: color-mix(in srgb, var(--chip) 85%, white 15%); border: 1px solid color-mix(in srgb, var(--chip) 35%, transparent); background: color-mix(in srgb, var(--chip) 8%, transparent); }
+    .category-link:hover { color: white; border-color: color-mix(in srgb, var(--chip) 62%, transparent); background: color-mix(in srgb, var(--chip) 13%, transparent); }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+      <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
+      <div class="hidden items-center gap-5 text-sm md:flex">
+        <a class="text-[#8d8d8d] hover:text-white transition" href="index.html">Home</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="mcp4sh.html">MCP4SH</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="#categories">Categories</a>
+        <a class="btn btn-primary !px-4 !py-2 text-sm" href="https://github.com/belh4wk/TytoSensoryLabs/edit/main/Resources/labnotes.json">Edit feed on GitHub</a>
+      </div>
+      <a class="btn btn-secondary !px-3 !py-2 text-sm md:hidden" href="mcp4sh.html">MCP4SH</a>
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">
+    <section class="panel p-8 md:p-12">
+      <p class="eyebrow">Tyto Sensory Labs</p>
+      <h1 class="headline mt-3 text-4xl md:text-7xl">Lab <span class="accent">Notes</span>.</h1>
+      <p class="copy mt-6 max-w-3xl text-base md:text-lg">
+        Conversational release notes, MCP4SH setup context, TCR explanations, support-boundary notes, hardware setup guidance, and experiments that do not quite belong in a formal changelog.
+      </p>
+      <p class="copy mt-4 max-w-3xl text-sm md:text-base">
+        For now, publishing and contributions stay GitHub-backed: no website login, no client-side secrets, and no custom database. The public site remains static; edits happen through GitHub history and permissions.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#latest" class="btn btn-primary">Latest notes</a>
+        <a href="#categories" class="btn btn-secondary">Browse categories</a>
+        <a href="Resources/labnotes.rss" class="btn btn-secondary">RSS</a>
+      </div>
+    </section>
+
+    <section id="categories" class="mt-10 panel p-6 md:p-8">
+      <p class="eyebrow">Categories</p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a class="btn category-link cat-all" href="#latest" data-category="All">All</a>
+        <a class="btn category-link cat-release" href="#latest" data-category="Release Notes">Release Notes</a>
+        <a class="btn category-link cat-setup" href="#latest" data-category="Setup & Hardware">Setup & Hardware</a>
+        <a class="btn category-link cat-tcr" href="#latest" data-category="Telemetry Clarity / TCR">Telemetry Clarity / TCR</a>
+        <a class="btn category-link cat-support" href="#latest" data-category="Support Baseline">Support Baseline</a>
+        <a class="btn category-link cat-experiments" href="#latest" data-category="Experiments">Experiments</a>
+      </div>
+    </section>
+
+    <section id="latest" class="mt-10">
+      <div class="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow">Feed</p>
+          <h2 class="headline mt-3 text-3xl md:text-5xl">Latest notes</h2>
+        </div>
+        <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/new/main/labnotes/posts">New post on GitHub</a>
+      </div>
+      <div id="notes-feed" class="grid gap-5 md:grid-cols-2"></div>
+      <noscript>
+        <div class="panel p-6">
+          <p class="copy">JavaScript is disabled. Open <a class="accent" href="Resources/labnotes.json">Resources/labnotes.json</a> for the feed index.</p>
+        </div>
+      </noscript>
+    </section>
+
+    <section class="mt-10 panel p-6 md:p-8">
+      <p class="eyebrow">Contribution path</p>
+      <h2 class="mt-3 text-2xl font-semibold text-white">Small and secure first.</h2>
+      <p class="copy mt-4">
+        TCR observations and setup feedback can start as GitHub issues. That keeps the first contribution layer auditable, permissioned, and easy to moderate without running a custom login system.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose">Submit feedback on GitHub</a>
+        <a class="btn btn-secondary" href="LABNOTES_ADMIN.md">Publishing notes</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const feed = document.getElementById('notes-feed');
+    const categoryLinks = Array.from(document.querySelectorAll('[data-category]'));
+    let notes = [];
+    let activeCategory = 'All';
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    }
+
+    function pillClass(value, type) {
+      if (type === 'date') return 'pill-date';
+      if (type === 'tag') return 'pill-tag';
+      const text = String(value || '').toLowerCase();
+      if (text.includes('release')) return 'cat-release';
+      if (text.includes('setup') || text.includes('hardware')) return 'cat-setup';
+      if (text.includes('tcr') || text.includes('telemetry clarity')) return 'cat-tcr';
+      if (text.includes('support')) return 'cat-support';
+      if (text.includes('experiment')) return 'cat-experiments';
+      return 'cat-all';
+    }
+
+    function renderNotes() {
+      if (!feed) return;
+      const visible = activeCategory === 'All' ? notes : notes.filter(note => note.category === activeCategory);
+      feed.innerHTML = visible.map(note => {
+        const tags = (note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`).join(' ');
+        return `<article class="note-card p-6">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="pill ${pillClass(note.category)}">${escapeHtml(note.category)}</span>
+            <span class="pill ${pillClass(note.date, 'date')}">${escapeHtml(note.date)}</span>
+          </div>
+          <h3 class="mt-4 text-2xl font-semibold text-white"><a href="${escapeHtml(note.url)}" class="hover:text-[#d7c69f]">${escapeHtml(note.title)}</a></h3>
+          <p class="copy mt-3 text-sm md:text-base">${escapeHtml(note.summary)}</p>
+          <div class="mt-5 flex flex-wrap gap-2">${tags}</div>
+          <a class="btn btn-secondary mt-5" href="${escapeHtml(note.url)}">Read note</a>
+        </article>`;
+      }).join('') || '<div class="panel p-6"><p class="copy">No notes in this category yet.</p></div>';
+    }
+
+    categoryLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        activeCategory = link.dataset.category || 'All';
+        renderNotes();
+      });
+    });
+
+    fetch('Resources/labnotes.json', { cache: 'no-cache' })
+      .then(response => response.ok ? response.json() : Promise.reject(new Error('feed unavailable')))
+      .then(data => {
+        notes = (data.notes || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
+        renderNotes();
+      })
+      .catch(() => {
+        feed.innerHTML = '<div class="panel p-6"><p class="copy">Lab Notes feed is unavailable. Please try again later.</p></div>';
+      });
+  </script>
+</body>
+</html>
