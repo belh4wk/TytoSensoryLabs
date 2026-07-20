@@ -1,0 +1,46 @@
+<article class="note-sheet">
+  <p class="note-kicker">Experiments · 2026-07-20</p>
+  <h1>Other Projects & Conveniences</h1>
+
+  <p>MCP4SH is not the only SimHub-related thing I have been working on.</p>
+
+  <p>Some of my smaller tools are not trying to replace anything or become huge platforms. They are more about quality of life: making useful information easier to see, easier to manage, or easier to keep track of while driving and testing.</p>
+
+  <h2>LCD-box</h2>
+
+  <p><strong>LCD-box</strong> is a SimHub Dash Studio dashboard focused on system information.</p>
+
+  <p>The idea is simple: while driving, testing, recording, streaming, or tuning a rig, it can be useful to see what the PC is doing without leaving the sim or opening extra monitoring windows.</p>
+
+  <ul>
+    <li>CPU load</li>
+    <li>GPU load</li>
+    <li>memory use</li>
+    <li>temperatures</li>
+    <li>clock / performance information</li>
+    <li>general system status</li>
+    <li>other useful PC or runtime information exposed through SimHub</li>
+  </ul>
+
+  <h2>Final Drive Lap Board</h2>
+
+  <p><strong>Final Drive Lap Board</strong> is a SimHub-related lap board inspired by the idea of a Top Gear-style leaderboard.</p>
+
+  <p>It is meant as a simple way to keep track of laps, cars, tracks, drivers, attempts, and conditions in a more readable way.</p>
+
+  <ul>
+    <li>track name</li>
+    <li>car name</li>
+    <li>player / driver name</li>
+    <li>lap times</li>
+    <li>lap attempts</li>
+    <li>custom rule sets</li>
+    <li>special conditions such as wet, fog, snow, or other notes</li>
+    <li>manual control over which laps are stored or counted</li>
+    <li>exportable data / CSV-style records</li>
+  </ul>
+
+  <h2>Shared idea</h2>
+
+  <p>LCD-box, Final Drive Lap Board, and MCP4SH are different tools, but they come from a similar place: making useful information easier to read, easier to use, and easier to act on.</p>
+</article>
