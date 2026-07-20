@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCP4SH™ | Tyto Sensory Labs</title>
+  <meta name="description" content="MCP4SH™ is a SimHub plugin built to make sim-racing haptics clearer, more readable, and more useful. Learn what it does, what the paid version adds, and how the licensing plan works." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-soft: #121212;
+      --panel: rgba(18,18,18,0.82);
+      --border: rgba(255,255,255,0.08);
+      --text: #d6d6d6;
+      --muted: #8d8d8d;
+      --accent: #6e603f;
+      --accent-2: #d7c69f;
+      --glow: rgba(110,96,63,0.35);
+      --shadow: 0 22px 48px rgba(0,0,0,0.36);
+
+      --track: rgba(255,255,255,0.09);
+      --track-edge: rgba(255,255,255,0.16);
+    }
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body { overflow-x: hidden; }
+    main { position: relative; z-index: 5; }
+    .mcp-bg-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .mcp-bg-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 40%, transparent 0%, rgba(0,0,0,0.05) 42%, rgba(0,0,0,0.62) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.34) 100%);
+      z-index: 3;
+    }
+    .mcp-track-scene {
+      position: absolute;
+      inset: -8%;
+      transform-origin: center center;
+      will-change: transform, filter, opacity;
+      transition: transform 180ms linear, filter 180ms linear, opacity 180ms linear;
+      z-index: 1;
+      opacity: 0.52;
+    }
+    .mcp-scene-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(circle at center, black 20%, transparent 85%);
+      opacity: 0.35;
+    }
+    .mcp-track-wrap {
+      position: absolute;
+      inset: 0;
+      transform: perspective(1400px) rotateX(64deg) rotateZ(-9deg) scale(1.1);
+      transform-origin: 50% 50%;
+      filter: saturate(0.78);
+    }
+    .mcp-track-outline,
+    .mcp-track-racing-line,
+    .mcp-track-glow,
+    .mcp-track-markers {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .mcp-track-outline path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .mcp-track-outline .road {
+      stroke: var(--track);
+      stroke-width: 64;
+      filter: drop-shadow(0 0 28px rgba(255,255,255,0.05));
+    }
+    .mcp-track-outline .edge {
+      stroke: var(--track-edge);
+      stroke-width: 2.5;
+      opacity: 0.65;
+    }
+    .mcp-track-racing-line path {
+      fill: none;
+      stroke: rgba(215, 198, 159, 0.68);
+      stroke-width: 4.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 14 18;
+      filter: drop-shadow(0 0 10px rgba(110,96,63,0.22));
+      opacity: 0.55;
+    }
+    .mcp-track-glow path {
+      fill: none;
+      stroke: rgba(110,96,63,0.18);
+      stroke-width: 18;
+      filter: blur(22px);
+      opacity: 0.65;
+    }
+    .mcp-track-markers circle {
+      fill: rgba(255,255,255,0.06);
+      stroke: rgba(255,255,255,0.18);
+      stroke-width: 1.25;
+    }
+    .mcp-camera-label {
+      position: fixed;
+      right: 5vw;
+      bottom: 6vh;
+      z-index: 4;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.34);
+      pointer-events: none;
+    }
+    .mcp-camera-label strong {
+      color: rgba(215,198,159,0.76);
+      font-weight: 600;
+    }
+    @media (max-width: 900px) {
+      .mcp-track-wrap { transform: perspective(1200px) rotateX(66deg) rotateZ(-8deg) scale(1.42) translateY(-2%); }
+      .mcp-camera-label { right: 1rem; bottom: 1rem; font-size: 0.66rem; letter-spacing: 0.14em; }
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 20% 0%, #191919 0%, var(--bg) 36%, #090909 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(14px);
+      background: rgba(10,10,10,0.78);
+      border-bottom: 1px solid var(--border);
+    }
+    .panel {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(20,20,20,0.88) 0%, rgba(15,15,15,0.8) 100%);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+    }
+    .eyebrow {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+    .headline {
+      color: white;
+      line-height: 1.03;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .accent { color: var(--accent-2); }
+    .copy { color: #bfbfbf; line-height: 1.9; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      border-radius: 999px;
+      padding: 0.9rem 1.25rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: var(--accent);
+      color: #111;
+      border: 1px solid var(--accent);
+      box-shadow: 0 10px 24px rgba(110,96,63,0.18);
+    }
+    .btn-primary:hover { background: #857552; }
+    .btn-secondary {
+      background: rgba(18,18,18,0.72);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: rgba(110,96,63,0.45);
+      color: #f5f5f5;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.02);
+    }
+    .faq-item summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 1.1rem 1.25rem;
+      font-weight: 600;
+      color: #f1f1f1;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item[open] summary { border-bottom: 1px solid var(--border); }
+    .faq-body { padding: 1rem 1.25rem 1.2rem; color: #bdbdbd; line-height: 1.85; }
+    .credits-box {
+      white-space: pre-wrap;
+      color: #d7d7d7;
+      line-height: 1.85;
+      font-size: 0.96rem;
+      margin: 0;
+      font-family: inherit;
+    }
+    .video-shell {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: var(--shadow);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.72);
+      font-size: 0.78rem;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(110,96,63,0.48);
+    }
+
+    /* Coverflow screenshots */
+    .shots-shell {
+      --shot-width: min(68vw, 1080px);
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.035);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.008) 15%, rgba(0,0,0,0.10) 28%, rgba(0,0,0,0.72) 62%, rgba(0,0,0,0.96) 100%),
+        linear-gradient(180deg, rgba(6,6,6,0.98) 0%, rgba(2,2,2,1) 100%);
+      box-shadow:
+        0 28px 72px rgba(0,0,0,0.46),
+        inset 0 1px 0 rgba(255,255,255,0.02);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .shots-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 0%, transparent 42%, rgba(0,0,0,0.08) 62%, rgba(0,0,0,0.22) 78%, rgba(0,0,0,0.42) 100%);
+    }
+
+    .shots-viewport {
+      position: relative;
+      overflow: hidden;
+      padding: 1.5rem 0 5rem;
+    }
+
+    .shots-viewport::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 24;
+      background:
+        linear-gradient(
+          to right,
+          rgba(0,0,0,0.98) 0%,
+          rgba(0,0,0,0.67) 10%,
+          rgba(0,0,0,0.28) 18%,
+          rgba(0,0,0,0.00) 30%,
+          rgba(0,0,0,0.00) 70%,
+          rgba(0,0,0,0.28) 82%,
+          rgba(0,0,0,0.67) 90%,
+          rgba(0,0,0,0.98) 100%
+        );
+    }
+
+    .shots-viewport::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 24;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,0.68) 0%,
+          rgba(0,0,0,0.14) 14%,
+          rgba(0,0,0,0.00) 28%,
+          rgba(0,0,0,0.00) 68%,
+          rgba(0,0,0,0.32) 82%,
+          rgba(0,0,0,0.72) 100%
+        );
+    }
+
+    .shots-track {
+      position: relative;
+      height: clamp(360px, 45vw, 760px);
+      perspective: 2200px;
+      transform-style: preserve-3d;
+      overflow: hidden;
+      outline: none;
+      z-index: 10;
+    }
+
+    .shot-floor {
+      position: absolute;
+      left: 50%;
+      bottom: 1rem;
+      width: var(--shot-width);
+      max-width: calc(100% - 7rem);
+      height: clamp(72px, 10vw, 140px);
+      transform: translateX(-50%) scaleY(-1);
+      transform-origin: center top;
+      background-image: var(--shot-floor-image, none);
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-size: contain;
+      opacity: 0.35;
+      filter: blur(1px);
+      pointer-events: none;
+      z-index: 6;
+      mask-image: linear-gradient(to bottom, rgba(255,255,255,0.44) 0%, rgba(255,255,255,0.18) 35%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(255,255,255,0.44) 0%, rgba(255,255,255,0.18) 35%, transparent 100%);
+    }
+
+    .shot-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--shot-width);
+      max-width: calc(100% - 7rem);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 34px 96px rgba(0,0,0,0.68),
+        0 10px 28px rgba(0,0,0,0.4);
+      transition:
+        transform 460ms cubic-bezier(.2,.8,.2,1),
+        opacity 320ms ease,
+        filter 320ms ease,
+        box-shadow 320ms ease,
+        border-color 320ms ease;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      will-change: transform, opacity, filter;
+      backface-visibility: hidden;
+    }
+
+    .shot-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+      opacity: 0.7;
+      z-index: 2;
+    }
+
+    .shot-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: clamp(300px, 42vw, 640px);
+      aspect-ratio: auto;
+      object-fit: contain;
+      object-position: center center;
+      background: #000;
+    }
+
+    .shot-meta {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 1rem 1.1rem 1.1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0.38) 42%, rgba(0,0,0,0));
+      z-index: 3;
+    }
+
+    .shot-kicker {
+      font-size: 0.74rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #d7d7d7;
+    }
+
+    .shot-card.is-active {
+      opacity: 1;
+      filter: blur(0) saturate(1);
+      z-index: 30;
+      border-color: rgba(255,255,255,0.12);
+      box-shadow:
+        0 42px 120px rgba(0,0,0,0.78),
+        0 0 0 1px rgba(255,255,255,0.03),
+        0 0 36px rgba(255,255,255,0.018);
+      cursor: zoom-in;
+    }
+
+    .shot-card.is-near {
+      opacity: 0.72;
+      filter: blur(0.2px) saturate(0.9) brightness(0.88);
+      z-index: 18;
+    }
+
+    .shot-card.is-far {
+      opacity: 0.18;
+      filter: blur(1.1px) saturate(0.68) brightness(0.58);
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .shot-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.48);
+      color: #f3f3f3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 40;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+    }
+
+    .shot-nav:hover,
+    .shot-nav:focus-visible {
+      border-color: rgba(110,96,63,0.45);
+      background: rgba(16,16,16,0.76);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.34);
+      outline: none;
+    }
+
+    .shot-nav:active {
+      transform: translateY(-50%) scale(0.97);
+    }
+
+    .shot-nav svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .shot-nav-prev { left: 1rem; }
+    .shot-nav-next { right: 1rem; }
+
+    .shot-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.2) 24%, rgba(0,0,0,0.88) 72%, rgba(0,0,0,0.96) 100%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 220ms ease, visibility 220ms ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .shot-lightbox.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .shot-lightbox-inner {
+      position: relative;
+      width: 100%;
+      max-width: min(96vw, 1800px);
+      max-height: 92vh;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .shot-lightbox img {
+      display: block;
+      max-width: 100%;
+      max-height: calc(92vh - 3rem);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      background: #000;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 30px 120px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(255,255,255,0.03);
+      cursor: zoom-out;
+      pointer-events: auto;
+    }
+
+    .shot-lightbox-caption {
+      margin: 0.9rem 0 0;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .shot-lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.55);
+      color: #f3f3f3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .shot-lightbox-close:hover,
+    .shot-lightbox-close:focus-visible {
+      border-color: rgba(110,96,63,0.45);
+      background: rgba(18,18,18,0.82);
+      outline: none;
+    }
+
+    .shot-lightbox-close svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    body.lightbox-open {
+      overflow: hidden;
+    }
+
+    @media (max-width: 900px) {
+      .shots-shell {
+        --shot-width: min(82vw, 900px);
+      }
+
+      .shots-viewport {
+        padding: 1.25rem 0 4.2rem;
+      }
+
+      .shots-track {
+        height: clamp(300px, 56vw, 620px);
+        perspective: 1600px;
+      }
+
+      .shot-card,
+      .shot-floor {
+        max-width: calc(100% - 5.5rem);
+      }
+
+      .shot-card img {
+        max-height: clamp(240px, 50vw, 520px);
+      }
+
+      .shot-floor {
+        height: clamp(60px, 9vw, 110px);
+      }
+
+      .shot-meta {
+        padding: 0.85rem 0.95rem 0.95rem;
+      }
+
+      .shot-nav {
+        width: 42px;
+        height: 42px;
+      }
+
+      .shot-nav-prev { left: 0.75rem; }
+      .shot-nav-next { right: 0.75rem; }
+    }
+
+    @media (max-width: 640px) {
+      .shots-shell {
+        --shot-width: 90vw;
+      }
+
+      .shots-viewport {
+        padding: 1rem 0 3.2rem;
+      }
+
+      .shots-track {
+        height: clamp(260px, 68vw, 440px);
+        perspective: 1200px;
+      }
+
+      .shot-card,
+      .shot-floor {
+        max-width: calc(100% - 4.5rem);
+      }
+
+      .shot-card {
+        border-radius: 18px;
+      }
+
+      .shot-card img {
+        max-height: clamp(210px, 56vw, 360px);
+      }
+
+      .shot-floor {
+        height: clamp(44px, 8vw, 78px);
+        bottom: 0.6rem;
+        opacity: 0.16;
+      }
+
+      .shot-nav {
+        width: 38px;
+        height: 38px;
+      }
+
+      .shot-nav svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .shot-nav-prev { left: 0.5rem; }
+      .shot-nav-next { right: 0.5rem; }
+
+      .shot-card.is-far {
+        opacity: 0.08;
+      }
+
+      .shot-lightbox {
+        padding: 1rem;
+      }
+
+      .shot-lightbox-close {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 40px;
+        height: 40px;
+      }
+
+      .shot-lightbox img {
+        border-radius: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mcp-bg-stage" aria-hidden="true">
+    <div id="mcp-track-scene" class="mcp-track-scene">
+      <div class="mcp-scene-grid"></div>
+      <div class="mcp-track-wrap">
+        <svg class="mcp-track-glow" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+        </svg>
+        <svg class="mcp-track-outline" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path class="road" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+          <path class="edge" d="M250 230 C205 215, 170 250, 175 305 C180 362, 240 402, 315 424 C414 454, 470 498, 520 620 C560 720, 612 780, 742 785 C858 790, 972 728, 1030 640" />
+        </svg>
+        <svg class="mcp-track-racing-line" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <path id="mcp-racing-line" d="M255 230 C216 224, 192 251, 194 301 C197 346, 245 385, 323 417 C414 454, 468 512, 514 618 C557 714, 626 761, 742 765 C847 768, 944 716, 1015 646" />
+        </svg>
+        <svg class="mcp-track-markers" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+          <circle cx="250" cy="230" r="10" />
+          <circle cx="318" cy="420" r="8" />
+          <circle cx="520" cy="620" r="8" />
+          <circle cx="742" cy="785" r="10" />
+          <circle cx="1030" cy="640" r="10" />
+        </svg>
+      </div>
+    </div>
+    <div class="mcp-camera-label"><span>Signal path:</span> <strong id="mcp-camera-label">Tyre scrub</strong></div>
+    <div class="mcp-bg-vignette"></div>
+  </div>
+  <script>
+    const MCP4SH_DOWNLOAD_URL = "https://github.com/belh4wk/MCP4SH/releases";
+    const MCP4SH_LICENSE_URL = "https://tytosensorylabs.lemonsqueezy.com/checkout/buy/1f9c1205-e6c6-422f-bb82-ce822d53ee2a";
+  </script>
+
+  <div class="topbar">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+      <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
+      <div class="hidden items-center gap-5 text-sm md:flex">
+        <a class="text-[#8d8d8d] hover:text-white transition" href="#what-it-does">What it does</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="#screenshots">Screenshots</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="#paid">Paid version</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="#faq">FAQ</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="labnotes.html">Lab Notes</a>
+      </div>
+      <a id="nav-download" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Download</a>
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
+    <section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div class="space-y-6">
+        <div class="badge"><span class="dot"></span><span>MCP4SH™ · String Theory Haptics for SimHub</span></div>
+        <p class="eyebrow">High-level plugin overview</p>
+        <h1 class="headline text-4xl md:text-6xl">Haptics that aim to feel more like a <span class="accent">weighted, connected chassis</span>. Across games.</h1>
+        <p class="copy text-base md:text-lg">
+          MCP4SH™ is a SimHub plugin built to make sim-racing haptics feel more connected, minimize masking and more intuitively useful overall. The goal is better info: tyre scrub, road and suspension details, drivetrain information, and less time wasted re-tuning everything from (almost) scratch every time you switch sim.<br><br>
+		  Yes, AI was used for drafting and faster iteration. The plugin's codec architecture was however entirely ideated, designed and constructed by me.
+        </p>
+		<p class="copy text-base md:text-lg">
+		  This project started as a thing I wanted to do because after getting new hardware and failing to back up my SimHub profiles, I didn't feel like searching for, or creating, a profile that felt right or believable for every game I play.<br><br>
+		  Ironically, a few hours of doing exactly that would've fixed my issue... but I digress; I figured, what if I take a different approach that allows me to just switch games whenever I like without having to second-guess if i'm feeling everything i'm expecting (or not)?<br><br>
+		  So I started building this, and as I progressed, I assumed others might have or find use for it, so I added some more useful features and decided to share.
+		</p>
+        <div class="flex flex-wrap gap-3">
+          <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
+          <a id="hero-license" href="#" class="btn btn-secondary">Buy / activate license</a>
+          <a href="#faq" class="btn btn-secondary">Read the FAQ</a>
+          <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
+        </div>
+      </div>
+      <div class="video-shell p-3 md:p-4">
+        <video class="w-full rounded-2xl bg-black" controls preload="metadata" playsinline poster="Resources/MCP4SHLogo.png">
+          <source src="Resources/ComparisonOverlays.mp4" type="video/mp4" />
+          Your browser does not support embedded video.
+        </video>
+        <div class="px-2 pb-2 pt-4 md:px-3">
+          <p class="text-sm font-semibold text-white">Comparison Overlays showing haptic feedback driven by MCP4SH (right). Terrible driving, i know ;) .<br>The left shows how the raw data would enter and drive the effects, the right shows the plugin's codec output used by the effects.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots" class="mt-12">
+      <div class="mb-6">
+        <p class="eyebrow">Screenshots</p>
+        <p class="copy mt-4 max-w-3xl text-sm md:text-base">
+          A closer look at MCP4SH in practice, from effect tuning and profile structure to the tools and interface that shape the overall haptics workflow.
+        </p>
+      </div>
+
+      <div class="shots-shell">
+        <button type="button" class="shot-nav shot-nav-prev" data-shot-nav="prev" aria-label="Previous screenshot">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+
+        <button type="button" class="shot-nav shot-nav-next" data-shot-nav="next" aria-label="Next screenshot">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
+        </button>
+
+        <div class="shots-viewport">
+          <div class="shot-floor" id="shot-floor" aria-hidden="true"></div>
+          <div class="shots-track" id="shots-track" tabindex="0" aria-label="Screenshot coverflow">
+            <article class="shot-card">
+              <img src="Resources/Screenshot01.png" alt="MCP4SH screenshot 01" loading="lazy" />
+              <div class="shot-meta">
+                <p class="shot-kicker">Screenshot 01</p>
+              </div>
+            </article>
+
+            <article class="shot-card">
+              <img src="Resources/Screenshot02.png" alt="MCP4SH screenshot 02" loading="lazy" />
+              <div class="shot-meta">
+                <p class="shot-kicker">Screenshot 02</p>
+              </div>
+            </article>
+
+            <article class="shot-card">
+              <img src="Resources/Screenshot03.png" alt="MCP4SH screenshot 03" loading="lazy" />
+              <div class="shot-meta">
+                <p class="shot-kicker">Screenshot 03</p>
+              </div>
+            </article>
+
+            <article class="shot-card">
+              <img src="Resources/Screenshot04.png" alt="MCP4SH screenshot 04" loading="lazy" />
+              <div class="shot-meta">
+                <p class="shot-kicker">Screenshot 04</p>
+              </div>
+            </article>
+
+            <article class="shot-card">
+              <img src="Resources/Screenshot05.png" alt="MCP4SH screenshot 05" loading="lazy" />
+              <div class="shot-meta">
+                <p class="shot-kicker">Screenshot 05</p>
+              </div>
+            </article>
+			<article class="shot-card">
+              <img src="Resources/Screenshot06.png" alt="MCP4SH screenshot 06" loading="lazy" />
+              <div class="shot-meta">
+                <p class="shot-kicker">Screenshot 06</p>
+              </div>
+            </article>
+			<article class="shot-card">
+              <img src="Resources/Screenshot07.png" alt="MCP4SH screenshot 07" loading="lazy" />
+              <div class="shot-meta">
+                <p class="shot-kicker">Screenshot 07</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="what-it-does" class="mt-12 grid gap-6 md:grid-cols-3">
+      <div class="panel p-6">
+        <p class="eyebrow">Wut?</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Sanitized telemetry feed</h2>
+        <p class="copy mt-4 text-sm md:text-base">MCP4SH tries to make grip, scrub, suspension, road texture, drivetrain, and weight-transfer style cues easier to separate and interpret. It will not make you faster, but it might help you be more consistent.</p>
+      </div>
+      <div class="panel p-6">
+        <p class="eyebrow">How?</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Less #brrrzt</h2>
+        <p class="copy mt-4 text-sm md:text-base">The goal is to reduce noise in the vibration signals so the feedback feels more coherent and, more like a moving chassis. Near-constant buzzing and not really knowing where it's coming from or trying to tame it, almost gone.</p>
+      </div>
+      <div class="panel p-6">
+        <p class="eyebrow">And why should i care?</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Seat. Of. Pants.</h2>
+        <p class="copy mt-4 text-sm md:text-base">Reliable, consistent haptics helps you trust what you are feeling faster, with less second-guessing and less re-tuning each time you wanna switch games because you're not sure anymore. It helps you drive intuitively.</p>
+      </div>
+    </section>
+
+    <section id="paid" class="mt-12 grid gap-6 lg:grid-cols-[1fr_0.95fr]">
+      <div class="panel p-8">
+        <p class="eyebrow">Licensing and roadmap</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Good to go, for free. <span class="accent">License</span> optional.</h2>
+        <div class="copy mt-6 space-y-4 text-sm md:text-base">
+          <p>The free version is not a crippled demo. It gives you the core MCP4SH String Theory Haptics experience and the Setup Assistant.</p>
+          <p>That means you can pick the shakers on your rig, test-pulse your sound outputs, generate a matching SimHub sound output profile, and get driving without needing to become a SimHub routing expert first.</p>
+          <p><strong class="text-white">Current early-adopter option:</strong> Pioneer - 12.99 for up to 2 machines.</p>
+          <p>The license adds the extra control layer: advanced haptic controls now, and deeper configuration/routing tools as they mature. It also directly supports continued MCP4SH development.</p>
+          <p>The store listing is the source of truth for what is live right now. If the roadmap changes, the store and GitHub release notes will reflect that.</p>
+        </div>
+      </div>
+      <div class="panel p-8">
+        <p class="eyebrow">What license?</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">So, why would I pay for it?</h2>
+        <ul class="copy mt-6 space-y-4 text-sm md:text-base">
+          <li><strong class="text-white">You do not need a license to get going:</strong> the core haptics and Setup Assistant are included for free.</li>
+          <li><strong class="text-white">A license gives you more control:</strong> advanced haptic controls help you shape the feel around your rig instead of just accepting the default mix.</li>
+          <li><strong class="text-white">More configuration over time:</strong> the planned Configurator/custom routing tools are aimed at people who want to go beyond “this works” and move toward “this feels right”.</li>
+          <li><strong class="text-white">Continued development:</strong> paid licenses directly support compatibility work, refinement, testing, and the boring bits that keep the project alive.</li>
+        </ul>
+      </div>
+    </section>
+	
+	<section id="Still to come" class="mt-12">
+	  <div class="panel p-8">
+        <p class="eyebrow">What you get</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Features</h2>
+        <ul class="copy mt-6 space-y-4 text-sm md:text-base">
+          <li>- A full suite of custom-designed haptic effects, built to feel like connected moving parts of a whole.</li>
+          <li>- Setup Assistant for shaker layout selection, test pulses, and generated SimHub sound output profiles.</li>
+          <li>- SimHub Helper flow to make importing/applying generated profiles less confusing.</li>
+          <li>- Integrated plugin UI for tuning and checking mapped device/channel/effect information.</li>
+          <li>- FOV advisor, available in the plugin and via the dashboard.</li>
+          <li>- Dashboard featuring raw/plugin haptics visualization, FOV advisor, and a digital rear-view mirror using SimHub screen capture.</li>
+          <li>- Comparative overlays for testing and tuning. They may cost frames, so maybe do not run them in an actual race.</li>
+          <li>- Auto-launch helpers for the titles/tools you want to pair with SimHub.</li>
+        </ul><br>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Still to come</h2>
+        <ul class="copy mt-6 space-y-4 text-sm md:text-base">
+          <li>- Further implement GT7 support.</li>
+		  <li>- Better (more complete) ATS/ETS, Snow/Mudrunner, Beam.NG support.</li>
+          <li>- Further refine current haptic profiles.</li>
+		  <li>- Add profiles for complex multi-stereo setups.</li>
+          <li>- Expand on existing effects<br>(improve/add semantics for brake-state, suspension, flatspotting, sustained load/body load, traction transition,...).</li>
+		  <li>- Expand on motion support implementation<br>(currently available for the daring, no official support, test at your own risk; look for MCP4SH.motion properties when experimenting).</li>
+		  <li>- Look into public API/SDK development.</li>
+		  <li>- Flight sim support ... ?.</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <section id="support-baseline" class="mt-12 panel p-8">
+      <p class="eyebrow">Support baseline</p>
+      <h2 class="mt-3 text-2xl md:text-4xl font-semibold text-white">Not a standard SimHub effects stack.</h2>
+      <p class="copy mt-4 text-sm md:text-base">
+        MCP4SH is built as a telemetry-to-haptics codec rather than a usual SimHub profile made from standalone raw formulas. The plugin processes available telemetry signals from the game before exposing that as public outputs used by the supplied SimHub profile.
+      </p>
+      <p class="copy mt-4 text-sm md:text-base">
+        That means separated graphs, manually edited formulas, or heavily modified profiles can be useful for personal experimentation, but they are not the supported reference for accurately and methodically judging whether MCP4SH is behaving correctly. The supported baseline is the current supplied MCP4SH plugin, profile, generated channel map, and Setup Assistant workflow.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="labnotes/posts/mcp4sh-supported-baseline.html" class="btn btn-secondary">Read the baseline note</a>
+        <a href="labnotes/posts/what-tcr-means.html" class="btn btn-secondary">What TCR means</a>
+      </div>
+    </section>
+
+    <section id="faq" class="mt-12">
+      <div class="mb-6">
+        <p class="eyebrow">FAQ</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">But errrm...</h2>
+      </div>
+      <div class="grid gap-4">
+        <details class="faq-item">
+          <summary>What does it actually do?</summary>
+          <div class="faq-body">
+            It is a SimHub ShakeIt Bass Shakers haptics plugin that tries to make feedback feel more like a car than a bunch of vibrations fighting for attention and bandwidth. The goal is to better separate tyre, scrub, road, suspension, drivetrain, and weight-transfer style cues so the rig feels more informative and less chaotic, and more intuitive.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Is this just “more vibration”?</summary>
+          <div class="faq-body">
+            No. That is the opposite of the point. MCP4SH is meant to reduce the sense of random buzzing and make the overall signal easier to trust. More output is not automatically better output.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to spend ages tuning it per game?</summary>
+          <div class="faq-body">
+            Nope, pretty much works out of the box. That said, rigs, transducer layouts, amps, and personal taste obviously still matter. This plugin does not fix foundational issues with factors that impact designed-for feel. The feel is going to be similar, but emphasis of some effects may differ due to how the data coming from the game is shaped.
+			That also means though, that different cars in a specific title also feel slightly different. The cleaner the telemetry from the game, the better this plugin will perform.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Does it work the same in every sim?</summary>
+          <div class="faq-body">
+            Mostly, yes. But no haptics solution works identically across every sim because telemetry quality and behaviour differ. MCP4SH is built to be broadly usable across common driving titles, but some sims will always give cleaner telemetry than others. 
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Why are there not more videos yet?</summary>
+          <div class="faq-body">
+            Because haptics are awkward to show well, and the project reached a releasable state before the showcase material was finished. Workin' on it.
+          </div>
+        </details>
+		<details class="faq-item">
+          <summary>Will "this" be better than what I have now?</summary>
+          <div class="faq-body">
+            Since I do not know your current experience or level of satisfaction with what you have, I can not accurately answer that. 
+			What I can say is that this is intended to make it easier to set up per game, and that it is designed to feel more like a weighted, connected chassis. It is up to you to decide if I've accomplished that.
+          </div>
+        </details>		
+        <details class="faq-item">
+          <summary>Will this work on my hardware?</summary>
+          <div class="faq-body">
+            <p>If your current hardware is driven by SimHub ShakeIt Bass Shaker effects, then yes, it should.<br>
+			However, and I can not stress this enough: Mounting discipline is crucial, not optional.<br><br>
+			As I learned myself, all transducers on any given rig should be:<br>
+			- <strong>mounted correctly</strong>: flush with it's mounting surface or directionally in-line with/on top of the (virtual) axis along which the vibrations will travel.<br>
+			- <strong>hard-mounted</strong>: nuts and bolts, heavy duty doublesided mounting tape or strong zip-ties.<br>
+			- <strong>isolated/separated</strong>: use shock-absorbing washers or bushings to isolate each transducer (sounds counterintuitive, i know), this limits frame/rig cross-talk.<br><br>
+			use this rule of thumb: if you can hear the shaker more than you feel it, it's not mounted right, or something on your rig is loose/rattling.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>What hardware was this designed on/for?</summary>
+          <div class="faq-body">
+            Testing setup was:
+			<ul>2x Nobsound NS-10G Pro amps</ul>
+			<ul>2x Dayton BST-1 shakers (under pedal plate and seat)</ul>
+			<ul>3x Dayton TT25-16 pucks (brake, backrest, handbrake/shifter)</ul><br>
+			Any claim made about the quality of this plugin's output, is based entirely on my own frame of reference, which is, based on market-research, represents a decent demographic of both beginners and enthusiasts.<br>
+			It should work on anything that connects to SimHub to get it's haptic effects via ShakeIt Bass Shakers.
+          </div>
+        </details>
+		<details class="faq-item">
+          <summary>Is this better than default SimHub effects?</summary>
+          <div class="faq-body">
+            No such claims are or will be made. Better or worse are both subjective terms.<br>
+			That said, according to initial reviews and comments i've received, it is quicker to get going with something that's usable in most games. Tweaking for feel should be more intuitive.
+		  </div>
+        </details>
+		<details class="faq-item">
+          <summary>How is it different then from default SimHub effects?</summary>
+          <div class="faq-body">
+            Effects in SimHub are mostly separated, the more you enable, the harder it becomes to keep them all making sense, especially when it matters. With MCP4SH, even with all effects enabled, you can still reliably tell the difference between what's firing, making it more intuitive to feel what the car is doing underneath you.
+		  </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I manually separate or edit MCP4SH formulas?</summary>
+          <div class="faq-body">
+            You can experiment, but that is outside the supported baseline. MCP4SH is not a standard SimHub effects setup where every effect should be treated as a raw standalone formula. Public outputs are already shaped by the plugin's normalization, cleanup, gating, routing, and ST balancing/tensioning layers. Manual separation can therefore be misleading if it is used to judge the full intended behaviour.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Why is there a paid version?</summary>
+          <div class="faq-body">
+            Because the project has a usable base layer and a more advanced adaptive layer. The paid side unlocks the finer control and dynamic prioritization of effects and helps fund the time, testing, and refinement needed to keep improving compatibility and behaviour across sims and hardware setups. Continuous improvement.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>What does the paid version add?</summary>
+          <div class="faq-body">
+            The license unlocks the extra control layer. Free gets the core haptics and Setup Assistant working. A license gives you deeper tuning and, over time, the more powerful configuration/routing tools for shaping the feel around your own rig. It also directly supports continued development.
+          </div>
+        </details>
+		<!-- details class="faq-item">
+		  <summary>How do I install exactly?</summary>
+		  <div class="faq-body">
+		  <video class="w-full rounded-2xl bg-black" controls preload="metadata" playsinline poster="Resources/MCP4SHLogo.png">
+          <source src="Resources/Base Install - Howto.mp4" type="video/mp4" />
+          Your browser does not support embedded video.
+        </video>
+		  </div>
+        </details> -->
+      </div>
+    </section>
+
+    <section class="mt-12 panel p-8">
+      <p class="eyebrow">Sanity/Reality check</p>
+      <h2 class="mt-3 text-2xl font-semibold text-white">Some disclaimers</h2>
+      <p class="copy mt-4 text-sm md:text-base">
+        This is not magic, instant pace, or one-click perfection (almost, but not quite). It is however a serious attempt to make haptics more coherent and useful, and plug and play (ish). Your rig, transducer layout, amp chain, gain staging, and sims still matter. The goal is to start from a stronger place and give you something more ready-to-use. It removes complexity in tuning without losing fidelity. Do not treat this as an "automagically fix my haptics" solution. If mounting discipline (see FAQ re. hardware) is meh, this will not fix that.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('nav-download').href = MCP4SH_DOWNLOAD_URL;
+    document.getElementById('hero-download').href = MCP4SH_DOWNLOAD_URL;
+    document.getElementById('hero-license').href = MCP4SH_LICENSE_URL;
+
+    (function loadMcp4shCredits() {
+      const target = document.getElementById('mcp4sh-credits');
+      if (!target) return;
+      fetch('Resources/MCP4SH_CREDITS.md', { cache: 'no-cache' })
+        .then(response => response.ok ? response.text() : Promise.reject(new Error('credits unavailable')))
+        .then(text => { target.textContent = (text || '').trim() || 'Credits will be added here.'; })
+        .catch(() => { target.textContent = 'Credits will be added here.'; });
+    })();
+  </script>
+
+  <div class="shot-lightbox" id="shot-lightbox" aria-hidden="true" role="dialog" aria-label="Expanded screenshot view">
+    <button type="button" class="shot-lightbox-close" id="shot-lightbox-close" aria-label="Close expanded screenshot">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+
+    <div class="shot-lightbox-inner">
+      <img id="shot-lightbox-image" src="" alt="" />
+      <p class="shot-lightbox-caption" id="shot-lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const track = document.getElementById('shots-track');
+      const floor = document.getElementById('shot-floor');
+      if (!track) return;
+
+      const cards = Array.from(track.querySelectorAll('.shot-card'));
+      const prevBtn = document.querySelector('[data-shot-nav="prev"]');
+      const nextBtn = document.querySelector('[data-shot-nav="next"]');
+
+      const lightbox = document.getElementById('shot-lightbox');
+      const lightboxImage = document.getElementById('shot-lightbox-image');
+      const lightboxCaption = document.getElementById('shot-lightbox-caption');
+      const lightboxClose = document.getElementById('shot-lightbox-close');
+
+      let activeIndex = 0;
+      const total = cards.length;
+      let wheelLocked = false;
+
+      function getWrappedOffset(index, active, length) {
+        let offset = index - active;
+        const half = Math.floor(length / 2);
+
+        if (offset > half) offset -= length;
+        if (offset < -half) offset += length;
+
+        return offset;
+      }
+
+      function syncReflection() {
+        if (!floor || !cards[activeIndex]) return;
+        const img = cards[activeIndex].querySelector('img');
+        if (!img) return;
+
+        const src = img.currentSrc || img.src;
+        floor.style.setProperty('--shot-floor-image', `url("${src}")`);
+      }
+
+      function openLightbox(index) {
+        const card = cards[index];
+        if (!card || !lightbox || !lightboxImage) return;
+
+        const img = card.querySelector('img');
+        const caption = card.querySelector('.shot-kicker');
+
+        if (!img) return;
+
+        lightboxImage.src = img.currentSrc || img.src;
+        lightboxImage.alt = img.alt || '';
+        if (lightboxCaption) {
+          lightboxCaption.textContent = caption ? caption.textContent : '';
+        }
+
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+      }
+
+      function closeLightbox() {
+        if (!lightbox) return;
+
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+
+        window.setTimeout(() => {
+          if (lightboxImage) {
+            lightboxImage.src = '';
+            lightboxImage.alt = '';
+          }
+          if (lightboxCaption) {
+            lightboxCaption.textContent = '';
+          }
+        }, 180);
+      }
+
+      function applyCoverflow() {
+        const isTablet = window.innerWidth <= 900;
+        const isMobile = window.innerWidth <= 640;
+
+        cards.forEach((card, index) => {
+          const offset = getWrappedOffset(index, activeIndex, total);
+          const abs = Math.abs(offset);
+
+          card.classList.remove('is-active', 'is-near', 'is-far');
+
+          let translateX = offset * 50;
+          let rotateY = offset * -28;
+          let scale = 1 - abs * 0.13;
+          let translateZ = abs === 0 ? 0 : -170 - (abs - 1) * 68;
+
+          if (isTablet) {
+            translateX = offset * 40;
+            rotateY = offset * -21;
+            scale = 1 - abs * 0.11;
+            translateZ = abs === 0 ? 0 : -120 - (abs - 1) * 48;
+          }
+
+          if (isMobile) {
+            translateX = offset * 24;
+            rotateY = offset * -10;
+            scale = 1 - abs * 0.08;
+            translateZ = abs === 0 ? 0 : -68 - (abs - 1) * 24;
+          }
+
+          if (abs === 0) {
+            card.classList.add('is-active');
+          } else if (abs <= 2) {
+            card.classList.add('is-near');
+          } else {
+            card.classList.add('is-far');
+          }
+
+          card.style.transform = `
+            translate(-50%, -50%)
+            translateX(${translateX}%)
+            translateZ(${translateZ}px)
+            rotateY(${rotateY}deg)
+            scale(${scale})
+          `;
+
+          card.style.zIndex = String(100 - abs);
+          card.setAttribute('aria-hidden', abs === 0 ? 'false' : 'true');
+        });
+
+        syncReflection();
+      }
+
+      function goTo(index) {
+        activeIndex = (index + total) % total;
+        applyCoverflow();
+      }
+
+      function next() {
+        goTo(activeIndex + 1);
+      }
+
+      function prev() {
+        goTo(activeIndex - 1);
+      }
+
+      function handleWheel(event) {
+        const dominantDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+
+        if (Math.abs(dominantDelta) < 10) return;
+
+        event.preventDefault();
+
+        if (wheelLocked) return;
+        wheelLocked = true;
+
+        if (dominantDelta > 0) {
+          next();
+        } else {
+          prev();
+        }
+
+        window.setTimeout(() => {
+          wheelLocked = false;
+        }, 220);
+      }
+
+      prevBtn?.addEventListener('click', prev);
+      nextBtn?.addEventListener('click', next);
+
+      cards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+          if (index !== activeIndex) {
+            goTo(index);
+            return;
+          }
+
+          openLightbox(index);
+        });
+
+        const img = card.querySelector('img');
+        if (img) {
+          if (!img.complete) {
+            img.addEventListener('load', syncReflection, { once: true });
+          }
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && lightbox?.classList.contains('is-open')) {
+          event.preventDefault();
+          closeLightbox();
+          return;
+        }
+
+        if (lightbox?.classList.contains('is-open')) return;
+
+        if (document.activeElement === track || track.contains(document.activeElement)) {
+          if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            prev();
+          }
+          if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            next();
+          }
+        }
+      });
+
+      track.addEventListener('wheel', handleWheel, { passive: false });
+
+      lightboxClose?.addEventListener('click', closeLightbox);
+      lightboxImage?.addEventListener('click', closeLightbox);
+
+      lightbox?.addEventListener('click', (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      window.addEventListener('resize', applyCoverflow);
+
+      applyCoverflow();
+    })();
+  </script>
+  <script>
+    const mcpScene = document.getElementById('mcp-track-scene');
+    const mcpRacingLine = document.getElementById('mcp-racing-line');
+    const mcpCameraLabel = document.getElementById('mcp-camera-label');
+    const mcpSceneLabels = ['Tyre scrub', 'Road feel', 'Suspension', 'Drivetrain', 'Chassis load'];
+
+    function updateMcpTrackScene() {
+      if (!mcpScene) return;
+      const vh = window.innerHeight || 1;
+      const totalScroll = Math.max(document.body.scrollHeight - vh, 1);
+      const progress = Math.min(Math.max((window.scrollY || window.pageYOffset) / totalScroll, 0), 1);
+      const scale = 1.14 + progress * 0.34;
+      const rot = -9 - progress * 6;
+      const x = 8 - progress * 22;
+      const y = 4 - progress * 18;
+      const blur = 0.15 + progress * 0.5;
+      mcpScene.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rot}deg)`;
+      mcpScene.style.filter = `blur(${blur}px)`;
+      if (mcpRacingLine) mcpRacingLine.style.strokeDashoffset = String(-progress * 130);
+      if (mcpCameraLabel) {
+        const idx = Math.min(mcpSceneLabels.length - 1, Math.floor(progress * mcpSceneLabels.length));
+        mcpCameraLabel.textContent = mcpSceneLabels[idx];
+      }
+    }
+
+    updateMcpTrackScene();
+    window.addEventListener('scroll', updateMcpTrackScene, { passive: true });
+    window.addEventListener('resize', updateMcpTrackScene);
+  </script>
+
+</body>
+</html>
