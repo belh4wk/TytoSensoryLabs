@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Off-Center Photo Finish | Tyto Sensory Labs</title>
+  <meta name="description" content="Off-Center Photo Finish is a focused Windows photo-finishing app built for quick, intuitive edits without the overhead of a full traditional editing suite." />
+  <link rel="icon" type="image/png" href="Resources/OCPFicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-soft: #111214;
+      --panel: rgba(18,20,23,0.84);
+      --panel-strong: rgba(12,13,15,0.94);
+      --border: rgba(255,255,255,0.09);
+      --text: #d7d7d7;
+      --muted: #8f9297;
+      --accent: #6e603f;
+      --accent-2: #d7c69f;
+      --teal: #3f9f90;
+      --shadow: 0 24px 64px rgba(0,0,0,0.42);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 78% 16%, rgba(110,96,63,0.14), transparent 28%),
+        radial-gradient(circle at 14% 8%, #1b1c1e 0%, var(--bg) 34%, #08090a 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06) 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 60%, rgba(255,255,255,0.035) 0 1px, transparent 1px);
+      background-size: 10px 10px, 14px 14px;
+      mix-blend-mode: soft-light;
+      z-index: 1;
+    }
+
+    main, .topbar { position: relative; z-index: 3; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(10,10,10,0.78);
+      border-bottom: 1px solid var(--border);
+    }
+    .navlink { color: var(--muted); transition: color 160ms ease; }
+    .navlink:hover { color: #fff; }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(22,23,26,0.9) 0%, rgba(14,15,17,0.84) 100%);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+    }
+    .eyebrow {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+    .headline {
+      color: #fff;
+      line-height: 1.03;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+    }
+    .accent { color: var(--accent-2); }
+    .copy { color: #bfc0c3; line-height: 1.9; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      border-radius: 999px;
+      padding: 0.9rem 1.25rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease, opacity 180ms ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: var(--accent);
+      color: #111;
+      border: 1px solid var(--accent);
+      box-shadow: 0 10px 26px rgba(110,96,63,0.2);
+    }
+    .btn-primary:hover { background: #857552; }
+    .btn-secondary {
+      background: rgba(18,18,18,0.75);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: rgba(110,96,63,0.5); color: #fff; }
+    .btn-disabled {
+      cursor: default;
+      opacity: 0.58;
+      background: rgba(110,96,63,0.44);
+    }
+    .btn-disabled:hover { transform: none; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.48rem;
+      border-radius: 999px;
+      padding: 0.48rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.035);
+      color: rgba(255,255,255,0.74);
+      font-size: 0.79rem;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(110,96,63,0.55);
+    }
+
+    .product-stage {
+      position: relative;
+      min-height: 510px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
+        radial-gradient(circle at 50% 46%, rgba(110,96,63,0.16), transparent 34%),
+        linear-gradient(180deg, #101114 0%, #070809 100%);
+      background-size: 46px 46px, 46px 46px, auto, auto;
+      box-shadow: var(--shadow);
+    }
+    .product-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 45%, transparent 0%, rgba(0,0,0,0.1) 52%, rgba(0,0,0,0.72) 100%);
+      pointer-events: none;
+    }
+    .logo-tile {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: min(48%, 270px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 28%;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: 0 32px 76px rgba(0,0,0,0.58), 0 0 50px rgba(110,96,63,0.16);
+      z-index: 2;
+    }
+    .logo-tile img { width: 100%; height: 100%; object-fit: cover; }
+
+    .focus-guide {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: min(79%, 480px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(215,198,159,0.28);
+      border-radius: 50%;
+      box-shadow: 0 0 34px rgba(110,96,63,0.13);
+      z-index: 1;
+    }
+    .focus-guide::before, .focus-guide::after {
+      content: "";
+      position: absolute;
+      background: rgba(215,198,159,0.22);
+    }
+    .focus-guide::before { left: 50%; top: -7%; width: 1px; height: 114%; }
+    .focus-guide::after { top: 50%; left: -7%; height: 1px; width: 114%; }
+
+    .radial-demo {
+      position: absolute;
+      right: 5%;
+      bottom: 7%;
+      width: 178px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(8,9,10,0.96) 0 28%, transparent 29%),
+        conic-gradient(from -18deg,
+          rgba(110,96,63,0.68) 0 30deg, transparent 30deg 36deg,
+          rgba(32,34,37,0.78) 36deg 66deg, transparent 66deg 72deg,
+          rgba(32,34,37,0.78) 72deg 102deg, transparent 102deg 108deg,
+          rgba(32,34,37,0.78) 108deg 138deg, transparent 138deg 144deg,
+          rgba(32,34,37,0.78) 144deg 174deg, transparent 174deg 180deg,
+          rgba(32,34,37,0.78) 180deg 210deg, transparent 210deg 216deg,
+          rgba(32,34,37,0.78) 216deg 246deg, transparent 246deg 252deg,
+          rgba(32,34,37,0.78) 252deg 282deg, transparent 282deg 288deg,
+          rgba(32,34,37,0.78) 288deg 318deg, transparent 318deg 324deg,
+          rgba(32,34,37,0.78) 324deg 354deg, transparent 354deg 360deg);
+      border: 1px solid rgba(255,255,255,0.22);
+      filter: drop-shadow(0 14px 24px rgba(0,0,0,0.5));
+      z-index: 4;
+    }
+    .radial-demo::after {
+      content: "EDIT";
+      position: absolute;
+      inset: 34%;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(215,198,159,0.54);
+      color: var(--accent-2);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      background: rgba(8,9,10,0.94);
+    }
+
+    .chip {
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(12,13,15,0.72);
+      backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.76);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      z-index: 4;
+    }
+    .chip-a { left: 5%; top: 9%; }
+    .chip-b { right: 7%; top: 13%; }
+    .chip-c { left: 7%; bottom: 10%; }
+
+    .feature-card {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.025);
+      padding: 1.35rem;
+    }
+    .feature-card h3 { color: #fff; font-weight: 650; }
+    .feature-card p { color: #aaaeb4; line-height: 1.75; }
+    .step-number {
+      display: inline-grid;
+      place-items: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      background: rgba(110,96,63,0.22);
+      border: 1px solid rgba(215,198,159,0.28);
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+    .notice {
+      border-left: 3px solid var(--accent);
+      background: rgba(110,96,63,0.09);
+      border-radius: 0 18px 18px 0;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.02);
+    }
+    .faq-item summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 1.1rem 1.25rem;
+      font-weight: 650;
+      color: #f3f3f3;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item[open] summary { border-bottom: 1px solid var(--border); }
+    .faq-body { padding: 1rem 1.25rem 1.2rem; color: #b7b9bd; line-height: 1.85; }
+    footer { border-top: 1px solid var(--border); background: rgba(8,8,8,0.62); }
+
+    @media (max-width: 760px) {
+      .product-stage { min-height: 420px; }
+      .logo-tile { width: min(54%, 220px); }
+      .radial-demo { width: 132px; right: 2%; bottom: 5%; }
+      .chip { font-size: 0.62rem; }
+      .chip-b { right: 3%; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Replace this with the exact Lemon Squeezy checkout URL when the product is ready.
+    const OCPF_PURCHASE_URL = "";
+  </script>
+
+  <div class="topbar">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+      <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
+      <div class="hidden items-center gap-5 text-sm md:flex">
+        <a class="navlink" href="#workflow">Workflow</a>
+        <a class="navlink" href="#features">Features</a>
+        <a class="navlink" href="#platforms">Platforms</a>
+        <a class="navlink" href="#faq">FAQ</a>
+        <a class="navlink" href="mcp4sh.html">MCP4SH</a>
+        <a class="navlink" href="labnotes.html">Lab Notes</a>
+      </div>
+      <a id="nav-purchase" class="btn btn-primary !px-4 !py-2 text-sm" href="#availability">Get OCPF</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="mx-auto grid max-w-7xl gap-8 px-4 py-14 md:grid-cols-[1.02fr_0.98fr] md:px-6 md:py-24">
+      <div class="flex flex-col justify-center">
+        <div class="badge w-fit"><span class="dot"></span><span>Off-Center Photo Finish · Windows</span></div>
+        <p class="eyebrow mt-8">A focused photo-finishing workflow</p>
+        <h1 class="headline mt-3 text-5xl md:text-7xl">Finish the picture.<br><span class="accent">Not your patience.</span></h1>
+        <p class="copy mt-7 max-w-2xl text-base md:text-lg">
+          Off-Center Photo Finish is built for the part between choosing a photo and being happy enough to share it. Import a folder, open a picture, make the changes that matter, compare each editing layer, and export safe copies without wrestling with a full traditional editing suite.
+        </p>
+        <p class="copy mt-4 max-w-2xl text-sm md:text-base">
+          It is intentionally focused rather than sprawling: powerful enough to be genuinely useful, direct enough to remain approachable, and structured around a radial editor that keeps the photograph—not a wall of controls—at the centre of the workflow.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a id="hero-purchase" href="#availability" class="btn btn-primary">Get Off-Center Photo Finish</a>
+          <a href="#workflow" class="btn btn-secondary">See how it works</a>
+          <a href="#feature-complete" class="btn btn-secondary">What “feature complete” means</a>
+        </div>
+      </div>
+
+      <div class="product-stage" aria-label="Stylised Off-Center Photo Finish editor preview">
+        <div class="focus-guide"></div>
+        <div class="logo-tile"><img src="Resources/OCPFicon.png" alt="Off-Center Photo Finish PF lens icon" /></div>
+        <div class="radial-demo" aria-hidden="true"></div>
+        <div class="chip chip-a">Select · Imagine · Export</div>
+        <div class="chip chip-b">Layer-aware Before / After</div>
+        <div class="chip chip-c">Safe-copy output</div>
+      </div>
+    </section>
+
+    <section id="workflow" class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">
+      <div class="panel p-8 md:p-12">
+        <p class="eyebrow">The workflow</p>
+        <h2 class="headline mt-3 text-4xl md:text-6xl">Three screens. One clear route.</h2>
+        <div class="mt-9 grid gap-5 md:grid-cols-3">
+          <article class="feature-card">
+            <span class="step-number">1</span>
+            <h3 class="mt-5 text-xl">Select</h3>
+            <p class="mt-3 text-sm md:text-base">Choose individual photos, folders, or supported archives. Mark the pictures you want to work on and hold one to move straight into the editor.</p>
+          </article>
+          <article class="feature-card">
+            <span class="step-number">2</span>
+            <h3 class="mt-5 text-xl">Imagine</h3>
+            <p class="mt-3 text-sm md:text-base">Edit in a darkroom-style workspace. The hollow radial menu keeps related tools grouped without permanently covering the image.</p>
+          </article>
+          <article class="feature-card">
+            <span class="step-number">3</span>
+            <h3 class="mt-5 text-xl">Export</h3>
+            <p class="mt-3 text-sm md:text-base">Render new copies into a dated folder under Pictures. Originals remain untouched, and the completed output can be opened directly.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">
+      <div class="mb-8 max-w-3xl">
+        <p class="eyebrow">Editing tools</p>
+        <h2 class="headline mt-3 text-4xl md:text-6xl">Enough control to finish the shot.</h2>
+        <p class="copy mt-5">OCPF concentrates on the adjustments most people repeatedly need, then gives those tools a consistent interaction model instead of scattering them across unrelated panels.</p>
+      </div>
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <article class="feature-card"><h3>Light and colour</h3><p class="mt-3">Exposure, contrast, highlights, shadows, whites, blacks, temperature, tint, vibrance, saturation, and hue.</p></article>
+        <article class="feature-card"><h3>Frame and rotation</h3><p class="mt-3">Fine or coarse rotation, crop and crop anchoring, with a touch-friendly dial on mobile.</p></article>
+        <article class="feature-card"><h3>Focus and atmosphere</h3><p class="mt-3">Radial or tilt-shift focus treatments, vignette shaping, feathering, blur, and placement guides.</p></article>
+        <article class="feature-card"><h3>Colour wash and watermarking</h3><p class="mt-3">Preset or custom colour washes plus light/dark watermark assets, positioning, sizing, and opacity control.</p></article>
+        <article class="feature-card"><h3>Touch-ups and cleanup</h3><p class="mt-3">Brush local areas, adjust them independently, refine selections, and apply practical cleanup treatments without leaving the main workflow.</p></article>
+        <article class="feature-card"><h3>Layer-aware comparison</h3><p class="mt-3">Compare Frame, Colour, Light, Focus, Touch-ups, Cleanup, and other categories without hiding unrelated edits that you still need for context.</p></article>
+      </div>
+    </section>
+
+    <section id="feature-complete" class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">
+      <div class="panel p-8 md:p-12">
+        <p class="eyebrow">Scope, honestly stated</p>
+        <h2 class="headline mt-3 text-4xl md:text-6xl">Feature complete does not mean “every feature ever.”</h2>
+        <div class="notice copy mt-7 p-6 text-sm md:text-base">
+          “Feature complete” means the planned Off-Center Photo Finish workflow and its supported finishing tools are implemented for this release. It does not mean OCPF is trying to reproduce every capability, workflow, plug-in, asset-management system, or precision retouching tool found in a full professional photo suite.
+        </div>
+        <div class="mt-7 grid gap-5 md:grid-cols-2">
+          <article class="feature-card">
+            <h3>What it is</h3>
+            <p class="mt-3">A fast, purpose-built finishing application for selecting, improving, comparing, watermarking, and exporting photos with a low-friction interface.</p>
+          </article>
+          <article class="feature-card">
+            <h3>What it is not</h3>
+            <p class="mt-3">A replacement for every raw developer, cataloguing platform, compositing package, or pixel-level professional retouching workflow.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="platforms" class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="panel p-8 md:p-10">
+          <p class="eyebrow">Current release</p>
+          <h2 class="mt-3 text-3xl font-semibold text-white">Windows</h2>
+          <p class="copy mt-5 text-sm md:text-base">The supported release is the Windows desktop application, delivered through the TytoSensoryLabs installer. It installs under the shared TytoSensoryLabs program folder and writes finished photographs to your system Pictures folder.</p>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <span class="badge">Windows 10 / 11 x64</span>
+            <span class="badge">Self-contained install</span>
+            <span class="badge">Originals preserved</span>
+          </div>
+        </div>
+        <div class="panel p-8 md:p-10">
+          <p class="eyebrow">Companion build</p>
+          <h2 class="mt-3 text-3xl font-semibold text-white">Android testing build</h2>
+          <p class="copy mt-5 text-sm md:text-base">An Android APK is included for testing and mobile finishing. Device behaviour can vary, and the Windows build remains the primary supported baseline while the mobile build is hardened across more phones.</p>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <span class="badge">Sideloaded APK</span>
+            <span class="badge">Touch-first radial editor</span>
+            <span class="badge">Pictures / gallery export</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="availability" class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-20">
+      <div class="panel p-8 text-center md:p-14">
+        <p class="eyebrow">Availability</p>
+        <h2 class="headline mt-3 text-4xl md:text-6xl">A direct tool, sold directly.</h2>
+        <p class="copy mx-auto mt-6 max-w-3xl text-sm md:text-base">The Windows installer will be delivered through Lemon Squeezy. The exact checkout link and live store listing remain the source of truth for price, availability, included files, and purchase terms.</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a id="availability-purchase" href="#availability" class="btn btn-primary">Purchase link coming shortly</a>
+          <a href="#faq" class="btn btn-secondary">Read the FAQ</a>
+          <a href="index.html" class="btn btn-secondary">Back to Tyto Sensory Labs</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="mx-auto max-w-5xl px-4 py-12 md:px-6 md:py-20">
+      <p class="eyebrow">Questions</p>
+      <h2 class="headline mt-3 text-4xl md:text-6xl">OCPF FAQ</h2>
+      <div class="mt-8 space-y-4">
+        <details class="faq-item">
+          <summary>Does OCPF overwrite my originals?</summary>
+          <div class="faq-body">No. The normal export flow creates new finished copies in a dated Off-Center Photo Finish folder under Pictures. Your imported originals remain where they were.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is this meant to replace Lightroom, Photoshop, Affinity Photo, or similar tools?</summary>
+          <div class="faq-body">No. OCPF is intentionally narrower. It is for getting through a common finishing workflow quickly and intuitively, not for replacing every specialised feature of a full traditional suite.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Why a radial menu?</summary>
+          <div class="faq-body">It keeps related controls close to the photograph and allows the same interaction language to work with a mouse or a finger. The menu can dim for comparison, then return to a clear editing state when you continue adjusting.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What does layer-aware Before/After mean?</summary>
+          <div class="faq-body">When comparing Colour, for example, OCPF can hide only the Colour adjustments while leaving your rotation, framing, focus, and unrelated work visible. That makes the comparison useful instead of resetting the whole photograph every time.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is Android fully supported?</summary>
+          <div class="faq-body">The Android build is functional and included for testing, but the Windows version is the current primary support baseline. Phone hardware, Android versions, gallery providers, and manufacturer-specific behaviour can affect the mobile experience.</div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between md:px-6">
+      <p class="text-sm text-[#8d8d8d]">Tyto Sensory Labs · Engineering Intuition.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="index.html" class="btn btn-secondary !px-4 !py-2 text-sm">Home</a>
+        <a href="mcp4sh.html" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4SH</a>
+        <a href="labnotes.html" class="btn btn-secondary !px-4 !py-2 text-sm">Lab Notes</a>
+        <a href="#availability" class="btn btn-primary !px-4 !py-2 text-sm">Get OCPF</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function configurePurchaseLinks() {
+      const ids = ['nav-purchase', 'hero-purchase', 'availability-purchase'];
+      const live = typeof OCPF_PURCHASE_URL === 'string' && OCPF_PURCHASE_URL.trim().length > 0;
+      ids.forEach((id) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+        if (live) {
+          element.href = OCPF_PURCHASE_URL;
+          element.classList.remove('btn-disabled');
+          if (id === 'availability-purchase') element.textContent = 'Purchase Off-Center Photo Finish';
+        } else {
+          element.href = '#availability';
+          if (id === 'availability-purchase') element.classList.add('btn-disabled');
+        }
+      });
+    }
+    configurePurchaseLinks();
+  </script>
+</body>
+</html>

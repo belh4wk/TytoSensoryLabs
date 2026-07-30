@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tyto Sensory Labs</title>
-  <meta name="description" content="Tyto Sensory Labs homepage for Tyto Sensory Labs, MCP4H, and MCP4SH." />
+  <meta name="description" content="Tyto Sensory Labs homepage for Tyto Sensory Labs, MCP4H, MCP4SH, and Off-Center Photo Finish." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -329,10 +329,11 @@
         <a class="navlink" href="#tyto">Tyto Sensory Labs</a>
         <a class="navlink" href="#mcp4h">MCP4H</a>
         <a class="navlink" href="#mcp4sh">MCP4SH</a>
+        <a class="navlink" href="#ocpf">OCPF</a>
         <a class="navlink" href="labnotes.html">Lab Notes</a>
-        <a id="nav-download" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Download</a>
+        <a class="btn btn-primary !px-4 !py-2 text-sm" href="ocpf.html">View OCPF</a>
       </div>
-      <a id="nav-license-mobile" class="btn btn-secondary !px-3 !py-2 text-sm md:hidden" href="#">License</a>
+      <a class="btn btn-secondary !px-3 !py-2 text-sm md:hidden" href="ocpf.html">OCPF</a>
     </div>
   </div>
 
@@ -362,6 +363,7 @@ The long-term ambition is simple: less noise, better interpretation, and more tr
           <div class="mt-8 flex flex-wrap gap-3">
             <a href="#mcp4h" class="btn btn-secondary">See MCP4H</a>
             <a href="#mcp4sh" class="btn btn-primary">See MCP4SH</a>
+            <a href="#ocpf" class="btn btn-secondary">See OCPF</a>
           </div>
         </div>
       </div>
@@ -434,6 +436,34 @@ MCP gives AI systems a common way to access tools, data, and structured prompts.
       </div>
     </section>
 
+
+    <section id="ocpf" class="story-block" data-scene="finish">
+      <div class="story-inner mx-auto max-w-7xl justify-end">
+        <div class="panel p-8 md:p-12">
+          <div class="section-tag"><span class="dot"></span><span>Off-Center Photo Finish</span></div>
+          <div class="mt-6 flex items-center gap-6">
+            <img src="Resources/OCPFicon.png"
+                 alt="Off-Center Photo Finish PF lens icon"
+                 class="h-28 w-28 rounded-[28%] bg-white object-cover shadow-2xl md:h-36 md:w-36" />
+            <div>
+              <p class="eyebrow">A focused photo-finishing app</p>
+              <h2 class="headline mt-3 text-4xl md:text-6xl">Finish the shot, <span class="accent">not your patience</span>.</h2>
+            </div>
+          </div>
+          <p class="copy mt-7 text-base md:text-lg">
+            Off-Center Photo Finish is built for the common stretch between choosing a picture and being ready to share it. Select photos, edit in a darkroom-style workspace, compare individual editing categories without losing context, then export safe copies into a clean dated folder.
+          </p>
+          <p class="copy mt-4 text-sm md:text-base">
+            It is deliberately not a sprawling traditional editing suite. The aim is a useful, approachable finishing workflow with Light, Colour, Frame, Focus, Atmosphere, Colour Wash, Watermark, Touch-ups, Cleanup, and layer-aware Before/After built around a hollow radial editor.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="ocpf.html" class="btn btn-primary">Explore OCPF</a>
+            <a href="#mcp4sh" class="btn btn-secondary">Back to MCP4SH</a>
+            <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
+          </div>
+        </div>
+      </div>
+    </section>
     <footer class="footer-nav">
       <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between md:px-6">
         <p class="text-sm text-[#8d8d8d]">Tyto Sensory Labs · Engineering Intuition.</p>
@@ -441,8 +471,9 @@ MCP gives AI systems a common way to access tools, data, and structured prompts.
           <a href="#tyto" class="btn btn-secondary !px-4 !py-2 text-sm">Tyto Sensory Labs</a>
           <a href="#mcp4h" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4H</a>
           <a href="#mcp4sh" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4SH</a>
+          <a href="#ocpf" class="btn btn-secondary !px-4 !py-2 text-sm">OCPF</a>
           <a href="labnotes.html" class="btn btn-secondary !px-4 !py-2 text-sm">Lab Notes</a>
-          <a id="footer-download" href="#" class="btn btn-primary !px-4 !py-2 text-sm">Download</a>
+          <a href="ocpf.html" class="btn btn-primary !px-4 !py-2 text-sm">Explore OCPF</a>
         </div>
       </div>
     </footer>
@@ -461,14 +492,10 @@ MCP gives AI systems a common way to access tools, data, and structured prompts.
     }
 
     function wireLinks() {
-      ['nav-download', 'hero-download', 'footer-download'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.href = MCP4SH_DOWNLOAD_URL;
-      });
-      ['hero-license', 'nav-license-mobile'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.href = MCP4SH_LICENSE_URL;
-      });
+      const download = document.getElementById('hero-download');
+      if (download) download.href = MCP4SH_DOWNLOAD_URL;
+      const license = document.getElementById('hero-license');
+      if (license) license.href = MCP4SH_LICENSE_URL;
     }
 
     wireLinks();
