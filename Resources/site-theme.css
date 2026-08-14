@@ -1,0 +1,198 @@
+/* Tyto Sensory Labs — canonical site material system.
+   MCP4SH is the visual reference: near-black / neutral graphite frosted glass,
+   with metallic gold and silver reserved for intentional accents only.
+   Page identities (notably Lab Notes blueprint paper) remain page-specific. */
+:root {
+  --bg: #000000 !important;
+  --bg-soft: #030303 !important;
+  --panel: rgba(8,8,8,0.36) !important;
+  --border: rgba(220,225,232,0.10) !important;
+  --shadow: 0 22px 52px rgba(0,0,0,0.38) !important;
+
+  --tyto-black: #000000;
+  --tyto-graphite: #080808;
+  --tyto-graphite-deep: #020202;
+  --tyto-glass-top: rgba(12,12,12,0.38);
+  --tyto-glass-bottom: rgba(2,2,2,0.28);
+  --tyto-glass-hover-top: rgba(17,17,17,0.46);
+  --tyto-glass-hover-bottom: rgba(4,4,4,0.34);
+  --tyto-glass-solid: rgba(4,4,4,0.76);
+  --tyto-line: rgba(220,225,232,0.10);
+  --tyto-line-strong: rgba(230,234,240,0.15);
+  --tyto-silver: #bfc4ca;
+  --tyto-gold: #d4c28f;
+  --tyto-gold-deep: #7a6940;
+  --tyto-blur: blur(22px) saturate(62%);
+  --tyto-blur-soft: blur(15px) saturate(66%);
+}
+
+html {
+  background: var(--tyto-black) !important;
+}
+body {
+  background:
+    radial-gradient(circle at 50% -18%, rgba(19,19,19,0.28) 0%, rgba(7,7,7,0.14) 26%, rgba(1,1,1,0.94) 56%, #000 84%) fixed !important;
+  background-color: var(--tyto-black) !important;
+}
+
+/* Persistent site chrome */
+.topbar {
+  background: rgba(0,0,0,0.76) !important;
+  border-bottom-color: rgba(220,225,232,0.08) !important;
+  backdrop-filter: blur(18px) saturate(58%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(58%) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18) !important;
+}
+
+/* Canonical frosted glass. Keep this selector intentionally broad so pages do
+   not drift into subtly different blue/brown blacks again. */
+.panel,
+.feature-card,
+.faq-item,
+.video-shell,
+.shots-shell,
+.ecosystem-strip,
+.review-modal-card {
+  background: linear-gradient(180deg, var(--tyto-glass-top) 0%, var(--tyto-glass-bottom) 100%) !important;
+  border-color: var(--tyto-line) !important;
+  backdrop-filter: var(--tyto-blur) !important;
+  -webkit-backdrop-filter: var(--tyto-blur) !important;
+  box-shadow: 0 22px 52px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.018) !important;
+}
+
+/* Secondary glass controls / pills / utility surfaces. */
+.btn-secondary,
+.section-tag,
+.badge,
+.chip,
+.status {
+  background: rgba(5,5,5,0.44) !important;
+  border-color: var(--tyto-line) !important;
+  backdrop-filter: var(--tyto-blur-soft) !important;
+  -webkit-backdrop-filter: var(--tyto-blur-soft) !important;
+}
+.btn-secondary:hover,
+.section-tag:hover,
+.badge:hover {
+  background: rgba(10,10,10,0.56) !important;
+}
+
+/* FAQ uses precisely the same material as the content cards, just shallower. */
+.faq-item {
+  background: linear-gradient(180deg, rgba(12,12,12,0.34), rgba(2,2,2,0.25)) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.014) !important;
+}
+.faq-item[open] summary {
+  border-bottom-color: rgba(220,225,232,0.09) !important;
+}
+
+/* Reviews: gold remains the editorial outline/divider, but every actual glass
+   surface is neutral black/graphite. No cyan/blue material tint. */
+.review-card {
+  background: linear-gradient(180deg, rgba(10,10,10,0.29), rgba(2,2,2,0.21)) !important;
+  border-color: rgba(212,194,143,0.34) !important;
+  backdrop-filter: blur(18px) saturate(60%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(60%) !important;
+  box-shadow: 0 16px 38px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.012) !important;
+}
+.review-card:hover,
+.review-card:focus-visible {
+  background: linear-gradient(180deg, rgba(16,16,16,0.42), rgba(3,3,3,0.30)) !important;
+  border-color: rgba(230,214,170,0.60) !important;
+}
+.review-text { color: #d9dadc !important; }
+.review-modal-card {
+  background: linear-gradient(180deg, rgba(10,10,10,0.84), rgba(2,2,2,0.80)) !important;
+  border-color: rgba(212,194,143,0.52) !important;
+  backdrop-filter: blur(24px) saturate(58%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(58%) !important;
+}
+.review-modal-close {
+  background: rgba(3,3,3,0.82) !important;
+  backdrop-filter: blur(12px) saturate(60%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(60%) !important;
+}
+.status.info {
+  border-color: rgba(191,196,202,0.26) !important;
+  color: #cfd3d8 !important;
+}
+
+/* Forms are neutral glass too. */
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  background-color: rgba(4,4,4,0.55) !important;
+  border-color: rgba(220,225,232,0.10) !important;
+  color: #f2f2f2 !important;
+}
+
+/* OCPF keeps gold controls, but its stage/supporting cards share the same cold
+   site material instead of carrying their older blue-grey/warm background. */
+.product-stage {
+  background:
+    linear-gradient(rgba(255,255,255,0.017) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.017) 1px, transparent 1px),
+    radial-gradient(circle at 50% 46%, rgba(180,184,190,0.038), transparent 34%),
+    linear-gradient(180deg, #070707 0%, #010101 100%) !important;
+  border-color: var(--tyto-line) !important;
+}
+.product-stage::after {
+  background: radial-gradient(circle at 50% 45%, transparent 0%, rgba(0,0,0,0.09) 52%, rgba(0,0,0,0.76) 100%) !important;
+}
+.feature-card {
+  background: rgba(7,7,7,0.34) !important;
+}
+.notice {
+  background: rgba(7,7,7,0.40) !important;
+  backdrop-filter: var(--tyto-blur-soft) !important;
+  -webkit-backdrop-filter: var(--tyto-blur-soft) !important;
+}
+.radial-demo::after,
+.radial-demo {
+  /* Preserve the radial control design, but keep its black portions neutral. */
+  color-scheme: dark;
+}
+
+/* MCP4SH media / ecosystem material — neutral, transparent and blurred enough
+   for the Spa motion to remain legible through the useful content. */
+.video-shell,
+.shots-shell,
+.ecosystem-strip {
+  background: linear-gradient(180deg, rgba(10,10,10,0.31) 0%, rgba(2,2,2,0.23) 100%) !important;
+  border-color: var(--tyto-line) !important;
+  backdrop-filter: blur(24px) saturate(58%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(58%) !important;
+}
+.ecosystem-strip {
+  background: linear-gradient(180deg, rgba(9,9,9,0.42), rgba(2,2,2,0.34)) !important;
+}
+.ecosystem-link {
+  background: rgba(6,6,6,0.30) !important;
+  border-color: rgba(220,225,232,0.09) !important;
+  backdrop-filter: blur(12px) saturate(58%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(58%) !important;
+}
+.ecosystem-link:hover {
+  background: rgba(12,12,12,0.42) !important;
+}
+
+/* Home / generic footer surfaces from the original individual pages. The
+   injected shared footer is styled below in site-footer.js as well. */
+.footer-nav,
+body > footer:not(.tyto-site-footer) {
+  background: rgba(0,0,0,0.72) !important;
+  border-color: rgba(220,225,232,0.08) !important;
+  backdrop-filter: blur(20px) saturate(58%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(58%) !important;
+}
+
+/* Lab Notes: only the surrounding site chrome is canonical glass. Blueprint
+   paper/cards and their zoomed sheet deliberately keep the saturated blue
+   project identity. */
+body.note-modal-open .topbar,
+body.review-modal-open .topbar { filter: none; }
+.note-modal-close {
+  backdrop-filter: blur(12px) saturate(62%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(62%) !important;
+}

@@ -1,23 +1,11 @@
-// Tyto Sensory Labs — Lab Notes data
+// Tyto Sensory Labs — published Lab Notes snapshot
 //
-// ADDING A NOTE: copy the template below, paste it at the top of the `notes` array,
-// fill it in, remove the leading // markers, then commit/push this one file.
-// `slug` must be unique and URL-safe. `body` accepts the same HTML used by the current Lab Notes pages.
-//
-// {
-//   title: "",
-//   date: "2026-08-14",
-//   category: "Experiments", // Release Notes | Setup & Hardware | Telemetry Clarity / TCR | Support Baseline | Experiments
-//   slug: "",
-//   summary: "",
-//   tags: [""],
-//   body: `
-//     <p>Write the note here.</p>
-//   `
-// },
+// Canonical editing now happens in the private Tyto Notes Desk (Google Sheet + Apps Script).
+// Publishing from that private UI regenerates this file through the GitHub Contents API.
+// Keep this file in the repo as the fast, dependency-free public snapshot/fallback.
 
 window.TYTO_LAB_NOTES = {
-  version: "2.0",
+  version: "3.0",
   updated: "2026-08-14",
   notes: [
 	{

@@ -9,10 +9,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --bg: #050505;
-      --bg-soft: #111214;
-      --panel: rgba(18,20,23,0.84);
-      --panel-strong: rgba(12,13,15,0.94);
+      --bg: #000000;
+      --bg-soft: #030303;
+      --panel: rgba(8,8,8,0.40);
+      --panel-strong: rgba(4,4,4,0.84);
       --border: rgba(255,255,255,0.09);
       --text: #d7d7d7;
       --muted: #8f9297;
@@ -29,8 +29,8 @@
       overflow-x: hidden;
       color: var(--text);
       background:
-        radial-gradient(circle at 78% 16%, rgba(110,96,63,0.14), transparent 28%),
-        radial-gradient(circle at 14% 8%, #1b1c1e 0%, var(--bg) 34%, #08090a 100%);
+        radial-gradient(circle at 50% -18%, rgba(19,19,19,0.28), transparent 30%),
+        radial-gradient(circle at 18% 8%, #101010 0%, var(--bg) 38%, #000 100%);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
@@ -54,7 +54,7 @@
       top: 0;
       z-index: 50;
       backdrop-filter: blur(14px);
-      background: rgba(10,10,10,0.78);
+      background: rgba(0,0,0,0.76);
       border-bottom: 1px solid var(--border);
     }
     .navlink { color: var(--muted); transition: color 160ms ease; }
@@ -62,8 +62,8 @@
 
     .panel {
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(22,23,26,0.9) 0%, rgba(14,15,17,0.84) 100%);
-      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(12,12,12,0.38) 0%, rgba(2,2,2,0.28) 100%);
+      backdrop-filter: blur(22px) saturate(62%);
       box-shadow: var(--shadow);
       border-radius: 28px;
     }
@@ -102,7 +102,7 @@
     }
     .btn-primary:hover { background: #857552; }
     .btn-secondary {
-      background: rgba(18,18,18,0.75);
+      background: rgba(5,5,5,0.44);
       color: var(--text);
       border: 1px solid var(--border);
     }
@@ -142,8 +142,8 @@
       background:
         linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
-        radial-gradient(circle at 50% 46%, rgba(110,96,63,0.16), transparent 34%),
-        linear-gradient(180deg, #101114 0%, #070809 100%);
+        radial-gradient(circle at 50% 46%, rgba(180,184,190,0.038), transparent 34%),
+        linear-gradient(180deg, #070707 0%, #010101 100%);
       background-size: 46px 46px, 46px 46px, auto, auto;
       box-shadow: var(--shadow);
     }
@@ -233,7 +233,7 @@
       position: absolute;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(12,13,15,0.72);
+      background: rgba(6,6,6,0.48);
       backdrop-filter: blur(8px);
       color: rgba(255,255,255,0.76);
       padding: 0.5rem 0.75rem;
@@ -267,13 +267,13 @@
     }
     .notice {
       border-left: 3px solid var(--accent);
-      background: rgba(110,96,63,0.09);
+      background: rgba(7,7,7,0.40);
       border-radius: 0 18px 18px 0;
     }
     .faq-item {
       border: 1px solid var(--border);
       border-radius: 20px;
-      background: rgba(255,255,255,0.02);
+      background: rgba(7,7,7,0.30);
     }
     .faq-item summary {
       cursor: pointer;
@@ -285,7 +285,7 @@
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item[open] summary { border-bottom: 1px solid var(--border); }
     .faq-body { padding: 1rem 1.25rem 1.2rem; color: #b7b9bd; line-height: 1.85; }
-    footer { border-top: 1px solid var(--border); background: rgba(8,8,8,0.62); }
+    footer { border-top: 1px solid var(--border); background: rgba(0,0,0,0.72); backdrop-filter: blur(20px) saturate(58%); }
 
     @media (max-width: 760px) {
       .product-stage { min-height: 420px; }
@@ -295,6 +295,7 @@
       .chip-b { right: 3%; }
     }
   </style>
+  <link rel="stylesheet" href="Resources/site-theme.css" />
 </head>
 <body>
   <script>

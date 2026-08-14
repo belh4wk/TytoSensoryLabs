@@ -9,14 +9,14 @@
   <style>
     :root {
       --bg: #010101;
-      --bg-soft: #0b0b0b;
-      --panel: rgba(18,18,18,0.82);
+      --bg-soft: #050505;
+      --panel: rgba(9,9,10,0.44);
       --border: rgba(255,255,255,0.08);
       --text: #d6d6d6;
       --muted: #8d8d8d;
       --accent: #6e603f;
       --accent-2: #d7c69f;
-      --glow: rgba(110,96,63,0.35);
+      --glow: rgba(215,198,159,0.16);
       --shadow: 0 22px 48px rgba(0,0,0,0.36);
 
       --track: rgba(255,255,255,0.09);
@@ -31,30 +31,37 @@
     .mcp-bg-stage {
       position: fixed;
       inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      min-width: 100vw;
+      min-height: 100vh;
       z-index: 0;
       overflow: hidden;
       pointer-events: none;
+      contain: paint;
     }
     .mcp-bg-vignette {
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse at 50% 43%, transparent 0%, transparent 50%, rgba(0,0,0,0.03) 68%, rgba(0,0,0,0.34) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.18) 100%);
+        radial-gradient(ellipse at 50% 43%, transparent 0%, transparent 58%, rgba(0,0,0,0.02) 74%, rgba(0,0,0,0.22) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.025) 0%, rgba(0,0,0,0.11) 100%);
       z-index: 3;
     }
     .mcp-track-scene {
       position: absolute;
       inset: 0;
       z-index: 1;
-      opacity: 0.93;
+      opacity: 0.98;
       overflow: hidden;
     }
     .mcp-road-canvas {
       position: absolute;
       inset: 0;
-      width: 100%;
+      width: 100vw;
       height: 100%;
+      min-height: 100%;
       display: block;
     }
     .mcp-track-scene::after {
@@ -63,15 +70,14 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(2,2,2,0.035) 0%, rgba(2,2,2,0.005) 42%, rgba(2,2,2,0.10) 100%),
-        radial-gradient(ellipse at 50% 45%, transparent 0%, transparent 56%, rgba(2,2,2,0.12) 100%);
+        linear-gradient(180deg, rgba(2,2,2,0.015) 0%, rgba(2,2,2,0.002) 48%, rgba(2,2,2,0.055) 100%),
+        radial-gradient(ellipse at 50% 45%, transparent 0%, transparent 64%, rgba(2,2,2,0.07) 100%);
     }
     @media (max-width: 900px) {
-      .mcp-track-scene { opacity: 0.80; }
+      .mcp-track-scene { opacity: 0.88; }
     }
     body {
       margin: 0;
-      background: radial-gradient(circle at 20% 0%, #0d0d0d 0%, #020202 34%, #000 100%);
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -80,13 +86,13 @@
       top: 0;
       z-index: 40;
       backdrop-filter: blur(14px);
-      background: rgba(4,4,4,0.88);
+      background: rgba(0,0,0,0.78);
       border-bottom: 1px solid var(--border);
     }
     .panel {
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(15,15,15,0.90) 0%, rgba(8,8,8,0.86) 100%);
-      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(12,12,13,0.42) 0%, rgba(3,3,4,0.34) 100%);
+      backdrop-filter: blur(18px);
       box-shadow: var(--shadow);
       border-radius: 28px;
     }
@@ -124,7 +130,7 @@
     }
     .btn-primary:hover { background: #857552; }
     .btn-secondary {
-      background: rgba(18,18,18,0.72);
+      background: rgba(8,8,9,0.50);
       color: var(--text);
       border: 1px solid var(--border);
     }
@@ -135,7 +141,9 @@
     .faq-item {
       border: 1px solid var(--border);
       border-radius: 22px;
-      background: rgba(255,255,255,0.02);
+      background: linear-gradient(180deg, rgba(12,12,13,0.38), rgba(3,3,4,0.30));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
     .faq-item summary {
       cursor: pointer;
@@ -160,7 +168,9 @@
       border-radius: 24px;
       overflow: hidden;
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      background: linear-gradient(180deg, rgba(12,12,13,0.34), rgba(2,2,3,0.25));
+      backdrop-filter: blur(22px) saturate(70%);
+      -webkit-backdrop-filter: blur(22px) saturate(70%);
       box-shadow: var(--shadow);
     }
     .badge {
@@ -185,8 +195,9 @@
     /* MCP4SH ecosystem credits */
     .ecosystem-strip {
       border: 1px solid rgba(255,255,255,0.07);
-      background: rgba(5,5,5,0.72);
-      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(10,10,11,0.46), rgba(2,2,3,0.38));
+      backdrop-filter: blur(20px) saturate(70%);
+      -webkit-backdrop-filter: blur(20px) saturate(70%);
       border-radius: 28px;
       padding: 2rem;
     }
@@ -241,10 +252,12 @@
       border: 1px solid rgba(255,255,255,0.035);
       border-radius: 28px;
       background:
-        linear-gradient(180deg, rgba(8,8,8,0.54) 0%, rgba(3,3,3,0.42) 100%);
+        linear-gradient(180deg, rgba(12,12,13,0.34) 0%, rgba(2,2,3,0.25) 100%);
       box-shadow:
         0 24px 58px rgba(0,0,0,0.34),
         inset 0 1px 0 rgba(255,255,255,0.025);
+      backdrop-filter: blur(22px) saturate(70%);
+      -webkit-backdrop-filter: blur(22px) saturate(70%);
       overflow: hidden;
       isolation: isolate;
     }
@@ -674,6 +687,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="Resources/site-theme.css" />
 </head>
 <body>
 
@@ -705,7 +719,7 @@
   </div>
 
   <main class="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
-    <section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+    <section class="mcp-hero grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
       <div class="space-y-6">
         <div class="badge"><span class="dot"></span><span>MCP4SH™ · String Theory Haptics for SimHub</span></div>
         <p class="eyebrow">High-level plugin overview</p>
@@ -806,6 +820,7 @@
               <div class="shot-meta">
                 <p class="shot-kicker">Screenshot 07</p>
               </div>
+            </article>
           </div>
         </div>
       </div>
@@ -1406,8 +1421,9 @@
       }
 
       function resize() {
-        viewportW = Math.max(1, window.innerWidth);
-        viewportH = Math.max(1, window.innerHeight);
+        const vv = window.visualViewport;
+        viewportW = Math.max(1, Math.round(vv?.width || document.documentElement.clientWidth || window.innerWidth));
+        viewportH = Math.max(1, Math.round(vv?.height || window.innerHeight));
         dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
         canvas.width = Math.round(viewportW * dpr);
         canvas.height = Math.round(viewportH * dpr);
@@ -1416,8 +1432,24 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
 
+      function extendPointToY(near, far, targetY, fallbackX) {
+        if (!near) return { x: fallbackX, y: targetY };
+        if (!far) return { x: near.x, y: targetY };
+        const dx = near.x - far.x;
+        const dy = near.y - far.y;
+        if (Math.abs(dy) < 0.5 || dy <= 0) {
+          return { x: fallbackX, y: targetY };
+        }
+        const k = (targetY - near.y) / dy;
+        const x = near.x + dx * k;
+        return {
+          x: Math.max(-viewportW * 0.45, Math.min(viewportW * 1.45, x)),
+          y: targetY
+        };
+      }
+
       function updateTargetProgress() {
-        const vh = window.innerHeight || 1;
+        const vh = (window.visualViewport?.height || window.innerHeight) || 1;
         const total = Math.max(document.documentElement.scrollHeight - vh, 1);
         targetProgress = clamp01((window.scrollY || window.pageYOffset || 0) / total);
         if (reduceMotion) scrollProgress = targetProgress;
@@ -1447,26 +1479,9 @@
         const focal = Math.max(viewportW, viewportH) * 0.93;
         const horizonY = viewportH * 0.43;
 
-        // Dim forest / barrier silhouettes give the fly-through some depth
-        // without turning the background into a literal screenshot.
-        const sky = ctx.createLinearGradient(0, 0, 0, viewportH * 0.72);
-        sky.addColorStop(0, 'rgba(30,34,31,0.24)');
-        sky.addColorStop(0.55, 'rgba(14,16,15,0.10)');
-        sky.addColorStop(1, 'rgba(5,5,5,0)');
-        ctx.fillStyle = sky;
-        ctx.fillRect(0, 0, viewportW, viewportH * 0.72);
-
-        ctx.fillStyle = 'rgba(12,16,13,0.34)';
-        ctx.beginPath();
-        ctx.moveTo(0, horizonY + 18);
-        for (let x=0; x<=viewportW; x+=42) {
-          const wave = Math.sin(x*0.019 + progress*11) * 13 + Math.sin(x*0.047) * 7;
-          ctx.lineTo(x, horizonY - 10 - wave);
-        }
-        ctx.lineTo(viewportW, horizonY + 78);
-        ctx.lineTo(0, horizonY + 78);
-        ctx.closePath();
-        ctx.fill();
+        // Leave the sky/upper viewport transparent so the scene inherits the
+        // same canonical near-black page background as the rest of the site.
+        // Track geometry is the only large-area colour in the scene.
 
         const startZ = camera.z + NEAR_CLIP;
         const endZ = Math.min(COURSE_LENGTH, camera.z + VIEW_AHEAD);
@@ -1499,30 +1514,54 @@
         for (let i=segments.length-1; i>=0; i--) {
           const s = segments[i];
           const depth = i / Math.max(segments.length-1, 1);
-          const roadAlpha = 0.215 + (1-depth) * 0.175;
-          poly([s.p0L,s.p0R,s.p1R,s.p1L], `rgba(132,136,134,${roadAlpha.toFixed(3)})`);
+          const roadAlpha = 0.245 + (1-depth) * 0.175;
+          poly([s.p0L,s.p0R,s.p1R,s.p1L], `rgba(78,82,84,${roadAlpha.toFixed(3)})`);
 
           // Spa's red/yellow kerbs, strongly muted to stay behind the content.
           const stripe = Math.floor((s.t0 * COURSE_LENGTH) / (SAMPLE_STEP * 1.7)) % 2;
-          const curb = stripe === 0 ? 'rgba(142,52,41,0.43)' : 'rgba(188,153,64,0.42)';
+          const curb = stripe === 0 ? 'rgba(154,52,42,0.40)' : 'rgba(201,164,62,0.39)';
           poly([s.p0LO,s.p0L,s.p1L,s.p1LO], curb);
           poly([s.p0R,s.p0RO,s.p1RO,s.p1R], curb);
 
-          line(s.p0L, s.p1L, 'rgba(235,235,231,0.34)', Math.max(0.6, 1.7*(1-depth)));
-          line(s.p0R, s.p1R, 'rgba(235,235,231,0.34)', Math.max(0.6, 1.7*(1-depth)));
+          line(s.p0L, s.p1L, 'rgba(235,238,240,0.37)', Math.max(0.6, 1.7*(1-depth)));
+          line(s.p0R, s.p1R, 'rgba(235,238,240,0.37)', Math.max(0.6, 1.7*(1-depth)));
 
           // A restrained warm racing line keeps the existing MCP4SH visual language.
           if (Math.floor((s.t0 * COURSE_LENGTH) / 90) % 2 === 0) {
-            line(s.center0, s.center1, 'rgba(215,198,159,0.40)', Math.max(0.55, 1.5*(1-depth)));
+            line(s.center0, s.center1, 'rgba(215,198,159,0.42)', Math.max(0.55, 1.5*(1-depth)));
           }
         }
 
-        // Soft central glow makes the route readable through dark page sections.
-        const glow = ctx.createRadialGradient(viewportW*0.5, viewportH*0.62, 0, viewportW*0.5, viewportH*0.62, viewportW*0.58);
-        glow.addColorStop(0, 'rgba(110,96,63,0.125)');
-        glow.addColorStop(1, 'rgba(110,96,63,0)');
-        ctx.fillStyle = glow;
-        ctx.fillRect(0, 0, viewportW, viewportH);
+        // Extend the nearest visible road all the way through the bottom edge of
+        // the viewport. Sampling begins ahead of the camera to keep projection
+        // stable; without this apron that near clip can read as a black/cropped
+        // band and can appear to jump as the road turns.
+        const nearSeg = segments[0];
+        if (nearSeg) {
+          const targetY = viewportH + 6;
+          const leftBottom = extendPointToY(nearSeg.p0L, nearSeg.p1L, targetY, -viewportW * 0.10);
+          const rightBottom = extendPointToY(nearSeg.p0R, nearSeg.p1R, targetY, viewportW * 1.10);
+          const leftOuterBottom = extendPointToY(nearSeg.p0LO, nearSeg.p1LO, targetY, -viewportW * 0.16);
+          const rightOuterBottom = extendPointToY(nearSeg.p0RO, nearSeg.p1RO, targetY, viewportW * 1.16);
+
+          poly([nearSeg.p0L, nearSeg.p0R, rightBottom, leftBottom], 'rgba(78,82,84,0.42)');
+
+          const nearStripe = Math.floor((nearSeg.t0 * COURSE_LENGTH) / (SAMPLE_STEP * 1.7)) % 2;
+          const nearCurb = nearStripe === 0 ? 'rgba(154,52,42,0.40)' : 'rgba(201,164,62,0.39)';
+          if (nearSeg.p0LO) poly([nearSeg.p0LO, nearSeg.p0L, leftBottom, leftOuterBottom], nearCurb);
+          if (nearSeg.p0RO) poly([nearSeg.p0R, nearSeg.p0RO, rightOuterBottom, rightBottom], nearCurb);
+
+          line(nearSeg.p0L, leftBottom, 'rgba(235,238,240,0.38)', 1.7);
+          line(nearSeg.p0R, rightBottom, 'rgba(235,238,240,0.38)', 1.7);
+
+          if (nearSeg.center0 && nearSeg.center1) {
+            const centerBottom = extendPointToY(nearSeg.center0, nearSeg.center1, targetY, viewportW * 0.5);
+            line(nearSeg.center0, centerBottom, 'rgba(215,198,159,0.38)', 1.45);
+          }
+        }
+
+        // No full-canvas colour wash: keep empty scene space transparent so
+        // MCP4SH inherits the same cold near-black background as every other page.
       }
 
       function render() {
@@ -1541,6 +1580,7 @@
       resize();
       updateTargetProgress();
       window.addEventListener('resize', () => { resize(); requestRender(); });
+      window.visualViewport?.addEventListener('resize', () => { resize(); requestRender(); });
       window.addEventListener('scroll', updateTargetProgress, { passive: true });
     })();
   </script>

@@ -8,14 +8,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --bg:#050505; --panel:rgba(18,18,18,.84); --border:rgba(255,255,255,.08);
+      --bg:#000; --panel:rgba(8,8,8,.40); --border:rgba(220,225,232,.10);
       --text:#d6d6d6; --muted:#8d8d8d; --accent:#6e603f; --accent-2:#d7c69f;
-      --gold:#d4af37; --blueprint:#82e1eb; --shadow:0 22px 48px rgba(0,0,0,.36);
+      --gold:#d4af37; --shadow:0 22px 48px rgba(0,0,0,.36);
     }
     html { scroll-behavior:smooth; }
-    body { margin:0; background:radial-gradient(circle at 18% 0%,#191919 0%,var(--bg) 38%,#090909 100%); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    .topbar { position:sticky; top:0; z-index:40; backdrop-filter:blur(14px); background:rgba(10,10,10,.78); border-bottom:1px solid var(--border); }
-    .panel { border:1px solid var(--border); background:linear-gradient(180deg,rgba(20,20,20,.88),rgba(15,15,15,.8)); backdrop-filter:blur(12px); box-shadow:var(--shadow); border-radius:28px; }
+    body { margin:0; background:radial-gradient(circle at 50% -18%,#111 0%,var(--bg) 42%,#000 100%); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .topbar { position:sticky; top:0; z-index:40; backdrop-filter:blur(14px); background:rgba(0,0,0,.76); border-bottom:1px solid var(--border); }
+    .panel { border:1px solid var(--border); background:linear-gradient(180deg,rgba(12,12,12,.38),rgba(2,2,2,.28)); backdrop-filter:blur(22px) saturate(62%); box-shadow:var(--shadow); border-radius:28px; }
     .eyebrow { letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-size:.76rem; }
     .headline { color:white; line-height:1.03; font-weight:700; letter-spacing:-.03em; }
     .accent { color:var(--accent-2); }
@@ -24,15 +24,15 @@
     .btn:hover { transform:translateY(-1px); }
     .btn-primary { background:var(--accent); color:#fff !important; -webkit-text-fill-color:#fff !important; border:1px solid var(--accent); box-shadow:0 10px 24px rgba(110,96,63,.18); }
     .btn-primary:hover { background:#857552; }
-    .btn-secondary { background:rgba(18,18,18,.72); color:var(--text); border:1px solid var(--border); }
+    .btn-secondary { background:rgba(5,5,5,.44); color:var(--text); border:1px solid var(--border); }
     .btn-secondary:hover { border-color:rgba(110,96,63,.45); color:#f5f5f5; }
     .btn[disabled] { opacity:.5; cursor:not-allowed; transform:none; }
 
     .review-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
-    .review-card { position:relative; overflow:hidden; border:1px solid rgba(130,225,235,.14); border-radius:22px; padding:1.35rem; background:linear-gradient(90deg,rgba(130,225,235,.055) 0 1px,transparent 1px 100%),linear-gradient(0deg,rgba(130,225,235,.045) 0 1px,transparent 1px 100%),linear-gradient(135deg,rgba(35,31,20,.82),rgba(12,19,22,.78)); background-size:28px 28px,28px 28px,auto; box-shadow:0 18px 44px rgba(0,0,0,.24); }
-    .review-card::after { content:""; position:absolute; right:1rem; top:1rem; width:2.7rem; height:2.7rem; border-top:1px solid rgba(130,225,235,.24); border-right:1px solid rgba(130,225,235,.24); pointer-events:none; }
+    .review-card { position:relative; overflow:hidden; border:1px solid rgba(212,194,143,.34); border-radius:22px; padding:1.35rem; background:linear-gradient(180deg,rgba(10,10,10,.29),rgba(2,2,2,.21)); box-shadow:0 18px 44px rgba(0,0,0,.24); }
+    .review-card::after { content:""; position:absolute; right:1rem; top:1rem; width:2.7rem; height:2.7rem; border-top:1px solid rgba(212,194,143,.24); border-right:1px solid rgba(212,194,143,.24); pointer-events:none; }
     .stars { color:var(--gold); letter-spacing:.12em; font-size:1rem; }
-    .review-text { color:#d4cbb8; line-height:1.78; white-space:pre-wrap; }
+    .review-text { color:#d9dadc; line-height:1.78; white-space:pre-wrap; }
     .review-meta { color:var(--muted); font-size:.82rem; }
     .source-link { color:var(--accent-2); text-decoration:none; border-bottom:1px solid rgba(215,198,159,.28); }
     .source-link:hover { color:white; }
@@ -54,11 +54,112 @@
     .status { border-radius:14px; padding:.85rem 1rem; font-size:.9rem; line-height:1.5; border:1px solid var(--border); background:rgba(255,255,255,.025); }
     .status.success { border-color:rgba(96,180,120,.35); color:#bfe4c8; }
     .status.error { border-color:rgba(220,100,100,.38); color:#f2b9b9; }
-    .status.info { border-color:rgba(130,225,235,.28); color:#b9e8ed; }
+    .status.info { border-color:rgba(191,196,202,.26); color:#cfd3d8; }
     .honeypot { position:absolute !important; left:-10000px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
 
     @media (max-width:820px) { .review-grid { grid-template-columns:1fr; } }
+
+
+    /* Reviews: transparent black glass, restrained gold framing, two-column editorial flow. */
+    .review-grid {
+      position: relative;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      column-gap: 2.4rem;
+      row-gap: 1.1rem;
+      align-items: start;
+    }
+    .review-grid::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: .5rem;
+      bottom: .5rem;
+      width: 1px;
+      transform: translateX(-.5px);
+      background: linear-gradient(180deg, transparent, rgba(215,198,159,.34) 9%, rgba(215,198,159,.34) 91%, transparent);
+      pointer-events: none;
+    }
+    .review-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 176px;
+      padding: 1.35rem 1.4rem;
+      border-radius: 18px;
+      border: 1px solid rgba(215,198,159,.34);
+      background: rgba(5,5,5,.24);
+      box-shadow: 0 16px 38px rgba(0,0,0,.20), inset 0 0 0 1px rgba(255,255,255,.014);
+      cursor: zoom-in;
+      transition: transform 170ms ease, border-color 170ms ease, background 170ms ease, box-shadow 170ms ease;
+    }
+    .review-card::after { display: none; }
+    .review-card:hover,
+    .review-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(242,226,187,.62);
+      background: rgba(12,12,12,.42);
+      box-shadow: 0 24px 56px rgba(0,0,0,.34), 0 0 0 1px rgba(215,198,159,.06);
+      outline: none;
+    }
+    .review-card .review-text {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+      overflow: hidden;
+      color: rgba(238,238,236,.86);
+    }
+    .review-card .review-meta { opacity: .82; }
+
+    .review-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: grid;
+      place-items: center;
+      padding: clamp(1rem, 3vw, 2.4rem);
+      background: rgba(0,0,0,.86);
+      backdrop-filter: blur(11px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 190ms ease, visibility 190ms ease;
+    }
+    .review-modal.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .review-modal-card {
+      position: relative;
+      width: min(760px, 94vw);
+      max-height: 88vh;
+      overflow: auto;
+      padding: clamp(1.5rem, 4vw, 2.7rem);
+      border: 1px solid rgba(215,198,159,.58);
+      border-radius: 24px;
+      background: rgba(4,4,4,.88);
+      box-shadow: 0 38px 120px rgba(0,0,0,.72), 0 0 48px rgba(215,198,159,.045);
+      transform: translateY(20px) scale(.95);
+      transition: transform 220ms cubic-bezier(.2,.8,.2,1);
+    }
+    .review-modal.is-open .review-modal-card { transform: translateY(0) scale(1); }
+    .review-modal-text { color: rgba(245,245,243,.92); line-height: 1.85; white-space: pre-wrap; font-size: clamp(1rem, 1.6vw, 1.18rem); }
+    .review-modal-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      width: 42px;
+      height: 42px;
+      margin: -.5rem -.35rem .5rem .9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(215,198,159,.36);
+      background: rgba(3,3,3,.84);
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    body.review-modal-open { overflow: hidden; }
+    @media (max-width:820px) {
+      .review-grid { grid-template-columns:1fr; row-gap:1rem; }
+      .review-grid::before { display:none; }
+    }
   </style>
+  <link rel="stylesheet" href="Resources/site-theme.css" />
 </head>
 <body>
   <div class="topbar">
@@ -174,6 +275,15 @@
       </div>
       <iframe id="review-submit-frame" name="review-submit-frame" title="Review submission response" hidden></iframe>
     </section>
+
+    <div id="review-modal" class="review-modal" aria-hidden="true">
+      <article class="review-modal-card" role="dialog" aria-modal="true" aria-label="Full review">
+        <button id="review-modal-close" class="review-modal-close" type="button" aria-label="Close review">×</button>
+        <div id="review-modal-stars" class="stars"></div>
+        <p id="review-modal-text" class="review-modal-text mt-5"></p>
+        <div id="review-modal-meta" class="review-meta mt-6 flex flex-wrap items-center gap-x-2 gap-y-1"></div>
+      </article>
+    </div>
   </main>
 
   <script src="Resources/reviews-config.js"></script>
@@ -189,6 +299,12 @@
     const submitAnotherReview = document.getElementById('submit-another-review');
     const submitFrame = document.getElementById('review-submit-frame');
     const callbackNonceInput = document.getElementById('review-callback-nonce');
+    const reviewModal = document.getElementById('review-modal');
+    const reviewModalClose = document.getElementById('review-modal-close');
+    const reviewModalStars = document.getElementById('review-modal-stars');
+    const reviewModalText = document.getElementById('review-modal-text');
+    const reviewModalMeta = document.getElementById('review-modal-meta');
+    let publishedReviews = [];
     let submitConfirmationTimer = 0;
 
     function makeSubmissionNonce() {
@@ -213,6 +329,7 @@
 
     function renderReviews(payload) {
       const reviews = Array.isArray(payload?.reviews) ? payload.reviews : [];
+      publishedReviews = reviews;
       document.getElementById('review-count').textContent = String(reviews.length);
       const rated = reviews.filter(item => Number(item.stars) >= 1 && Number(item.stars) <= 5);
       const average = rated.length ? rated.reduce((sum, item) => sum + Number(item.stars), 0) / rated.length : 0;
@@ -227,9 +344,13 @@
 
       reviewsStatus.hidden = true;
       reviewsGrid.innerHTML = '';
-      reviews.forEach(item => {
+      reviews.forEach((item, index) => {
         const card = document.createElement('article');
         card.className = 'review-card';
+        card.dataset.reviewIndex = String(index);
+        card.tabIndex = 0;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `Open full review by ${escapeText(item.name || 'community member')}`);
 
         if (Number(item.stars) >= 1 && Number(item.stars) <= 5) {
           const stars = document.createElement('div');
@@ -272,6 +393,52 @@
         card.appendChild(meta);
         reviewsGrid.appendChild(card);
       });
+    }
+
+    function reviewMetaNodes(item) {
+      const frag = document.createDocumentFragment();
+      const name = document.createElement('strong');
+      name.className = 'text-[#d8d8d8]';
+      name.textContent = escapeText(item.name || 'Community member');
+      frag.appendChild(name);
+      if (item.source) {
+        const sep = document.createElement('span'); sep.textContent = '·'; frag.appendChild(sep);
+        if (item.sourceUrl && /^https:\/\//i.test(String(item.sourceUrl))) {
+          const source = document.createElement('a');
+          source.className = 'source-link'; source.href = item.sourceUrl; source.target = '_blank'; source.rel = 'noopener noreferrer';
+          source.textContent = escapeText(item.source); frag.appendChild(source);
+        } else {
+          const source = document.createElement('span'); source.textContent = escapeText(item.source); frag.appendChild(source);
+        }
+      }
+      if (item.created) {
+        const sep = document.createElement('span'); sep.textContent = '·'; frag.appendChild(sep);
+        const date = document.createElement('span'); date.textContent = escapeText(item.created); frag.appendChild(date);
+      }
+      return frag;
+    }
+
+    function openReview(index) {
+      const item = publishedReviews[Number(index)];
+      if (!item || !reviewModal) return;
+      const stars = Number(item.stars);
+      reviewModalStars.textContent = stars >= 1 && stars <= 5 ? `${'★'.repeat(stars)}${'☆'.repeat(5-stars)}` : '';
+      reviewModalText.textContent = escapeText(item.review);
+      reviewModalMeta.innerHTML = '';
+      reviewModalMeta.appendChild(reviewMetaNodes(item));
+      reviewModal.hidden = false;
+      requestAnimationFrame(() => reviewModal.classList.add('is-open'));
+      reviewModal.setAttribute('aria-hidden','false');
+      document.body.classList.add('review-modal-open');
+      window.setTimeout(() => reviewModalClose?.focus({ preventScroll:true }), 70);
+    }
+
+    function closeReview() {
+      if (!reviewModal) return;
+      reviewModal.classList.remove('is-open');
+      reviewModal.setAttribute('aria-hidden','true');
+      document.body.classList.remove('review-modal-open');
+      window.setTimeout(() => { reviewModal.hidden = true; }, 200);
     }
 
     function loadReviews() {
@@ -378,6 +545,22 @@
       callbackNonceInput.value = makeSubmissionNonce();
       reviewForm.querySelector('input[name="name"]')?.focus();
     });
+
+
+    reviewsGrid.addEventListener('click', event => {
+      if (event.target.closest('a')) return;
+      const card = event.target.closest('.review-card[data-review-index]');
+      if (card) openReview(card.dataset.reviewIndex);
+    });
+    reviewsGrid.addEventListener('keydown', event => {
+      const card = event.target.closest('.review-card[data-review-index]');
+      if (!card || event.target !== card || !['Enter',' '].includes(event.key)) return;
+      event.preventDefault();
+      openReview(card.dataset.reviewIndex);
+    });
+    reviewModalClose?.addEventListener('click', closeReview);
+    reviewModal?.addEventListener('click', event => { if (event.target === reviewModal) closeReview(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && reviewModal?.classList.contains('is-open')) closeReview(); });
 
     loadReviews();
   </script>

@@ -8,8 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --bg: #050505;
-      --panel: rgba(18,18,18,0.84);
+      --bg: #000000;
+      --panel: rgba(8,8,8,0.40);
       --border: rgba(255,255,255,0.08);
       --text: #d6d6d6;
       --muted: #8d8d8d;
@@ -23,12 +23,12 @@
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: radial-gradient(circle at 18% 0%, #191919 0%, var(--bg) 38%, #090909 100%);
+      background: radial-gradient(circle at 50% -18%, #111 0%, var(--bg) 42%, #000 100%);
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .topbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(10,10,10,0.78); border-bottom: 1px solid var(--border); }
-    .panel { border: 1px solid var(--border); background: linear-gradient(180deg, rgba(20,20,20,0.88) 0%, rgba(15,15,15,0.8) 100%); backdrop-filter: blur(12px); box-shadow: var(--shadow); border-radius: 28px; }
+    .topbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(0,0,0,0.76); border-bottom: 1px solid var(--border); }
+    .panel { border: 1px solid var(--border); background: linear-gradient(180deg, rgba(12,12,12,0.38) 0%, rgba(2,2,2,0.28) 100%); backdrop-filter: blur(22px) saturate(62%); box-shadow: var(--shadow); border-radius: 28px; }
     .eyebrow { letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-size: 0.76rem; }
     .headline { color: white; line-height: 1.03; font-weight: 700; letter-spacing: -0.03em; }
     .accent { color: var(--accent-2); }
@@ -46,7 +46,7 @@
     .btn:hover { transform: translateY(-1px); }
     .btn-primary { background: var(--accent); color: #111; border: 1px solid var(--accent); box-shadow: 0 10px 24px rgba(110,96,63,0.18); }
     .btn-primary:hover { background: #857552; }
-    .btn-secondary { background: rgba(18,18,18,0.72); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary { background: rgba(5,5,5,0.44); color: var(--text); border: 1px solid var(--border); }
     .btn-secondary:hover { border-color: rgba(110,96,63,0.45); color: #f5f5f5; }
 
     .pill {
@@ -130,7 +130,180 @@
       .note-rail { border-right: 0; border-bottom: 1px dashed rgba(215,198,159,0.22); padding-right: 0; padding-bottom: 0.95rem; }
       .note-footer { align-items: flex-start; }
     }
+
+
+    /* Blueprint board: richer technical blue, lighter grid, varied paper placement. */
+    :root {
+      --blueprint-paper: #29377d;
+      --blueprint-paper-deep: #1d2a68;
+      --blueprint-grid: rgba(167,190,255,.24);
+      --blueprint-grid-strong: rgba(190,207,255,.34);
+      --blueprint-ink: #f3f6ff;
+    }
+    .note-list {
+      display: block;
+      columns: 2 360px;
+      column-gap: 1.7rem;
+    }
+    .note-entry {
+      --tilt: 0deg;
+      --note-width: 100%;
+      display: block;
+      width: var(--note-width);
+      margin: .35rem auto 1.55rem;
+      padding: 1.35rem 1.4rem 1.45rem;
+      break-inside: avoid;
+      overflow: hidden;
+      border-radius: 5px;
+      border: 1px solid rgba(190,207,255,.24);
+      background-color: var(--blueprint-paper);
+      background-image:
+        linear-gradient(var(--blueprint-grid-strong) 1px, transparent 1px),
+        linear-gradient(90deg, var(--blueprint-grid-strong) 1px, transparent 1px),
+        linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px),
+        radial-gradient(circle at 22% 10%, rgba(255,255,255,.035), transparent 38%),
+        linear-gradient(145deg, rgba(255,255,255,.025), rgba(0,0,0,.12));
+      background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px, auto, auto;
+      box-shadow: 0 20px 44px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.025);
+      transform: rotate(var(--tilt));
+      transform-origin: 50% 12%;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+      clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);
+    }
+    .note-entry:hover,
+    .note-entry:focus-visible {
+      transform: rotate(0deg) translateY(-4px) scale(1.008);
+      border-color: rgba(215,198,159,.62);
+      box-shadow: 0 28px 66px rgba(0,0,0,.52), 0 0 0 1px rgba(215,198,159,.14);
+      filter: saturate(1.08) brightness(1.04);
+    }
+    .note-entry::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      background: linear-gradient(110deg, rgba(255,255,255,.035), transparent 30%, rgba(0,0,0,.045) 72%, transparent);
+      box-shadow: none;
+      pointer-events: none;
+    }
+    .note-entry::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      opacity: 1;
+      background:
+        linear-gradient(225deg, rgba(8,14,45,.92) 0 48%, transparent 49%),
+        linear-gradient(45deg, rgba(202,214,255,.22), rgba(112,137,215,.10));
+      clip-path: polygon(0 0, 100% 100%, 0 100%);
+      filter: drop-shadow(-3px 4px 3px rgba(0,0,0,.20));
+      pointer-events: none;
+    }
+    .note-rail {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .48rem;
+      padding: 0 2.2rem .85rem 0;
+      margin-bottom: .9rem;
+      border-right: 0;
+      border-bottom: 1px dashed rgba(198,213,255,.22);
+    }
+    .note-index { color: rgba(220,230,255,.86); margin-right: .2rem; }
+    .note-title { color: var(--blueprint-ink); text-shadow: 0 1px 0 rgba(0,0,0,.24); }
+    .note-summary { color: rgba(241,245,255,.82); }
+    .note-footer { border-top: 1px solid rgba(198,213,255,.13); padding-top: .9rem; }
+    .pill { box-shadow: none; }
+    .note-entry .pill { background: rgba(3,10,36,.22); border-color: rgba(222,231,255,.18); color: rgba(244,247,255,.84); }
+    .note-entry .read-link { color: #f2e3bd; }
+
+    /* Pick-up / zoom interaction shared with Reviews. */
+    .note-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: grid;
+      place-items: center;
+      padding: clamp(1rem, 3vw, 2.5rem);
+      background: rgba(0,0,0,.84);
+      backdrop-filter: blur(11px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 200ms ease, visibility 200ms ease;
+    }
+    .note-modal.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .note-modal-sheet {
+      position: relative;
+      width: min(980px, 96vw);
+      max-height: 90vh;
+      overflow: auto;
+      padding: clamp(1.5rem, 4vw, 3.2rem);
+      color: var(--blueprint-ink);
+      border: 1px solid rgba(197,211,255,.28);
+      border-radius: 7px;
+      background-color: var(--blueprint-paper);
+      background-image:
+        linear-gradient(var(--blueprint-grid-strong) 1px, transparent 1px),
+        linear-gradient(90deg, var(--blueprint-grid-strong) 1px, transparent 1px),
+        linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px),
+        linear-gradient(145deg, rgba(255,255,255,.035), rgba(0,0,0,.10));
+      background-size: 96px 96px,96px 96px,24px 24px,24px 24px,auto;
+      box-shadow: 0 38px 120px rgba(0,0,0,.70);
+      clip-path: polygon(0 0, calc(100% - 42px) 0, 100% 42px, 100% 100%, 0 100%);
+      transform: translateY(22px) scale(.95) rotate(-.35deg);
+      transition: transform 220ms cubic-bezier(.2,.8,.2,1);
+    }
+    .note-modal.is-open .note-modal-sheet { transform: translateY(0) scale(1) rotate(0deg); }
+    .note-modal-sheet::after {
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:42px;
+      height:42px;
+      background:
+        linear-gradient(225deg, rgba(8,14,45,.94) 0 48%, transparent 49%),
+        linear-gradient(45deg, rgba(221,229,255,.25), rgba(111,136,214,.12));
+      clip-path: polygon(0 0,100% 100%,0 100%);
+      filter: drop-shadow(-4px 5px 4px rgba(0,0,0,.22));
+    }
+    .note-modal .copy { color: rgba(244,247,255,.88); }
+    .note-modal .copy h2, .note-modal .copy h3, .note-modal .copy strong { color: white; }
+    .note-modal .copy a { color: #f6e7bd; }
+    .note-modal-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      margin: -.55rem -.4rem .4rem .8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(7,13,38,.72);
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    body.note-modal-open { overflow: hidden; }
+    @media (max-width: 760px) {
+      .note-list { columns: 1; }
+      .note-entry { width: 100% !important; transform: rotate(var(--tilt)); }
+      .note-modal { padding: .65rem; }
+      .note-modal-sheet { width: 100%; max-height: 94vh; padding: 1.35rem; }
+    }
   </style>
+  <link rel="stylesheet" href="Resources/site-theme.css" />
 </head>
 <body>
   <div class="topbar">
@@ -182,7 +355,7 @@
             <p class="eyebrow">Feed</p>
             <h2 class="headline mt-3 text-3xl md:text-5xl">Latest notes</h2>
           </div>
-          <span class="pill cat-all">Repo-backed · single source file</span>
+          <span class="pill cat-all">Owner-published · Notes Desk</span>
         </div>
         <div id="notes-feed" class="note-list"></div>
         <noscript>
@@ -193,7 +366,7 @@
       <section class="mt-10 panel p-6 md:p-8">
         <p class="eyebrow">Contribution path</p>
         <h2 class="mt-3 text-2xl font-semibold text-white">Small and secure first.</h2>
-        <p class="copy mt-4">TCR observations and setup feedback can start as GitHub issues. Lab Notes themselves remain owner-published through the repository.</p>
+        <p class="copy mt-4">TCR observations and setup feedback can start as GitHub issues. Lab Notes themselves remain owner-published through the private Tyto Notes Desk.</p>
         <div class="mt-6 flex flex-wrap gap-3">
           <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose">Submit feedback on GitHub</a>
           <a class="btn btn-secondary" href="reviews.html">Read or leave a review</a>
@@ -201,29 +374,31 @@
       </section>
     </div>
 
-    <section id="note-view" hidden>
-      <article class="panel lab-note-sheet p-8 md:p-12 mx-auto max-w-5xl">
-        <div id="note-pills" class="flex flex-wrap gap-2"></div>
-        <h1 id="note-title" class="headline mt-5 text-4xl md:text-6xl"></h1>
-        <p id="note-summary" class="copy mt-6 max-w-3xl text-lg"></p>
-        <div id="note-content" class="copy mt-8 text-base md:text-lg"></div>
-        <div class="mt-10 flex flex-wrap gap-3">
-          <a class="btn btn-secondary" href="labnotes.html">← Back to Lab Notes</a>
-          <a class="btn btn-secondary" href="reviews.html">Reviews</a>
-        </div>
+    <div id="note-modal" class="note-modal" aria-hidden="true">
+      <article class="note-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="note-modal-title">
+        <button id="note-modal-close" class="note-modal-close" type="button" aria-label="Close Lab Note">×</button>
+        <div id="note-modal-pills" class="flex flex-wrap gap-2"></div>
+        <h1 id="note-modal-title" class="headline mt-5 text-4xl md:text-6xl"></h1>
+        <p id="note-modal-summary" class="copy mt-6 max-w-3xl text-lg"></p>
+        <div id="note-modal-content" class="copy mt-8 text-base md:text-lg"></div>
       </article>
-    </section>
+    </div>
+
   </main>
 
   <script src="Resources/labnotes.js"></script>
   <script>
     const labData = window.TYTO_LAB_NOTES || { notes: [] };
     const feed = document.getElementById('notes-feed');
-    const feedView = document.getElementById('feed-view');
-    const noteView = document.getElementById('note-view');
     const categoryLinks = Array.from(document.querySelectorAll('[data-category]'));
+    const noteModal = document.getElementById('note-modal');
+    const noteModalSheet = noteModal?.querySelector('.note-modal-sheet');
+    const noteModalClose = document.getElementById('note-modal-close');
+    const baseTitle = document.title;
+    const baseDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
     let notes = (labData.notes || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(a.title).localeCompare(String(b.title)));
     let activeCategory = 'All';
+    let openSlug = '';
 
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -241,32 +416,29 @@
       return 'cat-all';
     }
 
-    function noteUrl(note) {
-      return `labnotes.html?note=${encodeURIComponent(note.slug)}`;
-    }
-
-    function formatNoteNumber(index) {
-      return `NOTE ${String(index + 1).padStart(3, '0')}`;
-    }
+    function noteUrl(note) { return `labnotes.html?note=${encodeURIComponent(note.slug)}`; }
+    function formatNoteNumber(index) { return `NOTE ${String(index + 1).padStart(3, '0')}`; }
 
     function renderNotes() {
       if (!feed) return;
       const visible = activeCategory === 'All' ? notes : notes.filter(note => note.category === activeCategory);
+      const tilts = [-1.05, .62, -.42, .88, -.72, .28, 1.08, -.26];
+      const widths = [98, 94, 100, 96, 92, 99, 95, 100];
       feed.innerHTML = visible.map((note, index) => {
         const tags = (note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`).join(' ');
         const url = noteUrl(note);
-        return `<article class="note-entry" data-note-url="${url}" tabindex="0" role="link" aria-label="Read ${escapeHtml(note.title)}">
+        return `<article class="note-entry" style="--tilt:${tilts[index % tilts.length]}deg;--note-width:${widths[index % widths.length]}%" data-note-slug="${escapeHtml(note.slug)}" tabindex="0" role="button" aria-label="Open ${escapeHtml(note.title)}">
           <aside class="note-rail">
             <span class="note-index">${formatNoteNumber(index)}</span>
             <span class="pill ${pillClass(note.category)}">${escapeHtml(note.category)}</span>
             <span class="pill ${pillClass(note.date, 'date')}">${escapeHtml(note.date)}</span>
           </aside>
           <div class="note-body">
-            <h3 class="note-title text-2xl md:text-3xl"><a href="${url}">${escapeHtml(note.title)}</a></h3>
+            <h3 class="note-title text-2xl md:text-3xl"><a href="${url}" data-note-link="${escapeHtml(note.slug)}">${escapeHtml(note.title)}</a></h3>
             <p class="note-summary mt-3 text-sm md:text-base">${escapeHtml(note.summary)}</p>
             <div class="note-footer mt-5">
               <div class="note-tags">${tags}</div>
-              <a class="read-link" href="${url}">Read note →</a>
+              <a class="read-link" href="${url}" data-note-link="${escapeHtml(note.slug)}">Read note →</a>
             </div>
           </div>
         </article>`;
@@ -279,52 +451,74 @@
       renderNotes();
     }
 
-    function renderFullNote(slug) {
-      const note = notes.find(item => item.slug === slug);
-      feedView.hidden = true;
-      noteView.hidden = false;
-      if (!note) {
-        document.getElementById('note-title').textContent = 'Note not found';
-        document.getElementById('note-summary').textContent = 'That Lab Note does not exist, or its slug has changed.';
-        document.getElementById('note-content').innerHTML = '';
-        return;
-      }
-
-      document.title = `${note.title} | Lab Notes`;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) metaDescription.setAttribute('content', note.summary || 'Tyto Sensory Labs Lab Note');
-
+    function applyNoteToModal(note) {
       const pills = [
         `<span class="pill ${pillClass(note.category)}">${escapeHtml(note.category)}</span>`,
         `<span class="pill ${pillClass(note.date, 'date')}">${escapeHtml(note.date)}</span>`,
         ...(note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`)
       ];
-      document.getElementById('note-pills').innerHTML = pills.join(' ');
-      document.getElementById('note-title').textContent = note.title || '';
-      document.getElementById('note-summary').textContent = note.summary || '';
-      document.getElementById('note-content').innerHTML = note.body || '';
+      document.getElementById('note-modal-pills').innerHTML = pills.join(' ');
+      document.getElementById('note-modal-title').textContent = note.title || '';
+      document.getElementById('note-modal-summary').textContent = note.summary || '';
+      document.getElementById('note-modal-content').innerHTML = note.body || '';
     }
 
-    if (feed) {
-      feed.addEventListener('click', event => {
-        const card = event.target.closest('.note-entry[data-note-url]');
-        if (!card || event.target.closest('a, button, input, select, textarea')) return;
-        window.location.href = card.dataset.noteUrl;
-      });
-
-      feed.addEventListener('keydown', event => {
-        const card = event.target.closest('.note-entry[data-note-url]');
-        if (!card || event.target !== card || !['Enter', ' '].includes(event.key)) return;
-        event.preventDefault();
-        window.location.href = card.dataset.noteUrl;
-      });
+    function openNote(slug, updateHistory = true) {
+      const note = notes.find(item => item.slug === slug);
+      if (!note || !noteModal) return;
+      openSlug = slug;
+      applyNoteToModal(note);
+      noteModal.hidden = false;
+      requestAnimationFrame(() => noteModal.classList.add('is-open'));
+      noteModal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('note-modal-open');
+      document.title = `${note.title} | Lab Notes`;
+      document.querySelector('meta[name="description"]')?.setAttribute('content', note.summary || baseDescription);
+      if (updateHistory) history.pushState({ note: slug }, '', noteUrl(note));
+      window.setTimeout(() => noteModalClose?.focus({ preventScroll: true }), 80);
     }
+
+    function closeNote(updateHistory = true) {
+      if (!noteModal || !openSlug) return;
+      openSlug = '';
+      noteModal.classList.remove('is-open');
+      noteModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('note-modal-open');
+      document.title = baseTitle;
+      document.querySelector('meta[name="description"]')?.setAttribute('content', baseDescription);
+      if (updateHistory) history.replaceState({}, '', 'labnotes.html');
+      window.setTimeout(() => { noteModal.hidden = true; }, 210);
+    }
+
+    feed?.addEventListener('click', event => {
+      const directLink = event.target.closest('[data-note-link]');
+      const card = event.target.closest('.note-entry[data-note-slug]');
+      const slug = directLink?.dataset.noteLink || card?.dataset.noteSlug;
+      if (!slug) return;
+      if (event.target.closest('a')) event.preventDefault();
+      openNote(slug, true);
+    });
+
+    feed?.addEventListener('keydown', event => {
+      const card = event.target.closest('.note-entry[data-note-slug]');
+      if (!card || event.target !== card || !['Enter', ' '].includes(event.key)) return;
+      event.preventDefault();
+      openNote(card.dataset.noteSlug, true);
+    });
+
+    noteModalClose?.addEventListener('click', () => closeNote(true));
+    noteModal?.addEventListener('click', event => { if (event.target === noteModal) closeNote(true); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && openSlug) closeNote(true); });
+    window.addEventListener('popstate', () => {
+      const slug = new URLSearchParams(window.location.search).get('note');
+      if (slug) openNote(slug, false);
+      else closeNote(false);
+    });
 
     categoryLinks.forEach(link => link.addEventListener('click', () => setActiveCategory(link.dataset.category || 'All')));
-
+    renderNotes();
     const requestedSlug = new URLSearchParams(window.location.search).get('note');
-    if (requestedSlug) renderFullNote(requestedSlug);
-    else renderNotes();
+    if (requestedSlug) openNote(requestedSlug, false);
   </script>
   <script src="Resources/site-footer.js"></script>
 </body>

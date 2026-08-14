@@ -12,7 +12,9 @@
       z-index: 8;
       margin-top: 4rem;
       border-top: 1px solid rgba(255,255,255,0.07);
-      background: rgba(2,2,2,0.96);
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(22px) saturate(58%);
+      -webkit-backdrop-filter: blur(22px) saturate(58%);
       color: #9a9a9a;
     }
     .tyto-footer-inner {

@@ -1,5 +1,0 @@
-{
-  "deprecated": true,
-  "replacedBy": "Resources/labnotes.js",
-  "message": "Lab Notes metadata and full note bodies now live in one admin-edited file: Resources/labnotes.js."
-}
