@@ -105,7 +105,7 @@
     <section class="mt-10">
       <div class="mb-6">
         <p class="eyebrow">From the community</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">Some say...</h2>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">What people are saying</h2>
       </div>
       <div id="reviews-status" class="status info">Loading reviews…</div>
       <div id="reviews-grid" class="review-grid mt-4"></div>
@@ -162,6 +162,14 @@
             <span class="form-note">No account required.</span>
           </div>
         </form>
+
+        <div id="submission-complete" class="status success mt-5" hidden tabindex="-1">
+          <strong>Verification email sent.</strong><br />
+          Check your inbox and click the verification link to confirm your review. It will stay private until it has been verified and approved.
+          <div class="mt-4">
+            <button id="submit-another-review" class="btn btn-secondary" type="button">Leave another review</button>
+          </div>
+        </div>
       </div>
       <iframe id="review-submit-frame" name="review-submit-frame" title="Review submission response" hidden></iframe>
     </section>
@@ -176,6 +184,8 @@
     const reviewForm = document.getElementById('review-form');
     const submitButton = document.getElementById('submit-review');
     const submitStatus = document.getElementById('submit-status');
+    const submissionComplete = document.getElementById('submission-complete');
+    const submitAnotherReview = document.getElementById('submit-another-review');
 
     function escapeText(value) { return String(value ?? ''); }
 
@@ -317,11 +327,22 @@
       submitButton.disabled = false;
       submitButton.textContent = 'Send verification email';
       if (data.ok) {
-        setStatus(submitStatus, data.message || 'Verification email sent. Check your inbox.', 'success');
         reviewForm.reset();
+        submitStatus.hidden = true;
+        reviewForm.hidden = true;
+        submissionComplete.hidden = false;
+        submissionComplete.focus({ preventScroll: true });
+        submissionComplete.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
         setStatus(submitStatus, data.message || 'The review could not be submitted.', 'error');
       }
+    });
+
+    submitAnotherReview.addEventListener('click', () => {
+      submissionComplete.hidden = true;
+      reviewForm.hidden = false;
+      submitStatus.hidden = true;
+      reviewForm.querySelector('input[name="name"]')?.focus();
     });
 
     loadReviews();
