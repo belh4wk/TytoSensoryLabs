@@ -20,6 +20,35 @@ window.TYTO_LAB_NOTES = {
   version: "2.0",
   updated: "2026-08-14",
   notes: [
+	{
+	  title: "MCP4SH v1.1.12.1 field notes",
+	  date: "2026-08-14",
+	  category: "Release Notes", // Experiments | Setup & Hardware | Telemetry Clarity / TCR | Support Baseline | Experiments
+	  slug: "mcp4sh-v11121-field-notes",
+	  summary: "First localisations implemented, clearer engine & tyre effects, future updates QoL features, various fixes",
+	  tags: ["MCP4SH", "v1.1.12", "ST Haptics", "release"],
+	  body: `
+		 <p>
+		  MCP4SH® v1.1.12.1 is a small but important hotfix for the v1.1.12 release.
+		</p>
+
+		<p>
+		  An issue in the strengthened licence-validation path introduced with v1.1.12 could cause some perfectly valid current MCP4SH licence keys to be recognised by Lemon Squeezy, but then incorrectly rejected as not belonging to MCP4SH.
+		</p>
+
+		<p>
+		  v1.1.12.1 corrects that product validation while retaining compatibility with earlier MCP4SH licences and keeping the intended protection against unrelated licence keys.
+		</p>
+
+		<p>
+		  There are no changes to the haptics, profiles or telemetry processing in this release.
+		</p>
+
+		<p>
+		  This hotfix also became the first real-world use of the update infrastructure introduced in v1.1.12: existing installations can discover v1.1.12.1 directly through MCP4SH rather than requiring a full public release cycle across every distribution platform.
+		</p>
+	  `
+	},
     {
       title: "Other Projects & Conveniences",
       date: "2026-07-20",
