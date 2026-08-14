@@ -8,8 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --bg: #050505;
-      --bg-soft: #121212;
+      --bg: #010101;
+      --bg-soft: #0b0b0b;
       --panel: rgba(18,18,18,0.82);
       --border: rgba(255,255,255,0.08);
       --text: #d6d6d6;
@@ -47,7 +47,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      opacity: 0.82;
+      opacity: 0.93;
       overflow: hidden;
     }
     .mcp-road-canvas {
@@ -63,15 +63,15 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(5,5,5,0.07) 0%, rgba(5,5,5,0.01) 42%, rgba(5,5,5,0.17) 100%),
-        radial-gradient(ellipse at 50% 45%, transparent 0%, transparent 48%, rgba(5,5,5,0.20) 100%);
+        linear-gradient(180deg, rgba(2,2,2,0.035) 0%, rgba(2,2,2,0.005) 42%, rgba(2,2,2,0.10) 100%),
+        radial-gradient(ellipse at 50% 45%, transparent 0%, transparent 56%, rgba(2,2,2,0.12) 100%);
     }
     @media (max-width: 900px) {
-      .mcp-track-scene { opacity: 0.68; }
+      .mcp-track-scene { opacity: 0.80; }
     }
     body {
       margin: 0;
-      background: radial-gradient(circle at 20% 0%, #191919 0%, var(--bg) 36%, #090909 100%);
+      background: radial-gradient(circle at 20% 0%, #0d0d0d 0%, #020202 34%, #000 100%);
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -80,12 +80,12 @@
       top: 0;
       z-index: 40;
       backdrop-filter: blur(14px);
-      background: rgba(10,10,10,0.78);
+      background: rgba(4,4,4,0.88);
       border-bottom: 1px solid var(--border);
     }
     .panel {
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(20,20,20,0.88) 0%, rgba(15,15,15,0.8) 100%);
+      background: linear-gradient(180deg, rgba(15,15,15,0.90) 0%, rgba(8,8,8,0.86) 100%);
       backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
       border-radius: 28px;
@@ -180,6 +180,58 @@
       border-radius: 999px;
       background: var(--accent);
       box-shadow: 0 0 12px rgba(110,96,63,0.48);
+    }
+
+    /* MCP4SH ecosystem credits */
+    .ecosystem-strip {
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(5,5,5,0.72);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      padding: 2rem;
+    }
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.4rem;
+    }
+    .ecosystem-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      min-height: 112px;
+      padding: 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.075);
+      background: rgba(255,255,255,0.018);
+      text-decoration: none;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+    .ecosystem-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(215,198,159,0.32);
+      background: rgba(255,255,255,0.03);
+    }
+    .ecosystem-thumb {
+      width: 100%;
+      height: 44px;
+      object-fit: contain;
+      object-position: left center;
+      opacity: 0.84;
+      filter: saturate(0.72);
+    }
+    .ecosystem-role {
+      color: #8d8d8d;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 900px) {
+      .ecosystem-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .ecosystem-grid { grid-template-columns: 1fr; }
     }
 
     /* Coverflow screenshots */
@@ -964,6 +1016,34 @@
         This is not magic, instant pace, or one-click perfection (almost, but not quite). It is however a serious attempt to make haptics more coherent and useful, and plug and play (ish). Your rig, transducer layout, amp chain, gain staging, and sims still matter. The goal is to start from a stronger place and give you something more ready-to-use. It removes complexity in tuning without losing fidelity. Do not treat this as an "automagically fix my haptics" solution. If mounting discipline (see FAQ re. hardware) is meh, this will not fix that.
       </p>
     </section>
+
+    <section id="ecosystem" class="mt-12 ecosystem-strip">
+      <p class="eyebrow">MCP4SH ecosystem</p>
+      <div class="mt-3 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold text-white">Tools &amp; hardware around the project</h2>
+          <p class="copy mt-3 max-w-3xl text-sm md:text-base">Software, services and reference hardware used by or around MCP4SH. MCP4SH is independently developed; inclusion here does not imply endorsement, sponsorship or a formal partnership.</p>
+        </div>
+      </div>
+      <div class="ecosystem-grid">
+        <a class="ecosystem-link" href="https://www.simhubdash.com/" target="_blank" rel="noopener noreferrer">
+          <img class="ecosystem-thumb" src="Resources/ecosystem/simhub.svg" alt="SimHub" />
+          <span class="ecosystem-role">Platform</span>
+        </a>
+        <a class="ecosystem-link" href="https://www.lemonsqueezy.com/" target="_blank" rel="noopener noreferrer">
+          <img class="ecosystem-thumb" src="Resources/ecosystem/lemonsqueezy.svg" alt="Lemon Squeezy" />
+          <span class="ecosystem-role">Licensing &amp; delivery</span>
+        </a>
+        <a class="ecosystem-link" href="https://www.daytonaudio.com/" target="_blank" rel="noopener noreferrer">
+          <img class="ecosystem-thumb" src="Resources/ecosystem/daytonaudio.svg" alt="Dayton Audio" />
+          <span class="ecosystem-role">Reference transducers</span>
+        </a>
+        <a class="ecosystem-link" href="https://doukaudio.com/" target="_blank" rel="noopener noreferrer">
+          <img class="ecosystem-thumb" src="Resources/ecosystem/douknobsound.svg" alt="Douk Audio and Nobsound" />
+          <span class="ecosystem-role">Reference amplification</span>
+        </a>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -1419,27 +1499,27 @@
         for (let i=segments.length-1; i>=0; i--) {
           const s = segments[i];
           const depth = i / Math.max(segments.length-1, 1);
-          const roadAlpha = 0.165 + (1-depth) * 0.145;
+          const roadAlpha = 0.215 + (1-depth) * 0.175;
           poly([s.p0L,s.p0R,s.p1R,s.p1L], `rgba(132,136,134,${roadAlpha.toFixed(3)})`);
 
           // Spa's red/yellow kerbs, strongly muted to stay behind the content.
           const stripe = Math.floor((s.t0 * COURSE_LENGTH) / (SAMPLE_STEP * 1.7)) % 2;
-          const curb = stripe === 0 ? 'rgba(142,52,41,0.34)' : 'rgba(188,153,64,0.33)';
+          const curb = stripe === 0 ? 'rgba(142,52,41,0.43)' : 'rgba(188,153,64,0.42)';
           poly([s.p0LO,s.p0L,s.p1L,s.p1LO], curb);
           poly([s.p0R,s.p0RO,s.p1RO,s.p1R], curb);
 
-          line(s.p0L, s.p1L, 'rgba(235,235,231,0.26)', Math.max(0.6, 1.7*(1-depth)));
-          line(s.p0R, s.p1R, 'rgba(235,235,231,0.26)', Math.max(0.6, 1.7*(1-depth)));
+          line(s.p0L, s.p1L, 'rgba(235,235,231,0.34)', Math.max(0.6, 1.7*(1-depth)));
+          line(s.p0R, s.p1R, 'rgba(235,235,231,0.34)', Math.max(0.6, 1.7*(1-depth)));
 
           // A restrained warm racing line keeps the existing MCP4SH visual language.
           if (Math.floor((s.t0 * COURSE_LENGTH) / 90) % 2 === 0) {
-            line(s.center0, s.center1, 'rgba(215,198,159,0.31)', Math.max(0.55, 1.5*(1-depth)));
+            line(s.center0, s.center1, 'rgba(215,198,159,0.40)', Math.max(0.55, 1.5*(1-depth)));
           }
         }
 
         // Soft central glow makes the route readable through dark page sections.
         const glow = ctx.createRadialGradient(viewportW*0.5, viewportH*0.62, 0, viewportW*0.5, viewportH*0.62, viewportW*0.58);
-        glow.addColorStop(0, 'rgba(110,96,63,0.085)');
+        glow.addColorStop(0, 'rgba(110,96,63,0.125)');
         glow.addColorStop(1, 'rgba(110,96,63,0)');
         ctx.fillStyle = glow;
         ctx.fillRect(0, 0, viewportW, viewportH);
@@ -1465,5 +1545,6 @@
     })();
   </script>
 
+  <script src="Resources/site-footer.js"></script>
 </body>
 </html>
