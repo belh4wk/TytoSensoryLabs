@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lab Notes | Tyto Sensory Labs</title>
   <meta name="description" content="Lab Notes from Tyto Sensory Labs: MCP4SH release commentary, setup notes, telemetry clarity/TCR context, and future experiments." />
-  <link rel="alternate" type="application/rss+xml" title="Tyto Sensory Labs Lab Notes" href="Resources/labnotes.rss" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -34,6 +33,15 @@
     .headline { color: white; line-height: 1.03; font-weight: 700; letter-spacing: -0.03em; }
     .accent { color: var(--accent-2); }
     .copy { color: #bfbfbf; line-height: 1.9; }
+    .copy strong { color: #f1f1f1; }
+    .copy p + p { margin-top: 1rem; }
+    .copy h2 { color: white; margin-top: 2rem; margin-bottom: .6rem; font-size: 1.45rem; line-height: 1.2; font-weight: 700; letter-spacing: -.02em; }
+    .copy h3 { color: #f1f1f1; margin-top: 1.5rem; margin-bottom: .45rem; font-size: 1.12rem; font-weight: 700; }
+    .copy ul, .copy ol { margin-top: .8rem; margin-bottom: .8rem; padding-left: 1.35rem; }
+    .copy ul { list-style: disc; }
+    .copy ol { list-style: decimal; }
+    .copy li { margin: .3rem 0; }
+    .copy a { color: var(--accent-2); text-decoration: underline; text-decoration-color: rgba(215,198,159,.38); text-underline-offset: .2rem; }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; border-radius: 999px; padding: 0.82rem 1.12rem; font-weight: 600; text-decoration: none; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease; }
     .btn:hover { transform: translateY(-1px); }
     .btn-primary { background: var(--accent); color: #111; border: 1px solid var(--accent); box-shadow: 0 10px 24px rgba(110,96,63,0.18); }
@@ -41,7 +49,6 @@
     .btn-secondary { background: rgba(18,18,18,0.72); color: var(--text); border: 1px solid var(--border); }
     .btn-secondary:hover { border-color: rgba(110,96,63,0.45); color: #f5f5f5; }
 
-    /* MCP4SH plugin/TCR palette */
     .pill {
       --chip: #d7c69f;
       display: inline-flex;
@@ -66,7 +73,6 @@
     .category-link { --chip: #d7c69f; color: color-mix(in srgb, var(--chip) 85%, white 15%); border: 1px solid color-mix(in srgb, var(--chip) 35%, transparent); background: color-mix(in srgb, var(--chip) 8%, transparent); }
     .category-link:hover, .category-link.active { color: white; border-color: color-mix(in srgb, var(--chip) 70%, transparent); background: color-mix(in srgb, var(--chip) 15%, transparent); }
 
-    /* Feed entries: listed, with a post-it + blueprint feel. */
     .note-list { display: flex; flex-direction: column; gap: 1rem; }
     .note-entry {
       position: relative;
@@ -84,50 +90,14 @@
       box-shadow: 0 18px 44px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.035);
       padding: 1.2rem;
       transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      cursor: pointer;
     }
-    .note-entry:hover {
-      transform: translateY(-1px);
-      border-color: rgba(212,175,55,0.42);
-      box-shadow: 0 22px 52px rgba(0,0,0,0.34), 0 0 24px rgba(130,225,235,0.07), inset 0 0 0 1px rgba(255,255,255,0.04);
-    }
-    .note-entry::before {
-      content: "";
-      position: absolute;
-      left: 1.2rem;
-      top: 0;
-      width: 5.5rem;
-      height: 0.44rem;
-      border-radius: 0 0 8px 8px;
-      background: linear-gradient(90deg, rgba(212,175,55,0.18), rgba(130,225,235,0.12));
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
-    .note-entry::after {
-      content: "";
-      position: absolute;
-      right: 1.1rem;
-      top: 1.1rem;
-      width: 3rem;
-      height: 3rem;
-      border-top: 1px solid rgba(130,225,235,0.28);
-      border-right: 1px solid rgba(130,225,235,0.28);
-      opacity: 0.75;
-      pointer-events: none;
-    }
-    .note-rail {
-      display: flex;
-      flex-direction: column;
-      gap: 0.72rem;
-      padding-right: 1rem;
-      border-right: 1px dashed rgba(215,198,159,0.22);
-      min-width: 0;
-    }
-    .note-index {
-      color: rgba(130,225,235,0.82);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 0.74rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
+    .note-entry:hover { transform: translateY(-1px); border-color: rgba(212,175,55,0.42); box-shadow: 0 22px 52px rgba(0,0,0,0.34), 0 0 24px rgba(130,225,235,0.07), inset 0 0 0 1px rgba(255,255,255,0.04); }
+    .note-entry:focus-visible { outline: 2px solid rgba(130,225,235,0.72); outline-offset: 3px; border-color: rgba(212,175,55,0.5); }
+    .note-entry::before { content: ""; position: absolute; left: 1.2rem; top: 0; width: 5.5rem; height: 0.44rem; border-radius: 0 0 8px 8px; background: linear-gradient(90deg, rgba(212,175,55,0.18), rgba(130,225,235,0.12)); box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
+    .note-entry::after { content: ""; position: absolute; right: 1.1rem; top: 1.1rem; width: 3rem; height: 3rem; border-top: 1px solid rgba(130,225,235,0.28); border-right: 1px solid rgba(130,225,235,0.28); opacity: 0.75; pointer-events: none; }
+    .note-rail { display: flex; flex-direction: column; gap: 0.72rem; padding-right: 1rem; border-right: 1px dashed rgba(215,198,159,0.22); min-width: 0; }
+    .note-index { color: rgba(130,225,235,0.82); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; }
     .note-body { min-width: 0; position: relative; z-index: 1; }
     .note-title { color: white; font-weight: 720; letter-spacing: -0.025em; line-height: 1.12; }
     .note-title a { text-decoration: none; color: inherit; }
@@ -135,15 +105,26 @@
     .note-summary { color: #c9c1ad; line-height: 1.75; }
     .note-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
     .note-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-    .read-link {
-      color: #f2e3bd;
-      border-bottom: 1px solid rgba(215,198,159,0.35);
-      text-decoration: none;
-      font-weight: 650;
-      white-space: nowrap;
-    }
+    .read-link { color: #f2e3bd; border-bottom: 1px solid rgba(215,198,159,0.35); text-decoration: none; font-weight: 650; white-space: nowrap; }
     .read-link:hover { color: white; border-color: rgba(130,225,235,0.55); }
     .feed-note { border-left: 3px solid rgba(130,225,235,0.32); }
+
+    .lab-note-sheet {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg,rgba(130,225,235,.08) 0 1px,transparent 1px 100%),
+        linear-gradient(0deg,rgba(130,225,235,.055) 0 1px,transparent 1px 100%),
+        linear-gradient(135deg,rgba(35,31,20,.92),rgba(12,19,22,.86));
+      background-size:26px 26px,26px 26px,auto;
+      border-color:rgba(130,225,235,.16);
+    }
+    .lab-note-sheet::before { content:""; position:absolute; left:2rem; top:0; width:6.5rem; height:.5rem; border-radius:0 0 8px 8px; background:linear-gradient(90deg,rgba(212,175,55,.18),rgba(130,225,235,.12)); box-shadow:0 6px 16px rgba(0,0,0,.25); }
+    .lab-note-sheet::after { content:""; position:absolute; right:1.4rem; top:1.4rem; width:3.5rem; height:3.5rem; border-top:1px solid rgba(130,225,235,.28); border-right:1px solid rgba(130,225,235,.28); pointer-events:none; opacity:.75; }
+    .tcr-rating { display:inline-flex; align-items:center; border-radius:999px; padding:.18rem .55rem; margin-right:.35rem; border:1px solid color-mix(in srgb,var(--tier) 58%,transparent); background:color-mix(in srgb,var(--tier) 11%,transparent); color:color-mix(in srgb,var(--tier) 90%,white 10%); font-weight:700; }
+    .tcr-titanium { --tier:#82e1eb; } .tcr-platinum { --tier:#e5e4e2; } .tcr-gold { --tier:#d4af37; } .tcr-silver { --tier:#c0c0c0; } .tcr-bronze { --tier:#cd7f32; } .tcr-grey { --tier:#787878; }
+
+    [hidden] { display: none !important; }
     @media (max-width: 720px) {
       .note-entry { grid-template-columns: 1fr; }
       .note-rail { border-right: 0; border-bottom: 1px dashed rgba(215,198,159,0.22); padding-right: 0; padding-bottom: 0.95rem; }
@@ -159,145 +140,89 @@
         <a class="text-[#8d8d8d] hover:text-white transition" href="index.html">Home</a>
         <a class="text-[#8d8d8d] hover:text-white transition" href="mcp4sh.html">MCP4SH</a>
         <a class="text-[#8d8d8d] hover:text-white transition" href="ocpf.html">OCPF</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="#categories">Categories</a>
-        <a class="btn btn-primary !px-4 !py-2 text-sm" href="https://github.com/belh4wk/TytoSensoryLabs/edit/main/Resources/labnotes.json">Edit feed on GitHub</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="reviews.html">Reviews</a>
+        <a class="text-[#8d8d8d] hover:text-white transition" href="labnotes.html#categories">Categories</a>
       </div>
-      <a class="btn btn-secondary !px-3 !py-2 text-sm md:hidden" href="ocpf.html">OCPF</a>
+      <a class="btn btn-primary !px-3 !py-2 text-sm" href="reviews.html">Reviews</a>
     </div>
   </div>
 
   <main class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">
-    <section class="panel p-8 md:p-12">
-      <p class="eyebrow">Tyto Sensory Labs</p>
-      <h1 class="headline mt-3 text-4xl md:text-7xl">Lab <span class="accent">Notes</span>.</h1>
-      <p class="copy mt-6 max-w-3xl text-base md:text-lg">
-        Conversational release notes, MCP4SH setup context, OCPF development notes, telemetry clarity explanations, support-boundary guidance, and experiments that do not quite belong in a formal changelog.
-      </p>
-      <p class="copy mt-4 max-w-3xl text-sm md:text-base">
-        Publishing stays GitHub-backed for now: no website login, no client-side secrets, and no custom database. The public site remains static; edits happen through GitHub history and permissions.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#latest" class="btn btn-primary">Latest notes</a>
-        <a href="#categories" class="btn btn-secondary">Browse categories</a>
-        <a href="Resources/labnotes.rss" class="btn btn-secondary">RSS</a>
-      </div>
-    </section>
+    <div id="feed-view">
+      <section class="panel p-8 md:p-12">
+        <p class="eyebrow">Tyto Sensory Labs</p>
+        <h1 class="headline mt-3 text-4xl md:text-7xl">Lab <span class="accent">Notes</span>.</h1>
+        <p class="copy mt-6 max-w-3xl text-base md:text-lg">
+          Conversational release notes, MCP4SH setup context, OCPF development notes, telemetry clarity explanations, support-boundary guidance, and experiments that do not quite belong in a formal changelog.
+        </p>
+        <p class="copy mt-4 max-w-3xl text-sm md:text-base">
+          Publishing stays GitHub-backed: one data file, no website login, no client-side secrets, and no custom database. The public site remains static while note history stays in the repo.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#latest" class="btn btn-primary">Latest notes</a>
+          <a href="#categories" class="btn btn-secondary">Browse categories</a>
+          </div>
+      </section>
 
-    <section id="categories" class="mt-10 panel p-6 md:p-8">
-      <p class="eyebrow">Categories</p>
-      <div class="mt-5 flex flex-wrap gap-3">
-        <a class="btn category-link cat-all active" href="#latest" data-category="All">All</a>
-        <a class="btn category-link cat-release" href="#latest" data-category="Release Notes">Release Notes</a>
-        <a class="btn category-link cat-setup" href="#latest" data-category="Setup & Hardware">Setup & Hardware</a>
-        <a class="btn category-link cat-tcr" href="#latest" data-category="Telemetry Clarity / TCR">Telemetry Clarity / TCR</a>
-        <a class="btn category-link cat-support" href="#latest" data-category="Support Baseline">Support Baseline</a>
-        <a class="btn category-link cat-experiments" href="#latest" data-category="Experiments">Experiments</a>
-      </div>
-    </section>
-
-    <section id="latest" class="mt-10">
-      <div class="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div>
-          <p class="eyebrow">Feed</p>
-          <h2 class="headline mt-3 text-3xl md:text-5xl">Latest notes</h2>
+      <section id="categories" class="mt-10 panel p-6 md:p-8">
+        <p class="eyebrow">Categories</p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a class="btn category-link cat-all active" href="#latest" data-category="All">All</a>
+          <a class="btn category-link cat-release" href="#latest" data-category="Release Notes">Release Notes</a>
+          <a class="btn category-link cat-setup" href="#latest" data-category="Setup & Hardware">Setup & Hardware</a>
+          <a class="btn category-link cat-tcr" href="#latest" data-category="Telemetry Clarity / TCR">Telemetry Clarity / TCR</a>
+          <a class="btn category-link cat-support" href="#latest" data-category="Support Baseline">Support Baseline</a>
+          <a class="btn category-link cat-experiments" href="#latest" data-category="Experiments">Experiments</a>
         </div>
-        <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/new/main/labnotes/posts">New post on GitHub</a>
-      </div>
-      <div id="notes-feed" class="note-list"></div>
-      <noscript>
-        <div class="panel p-6 feed-note">
-          <p class="copy">JavaScript is disabled. Open <a class="accent" href="Resources/labnotes.json">Resources/labnotes.json</a> for the feed index.</p>
-        </div>
-      </noscript>
-    </section>
+      </section>
 
-    <section class="mt-10 panel p-6 md:p-8">
-      <p class="eyebrow">Contribution path</p>
-      <h2 class="mt-3 text-2xl font-semibold text-white">Small and secure first.</h2>
-      <p class="copy mt-4">
-        TCR observations and setup feedback can start as GitHub issues. That keeps the first contribution layer auditable, permissioned, and easy to moderate without running a custom login system.
-      </p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose">Submit feedback on GitHub</a>
-        <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/tree/main/labnotes/templates">Note templates</a>
-      </div>
+      <section id="latest" class="mt-10">
+        <div class="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="eyebrow">Feed</p>
+            <h2 class="headline mt-3 text-3xl md:text-5xl">Latest notes</h2>
+          </div>
+          <span class="pill cat-all">Repo-backed · single source file</span>
+        </div>
+        <div id="notes-feed" class="note-list"></div>
+        <noscript>
+          <div class="panel p-6 feed-note"><p class="copy">JavaScript is disabled. Lab Notes data lives in <a class="accent" href="Resources/labnotes.js">Resources/labnotes.js</a>.</p></div>
+        </noscript>
+      </section>
+
+      <section class="mt-10 panel p-6 md:p-8">
+        <p class="eyebrow">Contribution path</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Small and secure first.</h2>
+        <p class="copy mt-4">TCR observations and setup feedback can start as GitHub issues. Lab Notes themselves remain owner-published through the repository.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose">Submit feedback on GitHub</a>
+          <a class="btn btn-secondary" href="reviews.html">Read or leave a review</a>
+        </div>
+      </section>
+    </div>
+
+    <section id="note-view" hidden>
+      <article class="panel lab-note-sheet p-8 md:p-12 mx-auto max-w-5xl">
+        <div id="note-pills" class="flex flex-wrap gap-2"></div>
+        <h1 id="note-title" class="headline mt-5 text-4xl md:text-6xl"></h1>
+        <p id="note-summary" class="copy mt-6 max-w-3xl text-lg"></p>
+        <div id="note-content" class="copy mt-8 text-base md:text-lg"></div>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a class="btn btn-secondary" href="labnotes.html">← Back to Lab Notes</a>
+          <a class="btn btn-secondary" href="reviews.html">Reviews</a>
+        </div>
+      </article>
     </section>
   </main>
 
+  <script src="Resources/labnotes.js"></script>
   <script>
-    const fallbackNotes = [
-      {
-            "title": "Other Projects & Conveniences",
-            "date": "2026-07-20",
-            "category": "Experiments",
-            "slug": "other-projects-and-conveniences",
-            "summary": "A quick note about a few other SimHub-related tools I have built alongside MCP4SH, including LCD-box and Final Drive Lap Board.",
-            "tags": [
-                  "SimHub",
-                  "Dash Studio",
-                  "Tools",
-                  "LCD-box",
-                  "Final Drive Lap Board"
-            ],
-            "url": "labnotes/posts/other-projects-and-conveniences.html"
-      },
-      {
-            "title": "MCP4SH v1.1.11 field notes",
-            "date": "2026-07-20",
-            "category": "Release Notes",
-            "slug": "mcp4sh-v111-field-notes",
-            "summary": "What v1.1.11 changed in practice: cleaner ST Haptics, better noisy-source handling, safer setup/licensing paths, and a stronger release baseline.",
-            "tags": [
-                  "MCP4SH",
-                  "v1.1.11",
-                  "ST Haptics",
-                  "release"
-            ],
-            "url": "labnotes/posts/mcp4sh-v111-field-notes.html"
-      },
-      {
-            "title": "What TCR means",
-            "date": "2026-07-20",
-            "category": "Telemetry Clarity / TCR",
-            "slug": "what-tcr-means",
-            "summary": "TCR is the Telemetry Clarity Rating: a plain-language way to set expectations for how clearly a title's telemetry translates into MCP4SH ST Haptics.",
-            "tags": [
-                  "TCR",
-                  "telemetry",
-                  "clarity"
-            ],
-            "url": "labnotes/posts/what-tcr-means.html"
-      },
-      {
-            "title": "The supported MCP4SH baseline",
-            "date": "2026-07-20",
-            "category": "Support Baseline",
-            "slug": "mcp4sh-supported-baseline",
-            "summary": "MCP4SH is not a standard SimHub effects stack. This note explains what counts as the supported reference and why manually separated formulas can be misleading.",
-            "tags": [
-                  "support",
-                  "SimHub",
-                  "profiles"
-            ],
-            "url": "labnotes/posts/mcp4sh-supported-baseline.html"
-      },
-      {
-            "title": "Hardware setup starts with mounting discipline",
-            "date": "2026-07-20",
-            "category": "Setup & Hardware",
-            "slug": "hardware-mounting-discipline",
-            "summary": "A quick hardware note on why shaker mounting, isolation, gain staging, and physical routing matter before software tuning starts.",
-            "tags": [
-                  "setup",
-                  "hardware",
-                  "shakers"
-            ],
-            "url": "labnotes/posts/hardware-mounting-discipline.html"
-      }
-];
+    const labData = window.TYTO_LAB_NOTES || { notes: [] };
     const feed = document.getElementById('notes-feed');
+    const feedView = document.getElementById('feed-view');
+    const noteView = document.getElementById('note-view');
     const categoryLinks = Array.from(document.querySelectorAll('[data-category]'));
-    let notes = [];
+    let notes = (labData.notes || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(a.title).localeCompare(String(b.title)));
     let activeCategory = 'All';
 
     function escapeHtml(value) {
@@ -316,6 +241,10 @@
       return 'cat-all';
     }
 
+    function noteUrl(note) {
+      return `labnotes.html?note=${encodeURIComponent(note.slug)}`;
+    }
+
     function formatNoteNumber(index) {
       return `NOTE ${String(index + 1).padStart(3, '0')}`;
     }
@@ -325,18 +254,19 @@
       const visible = activeCategory === 'All' ? notes : notes.filter(note => note.category === activeCategory);
       feed.innerHTML = visible.map((note, index) => {
         const tags = (note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`).join(' ');
-        return `<article class="note-entry">
+        const url = noteUrl(note);
+        return `<article class="note-entry" data-note-url="${url}" tabindex="0" role="link" aria-label="Read ${escapeHtml(note.title)}">
           <aside class="note-rail">
             <span class="note-index">${formatNoteNumber(index)}</span>
             <span class="pill ${pillClass(note.category)}">${escapeHtml(note.category)}</span>
             <span class="pill ${pillClass(note.date, 'date')}">${escapeHtml(note.date)}</span>
           </aside>
           <div class="note-body">
-            <h3 class="note-title text-2xl md:text-3xl"><a href="${escapeHtml(note.url)}">${escapeHtml(note.title)}</a></h3>
+            <h3 class="note-title text-2xl md:text-3xl"><a href="${url}">${escapeHtml(note.title)}</a></h3>
             <p class="note-summary mt-3 text-sm md:text-base">${escapeHtml(note.summary)}</p>
             <div class="note-footer mt-5">
               <div class="note-tags">${tags}</div>
-              <a class="read-link" href="${escapeHtml(note.url)}">Read note →</a>
+              <a class="read-link" href="${url}">Read note →</a>
             </div>
           </div>
         </article>`;
@@ -349,19 +279,52 @@
       renderNotes();
     }
 
-    categoryLinks.forEach(link => {
-      link.addEventListener('click', () => setActiveCategory(link.dataset.category || 'All'));
-    });
+    function renderFullNote(slug) {
+      const note = notes.find(item => item.slug === slug);
+      feedView.hidden = true;
+      noteView.hidden = false;
+      if (!note) {
+        document.getElementById('note-title').textContent = 'Note not found';
+        document.getElementById('note-summary').textContent = 'That Lab Note does not exist, or its slug has changed.';
+        document.getElementById('note-content').innerHTML = '';
+        return;
+      }
 
-    function loadNotes(data) {
-      notes = (data.notes || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(a.title).localeCompare(String(b.title)));
-      renderNotes();
+      document.title = `${note.title} | Lab Notes`;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) metaDescription.setAttribute('content', note.summary || 'Tyto Sensory Labs Lab Note');
+
+      const pills = [
+        `<span class="pill ${pillClass(note.category)}">${escapeHtml(note.category)}</span>`,
+        `<span class="pill ${pillClass(note.date, 'date')}">${escapeHtml(note.date)}</span>`,
+        ...(note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`)
+      ];
+      document.getElementById('note-pills').innerHTML = pills.join(' ');
+      document.getElementById('note-title').textContent = note.title || '';
+      document.getElementById('note-summary').textContent = note.summary || '';
+      document.getElementById('note-content').innerHTML = note.body || '';
     }
 
-    fetch('Resources/labnotes.json', { cache: 'no-cache' })
-      .then(response => response.ok ? response.json() : Promise.reject(new Error('feed unavailable')))
-      .then(loadNotes)
-      .catch(() => loadNotes({ notes: fallbackNotes }));
+    if (feed) {
+      feed.addEventListener('click', event => {
+        const card = event.target.closest('.note-entry[data-note-url]');
+        if (!card || event.target.closest('a, button, input, select, textarea')) return;
+        window.location.href = card.dataset.noteUrl;
+      });
+
+      feed.addEventListener('keydown', event => {
+        const card = event.target.closest('.note-entry[data-note-url]');
+        if (!card || event.target !== card || !['Enter', ' '].includes(event.key)) return;
+        event.preventDefault();
+        window.location.href = card.dataset.noteUrl;
+      });
+    }
+
+    categoryLinks.forEach(link => link.addEventListener('click', () => setActiveCategory(link.dataset.category || 'All')));
+
+    const requestedSlug = new URLSearchParams(window.location.search).get('note');
+    if (requestedSlug) renderFullNote(requestedSlug);
+    else renderNotes();
   </script>
 </body>
 </html>

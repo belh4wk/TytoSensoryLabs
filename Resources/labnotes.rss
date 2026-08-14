@@ -7,31 +7,31 @@
     <language>en</language>
     <item>
       <title>Other Projects &amp; Conveniences</title>
-      <link>https://tytosensorylabs.com/labnotes/posts/other-projects-and-conveniences.html</link>
+      <link>https://tytosensorylabs.com/labnotes.html?note=other-projects-and-conveniences</link>
       <description>A quick note about a few other SimHub-related tools I have built alongside MCP4SH, including LCD-box and Final Drive Lap Board.</description>
       <category>Experiments</category>
     </item>
     <item>
       <title>MCP4SH v1.1.11 field notes</title>
-      <link>https://tytosensorylabs.com/labnotes/posts/mcp4sh-v111-field-notes.html</link>
+      <link>https://tytosensorylabs.com/labnotes.html?note=mcp4sh-v111-field-notes</link>
       <description>What v1.1.11 changed in practice: cleaner ST Haptics, better noisy-source handling, safer setup/licensing paths, and a stronger release baseline.</description>
       <category>Release Notes</category>
     </item>
     <item>
       <title>What TCR means</title>
-      <link>https://tytosensorylabs.com/labnotes/posts/what-tcr-means.html</link>
+      <link>https://tytosensorylabs.com/labnotes.html?note=what-tcr-means</link>
       <description>TCR is the Telemetry Clarity Rating: a plain-language way to set expectations for how clearly a title&#x27;s telemetry translates into MCP4SH ST Haptics.</description>
       <category>Telemetry Clarity / TCR</category>
     </item>
     <item>
       <title>The supported MCP4SH baseline</title>
-      <link>https://tytosensorylabs.com/labnotes/posts/mcp4sh-supported-baseline.html</link>
+      <link>https://tytosensorylabs.com/labnotes.html?note=mcp4sh-supported-baseline</link>
       <description>MCP4SH is not a standard SimHub effects stack. This note explains what counts as the supported reference and why manually separated formulas can be misleading.</description>
       <category>Support Baseline</category>
     </item>
     <item>
       <title>Hardware setup starts with mounting discipline</title>
-      <link>https://tytosensorylabs.com/labnotes/posts/hardware-mounting-discipline.html</link>
+      <link>https://tytosensorylabs.com/labnotes.html?note=hardware-mounting-discipline</link>
       <description>A quick hardware note on why shaker mounting, isolation, gain staging, and physical routing matter before software tuning starts.</description>
       <category>Setup &amp; Hardware</category>
     </item>

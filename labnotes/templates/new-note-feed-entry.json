@@ -1,13 +1,4 @@
 {
-  "title": "NOTE_TITLE",
-  "date": "YYYY-MM-DD",
-  "category": "Release Notes | Setup & Hardware | Telemetry Clarity / TCR | Support Baseline | Experiments",
-  "slug": "note-slug-here",
-  "summary": "One or two plain-language sentences describing what the note is about.",
-  "tags": [
-    "MCP4SH",
-    "tag-two",
-    "tag-three"
-  ],
-  "url": "labnotes/posts/note-slug-here.html"
+  "deprecated": true,
+  "use": "Resources/labnotes.js"
 }

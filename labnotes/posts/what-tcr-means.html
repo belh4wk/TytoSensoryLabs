@@ -3,82 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>What TCR means | Lab Notes</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { --bg:#050505; --panel:rgba(18,18,18,0.84); --border:rgba(255,255,255,0.08); --text:#d6d6d6; --muted:#8d8d8d; --accent:#6e603f; --accent-2:#d7c69f; --shadow:0 22px 48px rgba(0,0,0,0.36); }
-    body { margin:0; background:radial-gradient(circle at 18% 0%, #191919 0%, var(--bg) 38%, #090909 100%); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    .topbar { position:sticky; top:0; z-index:40; backdrop-filter:blur(14px); background:rgba(10,10,10,0.78); border-bottom:1px solid var(--border); }
-    .panel { border:1px solid var(--border); background:linear-gradient(180deg,rgba(20,20,20,0.88) 0%,rgba(15,15,15,0.8) 100%); backdrop-filter:blur(12px); box-shadow:var(--shadow); border-radius:28px; }
-    .lab-note-sheet { position:relative; overflow:hidden; background:linear-gradient(90deg,rgba(130,225,235,.08) 0 1px,transparent 1px 100%),linear-gradient(0deg,rgba(130,225,235,.055) 0 1px,transparent 1px 100%),linear-gradient(135deg,rgba(35,31,20,.92),rgba(12,19,22,.86)); background-size:26px 26px,26px 26px,auto; border-color:rgba(130,225,235,.16); }
-    .lab-note-sheet::before { content:""; position:absolute; left:2rem; top:0; width:6.5rem; height:.5rem; border-radius:0 0 8px 8px; background:linear-gradient(90deg,rgba(212,175,55,.18),rgba(130,225,235,.12)); box-shadow:0 6px 16px rgba(0,0,0,.25); }
-    .lab-note-sheet::after { content:""; position:absolute; right:1.4rem; top:1.4rem; width:3.5rem; height:3.5rem; border-top:1px solid rgba(130,225,235,.28); border-right:1px solid rgba(130,225,235,.28); pointer-events:none; opacity:.75; }
-    .eyebrow { letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-size:.76rem; }
-    .headline { color:white; line-height:1.03; font-weight:700; letter-spacing:-.03em; }
-    .accent { color:var(--accent-2); }
-    .copy { color:#bfbfbf; line-height:1.9; }
-    .copy strong { color:#f1f1f1; }
-    .copy ul { margin-top:.8rem; margin-bottom:.8rem; padding-left:1.25rem; }
-    .copy li { margin:.25rem 0; }
-    .btn { display:inline-flex; align-items:center; justify-content:center; gap:.55rem; border-radius:999px; padding:.82rem 1.12rem; font-weight:600; text-decoration:none; transition:transform 180ms ease,border-color 180ms ease,color 180ms ease; }
-    .btn:hover { transform:translateY(-1px); }
-    .btn-secondary { background:rgba(18,18,18,0.72); color:var(--text); border:1px solid var(--border); }
-    .btn-secondary:hover { border-color:rgba(110,96,63,0.45); color:#f5f5f5; }
-    /* MCP4SH plugin/TCR palette */
-    .pill { --chip:#d7c69f; display:inline-flex; align-items:center; border:1px solid color-mix(in srgb,var(--chip) 54%,transparent); background:linear-gradient(180deg,color-mix(in srgb,var(--chip) 12%,transparent),rgba(0,0,0,.18)); color:color-mix(in srgb,var(--chip) 88%,white 12%); border-radius:999px; padding:.42rem .7rem; font-size:.78rem; box-shadow:inset 0 0 0 1px rgba(0,0,0,.22),0 0 18px color-mix(in srgb,var(--chip) 10%,transparent); }
-    .pill-date,.pill-tag { --chip:#787878; color:#c7c7c7; background:rgba(255,255,255,.025); }
-    .cat-release { --chip:#d4af37; }
-    .cat-setup { --chip:#82e1eb; }
-    .cat-tcr { --chip:#e5e4e2; }
-    .cat-support { --chip:#c0c0c0; }
-    .cat-experiments { --chip:#cd7f32; }
-    .tcr-rating { display:inline-flex; align-items:center; border-radius:999px; padding:.18rem .55rem; margin-right:.35rem; border:1px solid color-mix(in srgb,var(--tier) 58%,transparent); background:color-mix(in srgb,var(--tier) 11%,transparent); color:color-mix(in srgb,var(--tier) 90%,white 10%); font-weight:700; }
-    .tcr-titanium { --tier:#82e1eb; }
-    .tcr-platinum { --tier:#e5e4e2; }
-    .tcr-gold { --tier:#d4af37; }
-    .tcr-silver { --tier:#c0c0c0; }
-    .tcr-bronze { --tier:#cd7f32; }
-    .tcr-grey { --tier:#787878; }
-  </style>
+  <meta http-equiv="refresh" content="0; url=../../labnotes.html?note=what-tcr-means" />
+  <link rel="canonical" href="https://tytosensorylabs.com/labnotes.html?note=what-tcr-means" />
+  <title>Lab Notes | Tyto Sensory Labs</title>
+  <script>window.location.replace('../../labnotes.html?note=what-tcr-means');</script>
 </head>
 <body>
-  <div class="topbar">
-    <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 md:px-6">
-      <a href="../../index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
-      <div class="hidden items-center gap-5 text-sm md:flex">
-        <a class="text-[#8d8d8d] hover:text-white transition" href="../../mcp4sh.html">MCP4SH</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="../../labnotes.html">Lab Notes</a>
-      </div>
-      <a class="btn btn-secondary !px-3 !py-2 text-sm md:hidden" href="../../labnotes.html">Back</a>
-    </div>
-  </div>
-  <main class="mx-auto max-w-5xl px-4 py-12 md:px-6 md:py-18">
-    <article class="panel lab-note-sheet p-8 md:p-12">
-      <div class="flex flex-wrap gap-2">
-        <span class="pill cat-tcr">Telemetry Clarity / TCR</span>
-        <span class="pill pill-date">2026-07-20</span>
-      </div>
-      <h1 class="headline mt-5 text-4xl md:text-6xl">What TCR means</h1>
-      <div class="copy mt-8 text-base md:text-lg">
-        
-<p><strong>TCR</strong> means <strong>Telemetry Clarity Rating</strong>. It is not a car-quality score and it is not a claim that one sim is better than another.</p>
-<p>It is a plain-language expectation label for how clearly a title's telemetry tends to translate into MCP4SH ST Haptics.</p>
-<ul>
-  <li><span class="tcr-rating tcr-titanium">Titanium · Clean</span> clean signal separation and highly readable core cues.</li>
-  <li><span class="tcr-rating tcr-platinum">Platinum · Balanced</span> well-behaved telemetry with minor texture or noise.</li>
-  <li><span class="tcr-rating tcr-gold">Gold · Rough but Usable</span> high activity or rougher surfaces, but important cues remain distinguishable.</li>
-  <li><span class="tcr-rating tcr-silver">Silver · Busy / Noisy</span> dense or noisy telemetry; expect a busier baseline and less separation between some effects.</li>
-  <li><span class="tcr-rating tcr-bronze">Bronze · Sparse</span> limited or incomplete telemetry; some cues may be inferred, simplified, or subtle.</li>
-  <li><span class="tcr-rating tcr-grey">Grey · Unknown</span> not enough MCP4SH validation yet.</li>
-</ul>
-<p>The goal is expectation-setting: what should this title feel like through MCP4SH, and how much of the signal can be trusted as clean telemetry rather than source noise?</p>
-
-      </div>
-      <div class="mt-10 flex flex-wrap gap-3">
-        <a class="btn btn-secondary" href="../../labnotes.html">← Back to Lab Notes</a>
-        <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/edit/main/labnotes/posts/what-tcr-means.html">Edit on GitHub</a>
-      </div>
-    </article>
-  </main>
+  <p>This Lab Note has moved to <a href="../../labnotes.html?note=what-tcr-means">the consolidated Lab Notes page</a>.</p>
 </body>
 </html>
