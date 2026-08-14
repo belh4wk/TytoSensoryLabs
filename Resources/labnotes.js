@@ -26,7 +26,7 @@ window.TYTO_LAB_NOTES = {
 	  category: "Release Notes", // Experiments | Setup & Hardware | Telemetry Clarity / TCR | Support Baseline | Experiments
 	  slug: "mcp4sh-v11121-field-notes",
 	  summary: "First localisations implemented, clearer engine & tyre effects, future updates QoL features, various fixes",
-	  tags: ["MCP4SH", "v1.1.12", "ST Haptics", "release"],
+	  tags: ["MCP4SH", "v1.1.12", "Hotfix", "Licensing", "Updater"],
 	  body: `
 		 <p>
 		  MCP4SH® v1.1.12.1 is a small but important hotfix for the v1.1.12 release.
