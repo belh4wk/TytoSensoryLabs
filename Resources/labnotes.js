@@ -8,7 +8,7 @@ window.TYTO_LAB_NOTES = {
       "date": "2026-08-15",
       "category": "Tyto Sensory Labs",
       "slug": "website-updates",
-      "summary": "As the title says; website updates 😎🤩",
+      "summary": "As the title says; website updates",
       "tags": [
         "Tyto Sensory Labs",
         "Website",
