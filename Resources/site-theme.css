@@ -5,25 +5,25 @@
 :root {
   --bg: #000000 !important;
   --bg-soft: #030303 !important;
-  --panel: rgba(3,3,3,0.28) !important;
+  --panel: rgba(2,2,2,0.22) !important;
   --border: rgba(220,225,232,0.10) !important;
   --shadow: 0 22px 52px rgba(0,0,0,0.38) !important;
 
   --tyto-black: #000000;
   --tyto-graphite: #080808;
   --tyto-graphite-deep: #020202;
-  --tyto-glass-top: rgba(5,5,5,0.30);
-  --tyto-glass-bottom: rgba(0,0,0,0.20);
-  --tyto-glass-hover-top: rgba(10,10,10,0.40);
-  --tyto-glass-hover-bottom: rgba(1,1,1,0.28);
-  --tyto-glass-solid: rgba(2,2,2,0.70);
+  --tyto-glass-top: rgba(4,4,4,0.22);
+  --tyto-glass-bottom: rgba(0,0,0,0.12);
+  --tyto-glass-hover-top: rgba(8,8,8,0.32);
+  --tyto-glass-hover-bottom: rgba(0,0,0,0.19);
+  --tyto-glass-solid: rgba(2,2,2,0.62);
   --tyto-line: rgba(220,225,232,0.10);
   --tyto-line-strong: rgba(230,234,240,0.15);
   --tyto-silver: #bfc4ca;
   --tyto-gold: #d4c28f;
   --tyto-gold-deep: #7a6940;
-  --tyto-blur: blur(16px) saturate(56%);
-  --tyto-blur-soft: blur(10px) saturate(58%);
+  --tyto-blur: blur(8px) saturate(52%);
+  --tyto-blur-soft: blur(5px) saturate(54%);
 }
 
 html {
@@ -39,8 +39,8 @@ body {
 .topbar {
   background: rgba(0,0,0,0.62) !important;
   border-bottom-color: rgba(220,225,232,0.08) !important;
-  backdrop-filter: blur(12px) saturate(54%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(54%) !important;
+  backdrop-filter: blur(8px) saturate(52%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(52%) !important;
   box-shadow: 0 10px 30px rgba(0,0,0,0.18) !important;
 }
 
@@ -79,7 +79,7 @@ body {
 
 /* FAQ uses precisely the same material as the content cards, just shallower. */
 .faq-item {
-  background: linear-gradient(180deg, rgba(5,5,5,0.27), rgba(0,0,0,0.18)) !important;
+  background: linear-gradient(180deg, rgba(4,4,4,0.21), rgba(0,0,0,0.11)) !important;
   box-shadow: 0 14px 34px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.014) !important;
 }
 .faq-item[open] summary {
@@ -89,10 +89,10 @@ body {
 /* Reviews: gold remains the editorial outline/divider, but every actual glass
    surface is neutral black/graphite. No cyan/blue material tint. */
 .review-card {
-  background: linear-gradient(180deg, rgba(5,5,5,0.24), rgba(0,0,0,0.16)) !important;
+  background: linear-gradient(180deg, rgba(4,4,4,0.19), rgba(0,0,0,0.10)) !important;
   border-color: rgba(212,194,143,0.34) !important;
-  backdrop-filter: blur(14px) saturate(55%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(55%) !important;
+  backdrop-filter: blur(8px) saturate(52%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(52%) !important;
   box-shadow: 0 16px 38px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.012) !important;
 }
 .review-card:hover,
@@ -104,8 +104,8 @@ body {
 .review-modal-card {
   background: linear-gradient(180deg, rgba(5,5,5,0.78), rgba(0,0,0,0.74)) !important;
   border-color: rgba(212,194,143,0.52) !important;
-  backdrop-filter: blur(16px) saturate(54%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(54%) !important;
+  backdrop-filter: blur(9px) saturate(52%) !important;
+  -webkit-backdrop-filter: blur(9px) saturate(52%) !important;
 }
 .review-modal-close {
   background: rgba(3,3,3,0.82) !important;
@@ -159,19 +159,19 @@ select {
 .video-shell,
 .shots-shell,
 .ecosystem-strip {
-  background: linear-gradient(180deg, rgba(5,5,5,0.25) 0%, rgba(0,0,0,0.17) 100%) !important;
+  background: linear-gradient(180deg, rgba(4,4,4,0.20) 0%, rgba(0,0,0,0.10) 100%) !important;
   border-color: var(--tyto-line) !important;
-  backdrop-filter: blur(16px) saturate(54%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(54%) !important;
+  backdrop-filter: blur(9px) saturate(52%) !important;
+  -webkit-backdrop-filter: blur(9px) saturate(52%) !important;
 }
 .ecosystem-strip {
-  background: linear-gradient(180deg, rgba(4,4,4,0.31), rgba(0,0,0,0.23)) !important;
+  background: linear-gradient(180deg, rgba(4,4,4,0.23), rgba(0,0,0,0.13)) !important;
 }
 .ecosystem-link {
   background: rgba(2,2,2,0.23) !important;
   border-color: rgba(220,225,232,0.09) !important;
-  backdrop-filter: blur(9px) saturate(54%) !important;
-  -webkit-backdrop-filter: blur(9px) saturate(54%) !important;
+  backdrop-filter: blur(5px) saturate(52%) !important;
+  -webkit-backdrop-filter: blur(5px) saturate(52%) !important;
 }
 .ecosystem-link:hover {
   background: rgba(7,7,7,0.34) !important;
@@ -181,10 +181,10 @@ select {
    injected shared footer is styled below in site-footer.js as well. */
 .footer-nav,
 body > footer:not(.tyto-site-footer) {
-  background: rgba(0,0,0,0.50) !important;
+  background: rgba(0,0,0,0.34) !important;
   border-color: rgba(220,225,232,0.08) !important;
-  backdrop-filter: blur(14px) saturate(54%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(54%) !important;
+  backdrop-filter: blur(8px) saturate(52%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(52%) !important;
 }
 
 
@@ -232,8 +232,8 @@ body > footer:not(.tyto-site-footer) {
     text-decoration: none;
     font-size: .76rem;
     font-weight: 650;
-    backdrop-filter: blur(9px) saturate(54%);
-    -webkit-backdrop-filter: blur(9px) saturate(54%);
+    backdrop-filter: blur(5px) saturate(52%);
+    -webkit-backdrop-filter: blur(5px) saturate(52%);
   }
   .mobile-global-links a[aria-current="page"] {
     color: #f0e3bc;

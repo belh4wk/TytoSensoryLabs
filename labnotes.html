@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lab Notes | Tyto Sensory Labs</title>
-  <meta name="description" content="Lab Notes from Tyto Sensory Labs: MCP4SH release commentary, setup notes, telemetry clarity/TCR context, and future experiments." />
+    <link rel="icon" href="data:," />
+<meta name="description" content="Lab Notes from Tyto Sensory Labs: MCP4SH release commentary, setup notes, telemetry clarity/TCR context, and future experiments." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -315,6 +316,54 @@
       .note-entry { width: min(var(--note-width), 96%) !important; margin-bottom: 1.15rem; }
       .note-entry:nth-child(odd) { margin-left: 0; margin-right: auto; }
       .note-entry:nth-child(even) { margin-left: auto; margin-right: 0; }
+    }
+
+    /* Compact blueprint previews: full note remains available in the pick-up layer. */
+    .note-entry {
+      padding: .72rem 1rem .78rem !important;
+      margin-bottom: .82rem !important;
+      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%) !important;
+    }
+    .note-entry::after { width:22px !important; height:22px !important; }
+    .note-rail {
+      gap:.34rem !important;
+      padding:0 1.7rem .38rem 0 !important;
+      margin-bottom:.42rem !important;
+    }
+    .note-title {
+      margin:.05rem 0 0 !important;
+      font-size:clamp(1.12rem,2.25vw,1.48rem) !important;
+      line-height:1.08 !important;
+    }
+    .note-summary {
+      margin-top:.38rem !important;
+      font-size:.84rem !important;
+      line-height:1.35 !important;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+    .note-footer {
+      margin-top:.55rem !important;
+      padding-top:.48rem !important;
+      gap:.5rem !important;
+    }
+    .note-tags {
+      display:flex;
+      flex-wrap:nowrap;
+      gap:.3rem;
+      overflow:hidden;
+      min-width:0;
+      max-width:72%;
+    }
+    .note-entry .pill { padding:.16rem .42rem !important; font-size:.66rem !important; white-space:nowrap; }
+    .note-entry .read-link { white-space:nowrap; font-size:.78rem; }
+    @media (max-width:720px) {
+      .note-entry { padding:.68rem .82rem .72rem !important; }
+      .note-title { font-size:1.12rem !important; }
+      .note-summary { -webkit-line-clamp:2; font-size:.81rem !important; }
+      .note-tags { max-width:66%; }
     }
 </style>
   <link rel="stylesheet" href="Resources/site-theme.css" />

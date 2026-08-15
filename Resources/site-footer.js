@@ -12,10 +12,11 @@
       z-index: 8;
       margin-top: 4rem;
       border-top: 1px solid rgba(220,225,232,0.09);
-      background: rgba(0,0,0,0.50);
-      backdrop-filter: blur(14px) saturate(54%);
-      -webkit-backdrop-filter: blur(14px) saturate(54%);
+      background: linear-gradient(180deg, rgba(8,8,8,0.24), rgba(0,0,0,0.38));
+      backdrop-filter: blur(8px) saturate(52%);
+      -webkit-backdrop-filter: blur(8px) saturate(52%);
       color: #9a9a9a;
+      box-shadow: 0 -18px 46px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.018);
     }
     .tyto-footer-inner {
       width: min(1180px, calc(100% - 2rem));
@@ -64,6 +65,12 @@
       .tyto-footer-grid > :first-child { grid-column: 1 / -1; }
     }
     @media (max-width: 540px) {
+      .tyto-site-footer {
+        background: linear-gradient(180deg, rgba(7,7,7,.22), rgba(0,0,0,.40));
+        backdrop-filter: blur(7px) saturate(50%);
+        -webkit-backdrop-filter: blur(7px) saturate(50%);
+        border-top-color: rgba(225,230,236,.14);
+      }
       .tyto-footer-grid { grid-template-columns: 1fr; }
       .tyto-footer-grid > :first-child { grid-column: auto; }
       .tyto-footer-bottom { flex-direction: column; }
