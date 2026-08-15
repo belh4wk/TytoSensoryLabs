@@ -73,9 +73,6 @@
         linear-gradient(180deg, rgba(2,2,2,0.015) 0%, rgba(2,2,2,0.002) 48%, rgba(2,2,2,0.055) 100%),
         radial-gradient(ellipse at 50% 45%, transparent 0%, transparent 64%, rgba(2,2,2,0.07) 100%);
     }
-    @media (max-width: 900px) {
-      .mcp-track-scene { opacity: 0.88; }
-    }
     body {
       margin: 0;
       color: var(--text);
@@ -703,19 +700,21 @@
   </script>
 
   <div class="topbar">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
       <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
-      <div class="hidden items-center gap-5 text-sm md:flex">
-        <a class="text-[#8d8d8d] hover:text-white transition" href="#what-it-does">What it does</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="#screenshots">Screenshots</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="#paid">Paid version</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="#faq">FAQ</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="ocpf.html">OCPF</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="reviews.html">Reviews</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="labnotes.html">Lab Notes</a>
-      </div>
+      <nav class="site-global-nav hidden md:flex" aria-label="Site navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#mcp4h">MCP4H</a>
+        <a href="ocpf.html">OCPF</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="labnotes.html">Lab Notes</a>
+      </nav>
       <a id="nav-download" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Download</a>
     </div>
+    <nav class="mobile-global-links md:hidden" aria-label="Mobile site navigation">
+      <a href="reviews.html">Reviews</a>
+      <a href="labnotes.html">Lab Notes</a>
+    </nav>
   </div>
 
   <main class="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
@@ -1321,7 +1320,8 @@
       const CAMERA_HEIGHT = 4.6;
       const COURSE_LENGTH = 6200;
       const VIEW_AHEAD = 1850;
-      const NEAR_CLIP = 18;
+      const PROJECTION_NEAR = 2.4;
+      const SAMPLE_START = 4.25;
       const SAMPLE_STEP = 32;
 
       let viewportW = 0;
@@ -1359,6 +1359,31 @@
         return { x, y, z };
       }
 
+      // A believable high-speed line through the left-right-left sequence:
+      // outside on approach, clip Eau Rouge left, cross to Raidillon right,
+      // clip the left crest, then let the car breathe back toward the exit.
+      const RACING_LINE_KNOTS = [
+        [0.00,  0.22],
+        [0.38,  0.62],
+        [0.50, -0.58],
+        [0.63,  0.60],
+        [0.77, -0.58],
+        [0.90,  0.44],
+        [1.00,  0.18]
+      ];
+      function racingLineOffset(t) {
+        t = clamp01(t);
+        for (let i = 0; i < RACING_LINE_KNOTS.length - 1; i++) {
+          const a = RACING_LINE_KNOTS[i];
+          const b = RACING_LINE_KNOTS[i + 1];
+          if (t <= b[0]) {
+            const local = smoothstep((t - a[0]) / Math.max(b[0] - a[0], 0.0001));
+            return a[1] + (b[1] - a[1]) * local;
+          }
+        }
+        return RACING_LINE_KNOTS[RACING_LINE_KNOTS.length - 1][1];
+      }
+
       function sub(a, b) { return { x: a.x-b.x, y: a.y-b.y, z: a.z-b.z }; }
       function dot(a, b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
       function cross(a, b) {
@@ -1384,7 +1409,7 @@
         const cx = dot(d, basis.right);
         const cy = dot(d, basis.up);
         const cz = dot(d, basis.forward);
-        if (cz <= NEAR_CLIP) return null;
+        if (cz <= PROJECTION_NEAR) return null;
         return {
           x: viewportW * 0.5 + (cx / cz) * focal,
           y: horizonY - (cy / cz) * focal,
@@ -1432,22 +1457,6 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
 
-      function extendPointToY(near, far, targetY, fallbackX) {
-        if (!near) return { x: fallbackX, y: targetY };
-        if (!far) return { x: near.x, y: targetY };
-        const dx = near.x - far.x;
-        const dy = near.y - far.y;
-        if (Math.abs(dy) < 0.5 || dy <= 0) {
-          return { x: fallbackX, y: targetY };
-        }
-        const k = (targetY - near.y) / dy;
-        const x = near.x + dx * k;
-        return {
-          x: Math.max(-viewportW * 0.45, Math.min(viewportW * 1.45, x)),
-          y: targetY
-        };
-      }
-
       function updateTargetProgress() {
         const vh = (window.visualViewport?.height || window.innerHeight) || 1;
         const total = Math.max(document.documentElement.scrollHeight - vh, 1);
@@ -1462,28 +1471,33 @@
         // Keep the camera clear of the very end so there is always road ahead.
         const travelT = 0.015 + progress * 0.83;
         const frame = roadFrame(travelT);
+        const portrait = viewportW <= 700 && viewportH > viewportW * 1.15;
         const camera = {
           x: frame.p.x,
-          y: frame.p.y + CAMERA_HEIGHT,
+          y: frame.p.y + (portrait ? 4.35 : CAMERA_HEIGHT),
           z: frame.p.z
         };
 
-        // Look a little farther along the road than the local tangent. This
-        // produces a calmer, floating camera rather than a twitchy car mount.
-        const look = coursePoint(Math.min(1, travelT + 0.026));
-        const forward = norm(sub({x:look.x, y:look.y+0.35, z:look.z}, camera));
+        // Portrait gets a slightly wider, calmer projection rather than a
+        // different visual identity. It prevents the steep climb from turning
+        // into an exaggerated fold on narrow screens.
+        const lookAhead = portrait ? 0.034 : 0.026;
+        const look = coursePoint(Math.min(1, travelT + lookAhead));
+        const forward = norm(sub({x:look.x, y:look.y+(portrait ? 0.25 : 0.35), z:look.z}, camera));
         const right = norm(cross({x:0,y:1,z:0}, forward));
         const up = norm(cross(forward, right));
         const basis = { forward, right, up };
 
-        const focal = Math.max(viewportW, viewportH) * 0.93;
-        const horizonY = viewportH * 0.43;
+        const focal = portrait
+          ? Math.max(viewportW * 1.35, viewportH * 0.72)
+          : Math.max(viewportW, viewportH) * 0.93;
+        const horizonY = viewportH * (portrait ? 0.40 : 0.43);
 
         // Leave the sky/upper viewport transparent so the scene inherits the
         // same canonical near-black page background as the rest of the site.
         // Track geometry is the only large-area colour in the scene.
 
-        const startZ = camera.z + NEAR_CLIP;
+        const startZ = camera.z + SAMPLE_START;
         const endZ = Math.min(COURSE_LENGTH, camera.z + VIEW_AHEAD);
         const segments = [];
 
@@ -1505,9 +1519,15 @@
           const p1LO = project(sidePoint(f1.p, f1.right, -(ROAD_HALF_WIDTH + edge)), camera, basis, focal, horizonY);
           const p1RO = project(sidePoint(f1.p, f1.right,  (ROAD_HALF_WIDTH + edge)), camera, basis, focal, horizonY);
 
-          const center0 = project(f0.p, camera, basis, focal, horizonY);
-          const center1 = project(f1.p, camera, basis, focal, horizonY);
-          segments.push({ t0, p0L,p0R,p1L,p1R,p0LO,p0RO,p1LO,p1RO,center0,center1 });
+          const line0 = project(
+            sidePoint(f0.p, f0.right, racingLineOffset(t0) * ROAD_HALF_WIDTH),
+            camera, basis, focal, horizonY
+          );
+          const line1 = project(
+            sidePoint(f1.p, f1.right, racingLineOffset(t1) * ROAD_HALF_WIDTH),
+            camera, basis, focal, horizonY
+          );
+          segments.push({ t0, p0L,p0R,p1L,p1R,p0LO,p0RO,p1LO,p1RO,line0,line1 });
         }
 
         // Painter's algorithm: far road first, near road last.
@@ -1528,37 +1548,13 @@
 
           // A restrained warm racing line keeps the existing MCP4SH visual language.
           if (Math.floor((s.t0 * COURSE_LENGTH) / 90) % 2 === 0) {
-            line(s.center0, s.center1, 'rgba(215,198,159,0.42)', Math.max(0.55, 1.5*(1-depth)));
+            line(s.line0, s.line1, 'rgba(215,198,159,0.42)', Math.max(0.55, 1.5*(1-depth)));
           }
         }
 
-        // Extend the nearest visible road all the way through the bottom edge of
-        // the viewport. Sampling begins ahead of the camera to keep projection
-        // stable; without this apron that near clip can read as a black/cropped
-        // band and can appear to jump as the road turns.
-        const nearSeg = segments[0];
-        if (nearSeg) {
-          const targetY = viewportH + 6;
-          const leftBottom = extendPointToY(nearSeg.p0L, nearSeg.p1L, targetY, -viewportW * 0.10);
-          const rightBottom = extendPointToY(nearSeg.p0R, nearSeg.p1R, targetY, viewportW * 1.10);
-          const leftOuterBottom = extendPointToY(nearSeg.p0LO, nearSeg.p1LO, targetY, -viewportW * 0.16);
-          const rightOuterBottom = extendPointToY(nearSeg.p0RO, nearSeg.p1RO, targetY, viewportW * 1.16);
-
-          poly([nearSeg.p0L, nearSeg.p0R, rightBottom, leftBottom], 'rgba(78,82,84,0.42)');
-
-          const nearStripe = Math.floor((nearSeg.t0 * COURSE_LENGTH) / (SAMPLE_STEP * 1.7)) % 2;
-          const nearCurb = nearStripe === 0 ? 'rgba(154,52,42,0.40)' : 'rgba(201,164,62,0.39)';
-          if (nearSeg.p0LO) poly([nearSeg.p0LO, nearSeg.p0L, leftBottom, leftOuterBottom], nearCurb);
-          if (nearSeg.p0RO) poly([nearSeg.p0R, nearSeg.p0RO, rightOuterBottom, rightBottom], nearCurb);
-
-          line(nearSeg.p0L, leftBottom, 'rgba(235,238,240,0.38)', 1.7);
-          line(nearSeg.p0R, rightBottom, 'rgba(235,238,240,0.38)', 1.7);
-
-          if (nearSeg.center0 && nearSeg.center1) {
-            const centerBottom = extendPointToY(nearSeg.center0, nearSeg.center1, targetY, viewportW * 0.5);
-            line(nearSeg.center0, centerBottom, 'rgba(215,198,159,0.38)', 1.45);
-          }
-        }
+        // The first genuine world-space road quad begins close enough to the
+        // camera to project below the viewport. This removes the old screen-space
+        // apron seam entirely instead of hiding it with another trapezoid.
 
         // No full-canvas colour wash: keep empty scene space transparent so
         // MCP4SH inherits the same cold near-black background as every other page.

@@ -163,16 +163,21 @@
 </head>
 <body>
   <div class="topbar">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
       <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
-      <div class="hidden items-center gap-5 text-sm md:flex">
-        <a class="text-[#8d8d8d] hover:text-white transition" href="index.html">Home</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="mcp4sh.html">MCP4SH</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="ocpf.html">OCPF</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="labnotes.html">Lab Notes</a>
-      </div>
+      <nav class="site-global-nav hidden md:flex" aria-label="Site navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#mcp4h">MCP4H</a>
+        <a href="mcp4sh.html">MCP4SH</a>
+        <a href="ocpf.html">OCPF</a>
+        <a href="labnotes.html">Lab Notes</a>
+      </nav>
       <a class="btn btn-primary !px-4 !py-2 text-sm" href="#leave-review">Leave a review</a>
     </div>
+    <nav class="mobile-global-links md:hidden" aria-label="Mobile site navigation">
+      <a href="reviews.html" aria-current="page">Reviews</a>
+      <a href="labnotes.html">Lab Notes</a>
+    </nav>
   </div>
 
   <main class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">

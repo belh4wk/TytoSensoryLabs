@@ -11,10 +11,10 @@
       position: relative;
       z-index: 8;
       margin-top: 4rem;
-      border-top: 1px solid rgba(255,255,255,0.07);
-      background: rgba(0,0,0,0.78);
-      backdrop-filter: blur(22px) saturate(58%);
-      -webkit-backdrop-filter: blur(22px) saturate(58%);
+      border-top: 1px solid rgba(220,225,232,0.09);
+      background: rgba(0,0,0,0.50);
+      backdrop-filter: blur(14px) saturate(54%);
+      -webkit-backdrop-filter: blur(14px) saturate(54%);
       color: #9a9a9a;
     }
     .tyto-footer-inner {

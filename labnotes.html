@@ -141,18 +141,21 @@
       --blueprint-ink: #f3f6ff;
     }
     .note-list {
-      display: block;
-      columns: 2 360px;
-      column-gap: 1.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
     }
     .note-entry {
       --tilt: 0deg;
       --note-width: 100%;
       display: block;
       width: var(--note-width);
-      margin: .35rem auto 1.55rem;
+      margin-top: .35rem;
+      margin-bottom: 1.55rem;
       padding: 1.35rem 1.4rem 1.45rem;
-      break-inside: avoid;
       overflow: hidden;
       border-radius: 5px;
       border: 1px solid rgba(190,207,255,.24);
@@ -171,6 +174,10 @@
       transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, filter 180ms ease;
       clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);
     }
+    .note-entry:nth-child(4n+1) { margin-left: 0; margin-right: auto; }
+    .note-entry:nth-child(4n+2) { margin-left: auto; margin-right: 1.5%; }
+    .note-entry:nth-child(4n+3) { margin-left: 4%; margin-right: auto; }
+    .note-entry:nth-child(4n)   { margin-left: auto; margin-right: 5%; }
     .note-entry:hover,
     .note-entry:focus-visible {
       transform: rotate(0deg) translateY(-4px) scale(1.008);
@@ -302,22 +309,32 @@
       .note-modal { padding: .65rem; }
       .note-modal-sheet { width: 100%; max-height: 94vh; padding: 1.35rem; }
     }
-  </style>
+  
+    @media (max-width: 720px) {
+      .note-list { max-width: none; }
+      .note-entry { width: min(var(--note-width), 96%) !important; margin-bottom: 1.15rem; }
+      .note-entry:nth-child(odd) { margin-left: 0; margin-right: auto; }
+      .note-entry:nth-child(even) { margin-left: auto; margin-right: 0; }
+    }
+</style>
   <link rel="stylesheet" href="Resources/site-theme.css" />
 </head>
 <body>
   <div class="topbar">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
       <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
-      <div class="hidden items-center gap-5 text-sm md:flex">
-        <a class="text-[#8d8d8d] hover:text-white transition" href="index.html">Home</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="mcp4sh.html">MCP4SH</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="ocpf.html">OCPF</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="reviews.html">Reviews</a>
-        <a class="text-[#8d8d8d] hover:text-white transition" href="labnotes.html#categories">Categories</a>
-      </div>
-      <a class="btn btn-primary !px-3 !py-2 text-sm" href="reviews.html">Reviews</a>
+      <nav class="site-global-nav hidden md:flex" aria-label="Site navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#mcp4h">MCP4H</a>
+        <a href="mcp4sh.html">MCP4SH</a>
+        <a href="ocpf.html">OCPF</a>
+        <a href="reviews.html">Reviews</a>
+      </nav>
     </div>
+    <nav class="mobile-global-links md:hidden" aria-label="Mobile site navigation">
+      <a href="reviews.html">Reviews</a>
+      <a href="labnotes.html" aria-current="page">Lab Notes</a>
+    </nav>
   </div>
 
   <main class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-18">
@@ -366,7 +383,7 @@
       <section class="mt-10 panel p-6 md:p-8">
         <p class="eyebrow">Contribution path</p>
         <h2 class="mt-3 text-2xl font-semibold text-white">Small and secure first.</h2>
-        <p class="copy mt-4">TCR observations and setup feedback can start as GitHub issues. Lab Notes themselves remain owner-published through the private Tyto Notes Desk.</p>
+        <p class="copy mt-4">TCR observations and setup feedback can start as GitHub issues. Lab Notes themselves remain owner-published through the private Tyto Content Manager.</p>
         <div class="mt-6 flex flex-wrap gap-3">
           <a class="btn btn-secondary" href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose">Submit feedback on GitHub</a>
           <a class="btn btn-secondary" href="reviews.html">Read or leave a review</a>
@@ -423,7 +440,7 @@
       if (!feed) return;
       const visible = activeCategory === 'All' ? notes : notes.filter(note => note.category === activeCategory);
       const tilts = [-1.05, .62, -.42, .88, -.72, .28, 1.08, -.26];
-      const widths = [98, 94, 100, 96, 92, 99, 95, 100];
+      const widths = [91, 86, 94, 88, 92, 84, 90, 95];
       feed.innerHTML = visible.map((note, index) => {
         const tags = (note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`).join(' ');
         const url = noteUrl(note);

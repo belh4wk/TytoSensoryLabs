@@ -304,19 +304,21 @@
   </script>
 
   <div class="topbar">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
       <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
-      <div class="hidden items-center gap-5 text-sm md:flex">
-        <a class="navlink" href="#workflow">Workflow</a>
-        <a class="navlink" href="#features">Features</a>
-        <a class="navlink" href="#platforms">Platforms</a>
-        <a class="navlink" href="#faq">FAQ</a>
-        <a class="navlink" href="mcp4sh.html">MCP4SH</a>
-        <a class="navlink" href="reviews.html">Reviews</a>
-        <a class="navlink" href="labnotes.html">Lab Notes</a>
-      </div>
+      <nav class="site-global-nav hidden md:flex" aria-label="Site navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#mcp4h">MCP4H</a>
+        <a href="mcp4sh.html">MCP4SH</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="labnotes.html">Lab Notes</a>
+      </nav>
       <a id="nav-purchase" class="btn btn-primary !px-4 !py-2 text-sm" href="#availability">Get OCPF</a>
     </div>
+    <nav class="mobile-global-links md:hidden" aria-label="Mobile site navigation">
+      <a href="reviews.html">Reviews</a>
+      <a href="labnotes.html">Lab Notes</a>
+    </nav>
   </div>
 
   <main>
