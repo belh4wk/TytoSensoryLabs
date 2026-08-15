@@ -400,6 +400,93 @@
       .note-excerpt { -webkit-line-clamp:4; font-size:.82rem; line-height:1.52; margin-top:.8rem; }
       .note-tags { max-width:74%; }
     }
+
+
+    /* Phone blueprint cards: preserve the 4:3 sheet shape, but use a denser,
+       predictable internal layout so metadata/text never collide or clip oddly. */
+    @media (max-width: 760px) {
+      .note-list {
+        width:100%;
+        max-width:none;
+        padding:0 .1rem;
+        overflow:visible;
+      }
+      .note-entry,
+      .note-entry:nth-child(n) {
+        --note-width:92% !important;
+        width:var(--note-width) !important;
+        aspect-ratio:4 / 3 !important;
+        display:flex !important;
+        flex-direction:column !important;
+        padding:1rem 1rem 1.08rem !important;
+        margin-bottom:1.35rem !important;
+        overflow:hidden !important;
+      }
+      .note-entry:nth-child(odd) { margin-left:0 !important; margin-right:auto !important; }
+      .note-entry:nth-child(even) { margin-left:auto !important; margin-right:0 !important; }
+      .note-rail {
+        display:flex !important;
+        flex-direction:row !important;
+        align-items:center !important;
+        flex-wrap:nowrap !important;
+        gap:.32rem !important;
+        min-width:0 !important;
+        padding:0 1.65rem .46rem 0 !important;
+        margin:0 !important;
+        border:0 !important;
+        overflow:hidden !important;
+      }
+      .note-index { flex:0 0 auto; font-size:.6rem !important; letter-spacing:.12em !important; }
+      .note-rail .pill { flex:0 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+      .note-entry .note-body { flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+      .note-title {
+        margin:.04rem 0 0 !important;
+        font-size:1.18rem !important;
+        line-height:1.08 !important;
+        display:-webkit-box;
+        -webkit-line-clamp:2;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+      }
+      .note-summary {
+        margin-top:.48rem !important;
+        font-size:.79rem !important;
+        line-height:1.38 !important;
+        -webkit-line-clamp:2 !important;
+      }
+      .note-excerpt {
+        margin-top:.52rem !important;
+        font-size:.75rem !important;
+        line-height:1.4 !important;
+        -webkit-line-clamp:3 !important;
+      }
+      .note-footer {
+        margin-top:auto !important;
+        padding-top:.5rem !important;
+        gap:.42rem !important;
+        align-items:flex-end !important;
+        flex-wrap:nowrap !important;
+        min-width:0;
+      }
+      .note-tags {
+        flex:1 1 auto;
+        min-width:0;
+        max-width:none !important;
+        max-height:1.55rem;
+        flex-wrap:nowrap !important;
+        overflow:hidden !important;
+      }
+      .note-entry .pill { padding:.14rem .37rem !important; font-size:.61rem !important; }
+      .note-entry .read-link { flex:0 0 auto; font-size:.74rem !important; line-height:1.25; }
+    }
+    @media (max-width: 380px) {
+      .note-entry,
+      .note-entry:nth-child(n) { --note-width:94% !important; padding:.9rem .9rem 1rem !important; }
+      .note-summary { -webkit-line-clamp:2 !important; }
+      .note-excerpt { -webkit-line-clamp:2 !important; }
+      .note-tags { max-height:1.45rem; }
+    }
+
 </style>
   <link rel="stylesheet" href="Resources/site-theme.css" />
 </head>
@@ -535,11 +622,10 @@
       if (!feed) return;
       const visible = activeCategory === 'All' ? notes : notes.filter(note => note.category === activeCategory);
       const tilts = [-1.05, .62, -.42, .88, -.72, .28, 1.08, -.26];
-      const widths = [68, 72, 66, 70, 69, 73, 67, 71];
       feed.innerHTML = visible.map((note, index) => {
         const tags = (note.tags || []).map(tag => `<span class="pill ${pillClass(tag, 'tag')}">${escapeHtml(tag)}</span>`).join(' ');
         const url = noteUrl(note);
-        return `<article class="note-entry" style="--tilt:${tilts[index % tilts.length]}deg;--note-width:${widths[index % widths.length]}%" data-note-slug="${escapeHtml(note.slug)}" tabindex="0" role="button" aria-label="Open ${escapeHtml(note.title)}">
+        return `<article class="note-entry" style="--tilt:${tilts[index % tilts.length]}deg" data-note-slug="${escapeHtml(note.slug)}" tabindex="0" role="button" aria-label="Open ${escapeHtml(note.title)}">
           <aside class="note-rail">
             <span class="note-index">${formatNoteNumber(index)}</span>
             <span class="pill ${pillClass(note.category)}">${escapeHtml(note.category)}</span>
@@ -633,6 +719,7 @@
     const requestedSlug = new URLSearchParams(window.location.search).get('note');
     if (requestedSlug) openNote(requestedSlug, false);
   </script>
+  <script src="Resources/site-nav.js"></script>
   <script src="Resources/site-footer.js"></script>
 </body>
 </html>
