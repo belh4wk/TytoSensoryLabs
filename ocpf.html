@@ -28,8 +28,8 @@
     }
 
     * { box-sizing: border-box; }
-    .topbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(0,0,0,.76); border-bottom: 1px solid var(--border); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border-radius: 999px; padding: .82rem 1.12rem; font-weight: 600; text-decoration: none; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease; }
+    .topbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(0,0,0,.78); border-bottom: 1px solid var(--border); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border-radius: 999px; padding: .9rem 1.25rem; font-weight: 600; text-decoration: none; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease; }
     .btn:hover { transform: translateY(-1px); }
     .btn-primary { background: var(--accent); color: #111; border: 1px solid var(--accent); box-shadow: 0 10px 24px rgba(110,96,63,.18); }
     .btn-primary:hover { background: #857552; }
@@ -199,16 +199,16 @@
       position: absolute;
       inset: -30px;
       background: url("Resources/OCPF-RigBackdrop.jpg") center 55% / cover no-repeat;
-      filter: grayscale(.80) saturate(.30) brightness(.46) contrast(1.05) blur(13px);
-      transform: scale(1.055);
-      opacity: .72;
+      filter: grayscale(.74) saturate(.34) brightness(.62) contrast(1.08) blur(9px);
+      transform: scale(1.045);
+      opacity: .90;
       z-index: -2;
       pointer-events: none;
     }
     .ocpf-centre::after {
       background:
-        radial-gradient(circle at 50% 43%, rgba(0,0,0,.16) 0%, rgba(0,0,0,.30) 45%, rgba(0,0,0,.62) 100%),
-        linear-gradient(180deg, rgba(0,0,0,.26), rgba(0,0,0,.48));
+        radial-gradient(circle at 50% 43%, rgba(0,0,0,.08) 0%, rgba(0,0,0,.20) 48%, rgba(0,0,0,.50) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.34));
       z-index: -1;
     }
     .ocpf-centre:focus-visible { outline: 1px solid rgba(212,194,143,.42); outline-offset: -2px; }
@@ -275,6 +275,27 @@
       font-size: .72rem;
       line-height: 1.4;
     }
+    .ocpf-centre-copy.has-media { width: min(960px, 94%); }
+    .ocpf-centre-media {
+      width: min(100%, 940px);
+      max-height: min(44vh, 440px);
+      margin: 20px auto 0;
+      object-fit: contain;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid rgba(220,225,232,.11);
+      background: #020202;
+      box-shadow: 0 22px 48px rgba(0,0,0,.44);
+      user-select: none;
+      pointer-events: none;
+    }
+    .ocpf-centre-caption {
+      margin: 8px auto 0 !important;
+      color: #85898d !important;
+      font-size: .66rem !important;
+      line-height: 1.4 !important;
+    }
+
     .ocpf-invoke-hint {
       position: absolute;
       left: 50%;
@@ -299,19 +320,29 @@
       transform: scale(.96);
       transition: opacity 120ms ease, transform 120ms ease;
       z-index: 10;
-      filter: drop-shadow(0 18px 34px rgba(0,0,0,.6));
+      border-radius: 50%;
+      background: rgba(9,11,13,.22);
+      backdrop-filter: blur(18px) saturate(34%) brightness(.72);
+      -webkit-backdrop-filter: blur(18px) saturate(34%) brightness(.72);
+      box-shadow: 0 20px 46px rgba(0,0,0,.48), inset 0 0 38px rgba(0,0,0,.24);
+      filter: drop-shadow(0 16px 30px rgba(0,0,0,.38));
     }
     .ocpf-radial.open { opacity: 1; visibility: visible; pointer-events: auto; transform: scale(1); }
     .ocpf-radial svg { width: 100%; height: 100%; overflow: visible; }
     .ocpf-radial-sector {
-      fill: rgba(8,8,8,.86);
-      stroke: rgba(220,225,232,.22);
-      stroke-width: 1;
+      fill: rgba(15,17,19,.76);
+      stroke: rgba(220,225,232,.035);
+      stroke-width: .35;
       cursor: pointer;
-      transition: fill 100ms ease, stroke 100ms ease;
+      transition: fill 100ms ease, stroke 100ms ease, filter 100ms ease;
+      filter: drop-shadow(0 0 5px rgba(0,0,0,.25));
     }
     .ocpf-radial-sector:hover,
-    .ocpf-radial-sector.active { fill: rgba(24,24,24,.94); stroke: rgba(199,181,128,.92); }
+    .ocpf-radial-sector.active {
+      fill: rgba(28,30,32,.84);
+      stroke: rgba(199,181,128,.48);
+      filter: drop-shadow(0 0 8px rgba(199,181,128,.10));
+    }
     .ocpf-radial-label {
       fill: #f0f1f1;
       font-size: 10px;
@@ -325,9 +356,9 @@
       stroke-linejoin: round;
     }
     .ocpf-radial-centre {
-      fill: rgba(4,4,4,.96);
-      stroke: rgba(199,181,128,.72);
-      stroke-width: 1.4;
+      fill: rgba(15,17,19,.84);
+      stroke: rgba(199,181,128,.42);
+      stroke-width: .8;
       cursor: pointer;
     }
     .ocpf-radial-centre-title {
@@ -437,6 +468,8 @@
       .ocpf-centre-kicker { margin-bottom: 8px; font-size: .54rem; }
       .ocpf-centre-page h2 { font-size: clamp(1.55rem, 8vw, 2.3rem); }
       .ocpf-centre-page p { margin-top: 10px; font-size: .72rem; line-height: 1.47; max-width: 43ch; }
+      .ocpf-centre-media { max-height: 34vh; margin-top: 10px; border-radius: 10px; }
+      .ocpf-centre-caption { font-size: .58rem !important; margin-top: 5px !important; }
       .ocpf-centre-lines { margin-top: 14px; width: min(390px,100%); }
       .ocpf-centre-line { min-height: 31px; grid-template-columns: 72px 1fr; gap: 9px; padding: 5px 1px; }
       .ocpf-centre-line strong { font-size: .59rem; }
@@ -446,13 +479,13 @@
       .ocpf-radial-label { font-size: 9px; }
       .ocpf-centre::before {
         background-position: center 57%;
-        filter: grayscale(.80) saturate(.30) brightness(.50) contrast(1.03) blur(11px);
-        opacity: .76;
+        filter: grayscale(.74) saturate(.34) brightness(.64) contrast(1.06) blur(8px);
+        opacity: .92;
       }
       .ocpf-centre::after {
         background:
-          radial-gradient(circle at 50% 42%, rgba(0,0,0,.12) 0%, rgba(0,0,0,.28) 52%, rgba(0,0,0,.58) 100%),
-          linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.42));
+          radial-gradient(circle at 50% 42%, rgba(0,0,0,.07) 0%, rgba(0,0,0,.18) 52%, rgba(0,0,0,.46) 100%),
+          linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.30));
       }
     }
 
@@ -551,33 +584,39 @@
     const pages = [
       {
         id: 'overview', label: 'Overview', kicker: 'OCPF', title: 'Finish the photo. <span class="accent">Keep your flow.</span>',
-        body: 'OCPF is built for the part between “I have the shot” and “this is ready to share”: quick finishing, targeted local work, watermarking and export without turning every image into a full editing session.',
-        lines: [['IMPORT','Files, folders and ZIP batches'],['EDIT','Global + smart local finishing'],['EXPORT','New files; originals stay untouched']]
+        body: 'OCPF is a focused finisher for the part between capturing a photo and sharing it: batch import, preview-first editing, targeted local work, watermarking and safe export without turning every image into a full editing project.',
+        lines: [['IMPORT','JPEG · PNG · TIFF · BMP · folders · ZIP'],['EDIT','Global + local non-destructive recipes'],['RECOVER','Working sessions and edits restore automatically']],
+        media: 'Resources/OCPF-App-01.png',
+        caption: 'The three-frame desktop workflow: choose photos, work from the preview, then export safe copies.'
       },
       {
-        id: 'light', label: 'Light', kicker: 'Light & tone', title: 'Shape the image <span class="accent">without leaving it.</span>',
-        body: 'Adjust exposure, contrast, highlights, shadows, whites and blacks directly from the preview. The radial workflow keeps the picture visible while you work.',
-        lines: [['TONE','Exposure · contrast · highlights'],['RANGE','Shadows · whites · blacks'],['INPUT','Scroll / drag controls from the preview']]
+        id: 'radial', label: 'Radial', kicker: 'Preview-first control', title: 'Keep the picture <span class="accent">in front of you.</span>',
+        body: 'Right-click or long-press the preview to bring controls to the photo instead of leaving the image for a permanent wall of tools. Menus stay contextual and can be adjusted directly from the wheel.',
+        lines: [['OPEN','Right-click / long-press'],['ADJUST','Hover or touch + direct control'],['COMPARE','Before / after from the same working surface']],
+        media: 'Resources/OCPF-App-03.png',
+        caption: 'The main radial menu over the working photo. Local file paths in this site image are redacted.'
       },
       {
-        id: 'colour', label: 'Colour', kicker: 'Colour & atmosphere', title: 'Colour when you want it. <span class="accent">Neutral when you do not.</span>',
-        body: 'Temperature, tint, saturation, vibrance and hue sit alongside Colour Wash presets, including true grayscale / black-and-white finishing with adjustable strength.',
-        lines: [['COLOUR','Temperature · tint · saturation'],['WASH','Preset colour washes + custom colour'],['B&W','True grayscale with adjustable strength']]
+        id: 'focus', label: 'Focus', kicker: 'Focused submenus', title: 'Go deeper <span class="accent">without going elsewhere.</span>',
+        body: 'Open a tool family and the radial becomes the controls for that job. Focus, atmosphere, light, colour, framing, cleanup, touch-ups and watermarking keep the same interaction language.',
+        lines: [['FOCUS','Amount + softness from the wheel'],['ATMO','Vignette and atmosphere controls'],['HISTORY','Undo / redo stays with the photo']],
+        media: 'Resources/OCPF-App-02.png',
+        caption: 'A focused radial submenu. Local file paths in this site image are redacted.'
       },
       {
-        id: 'local', label: 'Local', kicker: 'Smart local editing', title: 'Touch up <span class="accent">only what needs it.</span>',
-        body: 'Seed an area, refine it with the intelligent brush, then treat that brushed region independently. Multiple selections can be kept per photo, with add/subtract, feather, reach and edge-protection controls.',
-        lines: [['SELECT','Seeded smart brush'],['REFINE','Size · feather · reach · edge protection'],['LAYER','Multiple independent local selections']]
+        id: 'local', label: 'Local', kicker: 'Smart local editing', title: 'Touch only <span class="accent">what needs it.</span>',
+        body: 'Seed an area, refine it with the smart brush, then adjust that region independently. Multiple local layers can live on one photo, with add/subtract, feather, reach and edge-protection controls.',
+        lines: [['SELECT','Seed + intelligent brush refinement'],['REFINE','Size · feather · reach · edge protection'],['LAYER','Multiple independent local selections']]
       },
       {
         id: 'watermark', label: 'Watermark', kicker: 'Watermarking', title: 'One batch recipe. <span class="accent">Per-photo judgement.</span>',
-        body: 'Load dark and light watermark assets once, preview them independently and let OCPF choose a suitable variant per photo. Placement can be anchored or dragged directly on the image.',
-        lines: [['ASSETS','Independent dark + light watermark files'],['PLACE','Preset anchors or direct drag placement'],['BATCH','Shared recipe; per-photo variant choice']]
+        body: 'Load dark and light watermark assets once, preview both variants and let OCPF choose an appropriate version per photo. Use preset anchors or drag the watermark directly where you want it.',
+        lines: [['ASSETS','Independent dark + light PNG files'],['PLACE','Preset anchors or direct drag placement'],['BATCH','Shared settings with per-photo choice']]
       },
       {
-        id: 'export', label: 'Export', kicker: 'Safe export', title: 'Finish the copy. <span class="accent">Never the original.</span>',
-        body: 'Choose an output folder, optional session folder and name, filename suffix and JPEG quality. Export the selected queue or a single photo; existing files are protected from overwrite.',
-        lines: [['OUTPUT','Root + optional session folder'],['NAMES','Custom session name + suffix'],['SAFE','Never overwrite originals or existing exports']]
+        id: 'export', label: 'Export', kicker: 'Safe delivery', title: 'Finish the copy. <span class="accent">Never the original.</span>',
+        body: 'Choose an output folder, optional session name, filename suffix and JPEG quality, then export the queue or selected photos. Existing files and originals remain protected from overwrite.',
+        lines: [['OUTPUT','Root + optional session folder'],['NAMES','Session naming + filename suffix'],['SAFE','New output files; originals untouched']]
       }
     ];
 
@@ -646,11 +685,16 @@
 
     function renderPage() {
       const page = pages[active];
+      const media = page.media
+        ? `<img class="ocpf-centre-media" src="${page.media}" alt="Off-Center Photo Finish interface showing ${page.label.toLowerCase()} workflow" />
+           <p class="ocpf-centre-caption">${page.caption || ''}</p>`
+        : '';
       centrePage.innerHTML = `
-        <div class="ocpf-centre-copy">
+        <div class="ocpf-centre-copy ${page.media ? 'has-media' : ''}">
           <div class="ocpf-centre-kicker">${page.kicker}</div>
           <h2>${page.title}</h2>
           <p>${page.body}</p>
+          ${media}
           <div class="ocpf-centre-lines">
             ${page.lines.map(([k,v]) => `<div class="ocpf-centre-line"><strong>${k}</strong><span>${v}</span></div>`).join('')}
           </div>
