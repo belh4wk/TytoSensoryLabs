@@ -348,66 +348,6 @@
       filter: grayscale(.32) saturate(.62) brightness(.83) contrast(1.04) blur(1.4px);
       box-shadow: 0 28px 54px rgba(0,0,0,.50);
     }
-    .ocpf-intro-plaque {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      z-index: 3;
-      width: min(430px, calc(100% - 48px));
-      transform: translate(-50%, -50%);
-      padding: 18px 20px 17px;
-      border: 1px solid rgba(220,225,232,.10);
-      border-radius: 16px;
-      background: rgba(3,3,4,.46);
-      box-shadow: 0 18px 46px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.018);
-      backdrop-filter: blur(14px) saturate(52%);
-      -webkit-backdrop-filter: blur(14px) saturate(52%);
-      text-align: left;
-      pointer-events: none;
-      user-select: none;
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
-    }
-    .ocpf-intro-plaque.is-hidden {
-      opacity: 0;
-      visibility: hidden;
-      transform: translate(-50%, -48%);
-    }
-    .ocpf-intro-eyebrow {
-      margin: 0 0 7px;
-      color: var(--ocpf-gold-soft);
-      font-size: .59rem;
-      font-weight: 700;
-      letter-spacing: .10em;
-      text-transform: uppercase;
-    }
-    .ocpf-intro-title {
-      margin: 0;
-      color: #f3f4f4;
-      font-size: clamp(1.15rem, 1.8vw, 1.55rem);
-      line-height: 1.08;
-      letter-spacing: -.025em;
-      font-weight: 680;
-    }
-    .ocpf-intro-copy {
-      margin: 9px 0 0;
-      color: #b4b8bc;
-      font-size: .72rem;
-      line-height: 1.52;
-      max-width: 46ch;
-    }
-    .ocpf-intro-hint {
-      margin: 11px 0 0;
-      color: #858a8f;
-      font-size: .58rem;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-    }
-    html[data-ocpf-theme="light"] .ocpf-intro-plaque {
-      background: rgba(7,8,9,.54);
-      border-color: rgba(220,225,232,.12);
-    }
     .ocpf-showcase-tools-floating {
       position: absolute;
       top: 12px;
@@ -500,14 +440,6 @@
       .ocpf-viewer-note { font-size: .58rem; }
       .ocpf-viewer-tag { min-height: 28px; padding-inline: 10px; font-size: .64rem; }
       .ocpf-viewer { padding: 12px; }
-      .ocpf-intro-plaque {
-        width: min(390px, calc(100% - 32px));
-        padding: 15px 16px 14px;
-        border-radius: 14px;
-      }
-      .ocpf-intro-title { font-size: clamp(1.05rem, 5vw, 1.35rem); }
-      .ocpf-intro-copy { font-size: .66rem; line-height: 1.45; }
-      .ocpf-intro-hint { font-size: .53rem; }
       .ocpf-showcase-tools-floating { top: 10px; right: 10px; }
       .ocpf-centre-status {
         grid-template-columns: 1fr;
@@ -676,12 +608,6 @@
             </div>
             <div id="viewer" class="ocpf-viewer" aria-label="Zoomable Off-Center Photo Finish showcase image">
               <img id="viewer-image" alt="Off-Center Photo Finish showcase" draggable="false" />
-              <div id="intro-plaque" class="ocpf-intro-plaque">
-                <div class="ocpf-intro-eyebrow">OCPF preview</div>
-                <h3 class="ocpf-intro-title">Photo finishing without the detour.</h3>
-                <p class="ocpf-intro-copy">Work from the image, make the changes you need, and export safe copies.</p>
-                <p class="ocpf-intro-hint">Right-click or hold to explore</p>
-              </div>
               <div id="showcase-tools" class="ocpf-showcase-tools ocpf-showcase-tools-floating" aria-label="Showcase image controls" hidden>
                 <button id="zoom-out" class="ocpf-tool-btn" type="button" aria-label="Zoom out">−</button>
                 <button id="zoom-reset" class="ocpf-tool-btn wide" type="button">Fit</button>
@@ -817,7 +743,6 @@
     const mobileFrames = [...document.querySelectorAll('.ocpf-frames > .ocpf-frame')];
     const viewer = document.getElementById('viewer');
     const viewerImage = document.getElementById('viewer-image');
-    const introPlaque = document.getElementById('intro-plaque');
     const viewerTag = document.getElementById('viewer-tag');
     const viewerNote = document.getElementById('viewer-note');
     const viewerCaption = document.getElementById('viewer-caption');
@@ -961,18 +886,12 @@
       applyTransform();
     }
 
-    function syncIntroPlaque() {
-      if (!introPlaque) return;
-      introPlaque.classList.toggle('is-hidden', active >= 0 || menuOpen);
-    }
-
     function syncRadialCentre() {
       const title = radial.querySelector('.ocpf-radial-centre-title');
       const sub = radial.querySelector('.ocpf-radial-centre-sub');
       if (title) title.textContent = active >= 0 ? 'BACK' : 'CLOSE';
       if (sub) sub.textContent = active >= 0 ? 'backdrop' : 'showcase';
       radial.querySelectorAll('.ocpf-radial-sector').forEach((el,i) => el.classList.toggle('active',i===active));
-      syncIntroPlaque();
     }
 
     function showBackdrop() {
@@ -981,9 +900,9 @@
       viewerTag.textContent = 'OCPF preview';
       if (showcaseStatusTag) showcaseStatusTag.textContent = 'OCPF preview';
       if (viewerNote) viewerNote.textContent = 'Initial canvas: your rig photo is shown by default. Use the radial menu to swap in app views.';
-      viewerCaption.textContent = 'Right-click or hold to open the radial menu.';
+      viewerCaption.textContent = 'Right-click or hold to explore the app. The default image is the same rig photo used to introduce the OCPF workspace.';
       showcaseTools.hidden = true;
-      showcaseGestureHint.textContent = 'SCROLL TO ZOOM · DRAG WHEN ZOOMED · DOUBLE-CLICK TO RESET';
+      showcaseGestureHint.textContent = 'RIGHT-CLICK OR HOLD FOR MENU · SCROLL TO ZOOM · DOUBLE-CLICK TO RESET';
       viewer.classList.add('default-view');
       viewerImage.classList.remove('loaded');
       viewerImage.classList.add('default-media');
@@ -1045,7 +964,6 @@
       radial.classList.add('open');
       radial.setAttribute('aria-hidden','false');
       menuOpen = true;
-      syncIntroPlaque();
     }
     function openDefault() {
       const r = centre.getBoundingClientRect();
@@ -1055,7 +973,6 @@
       radial.classList.remove('open');
       radial.setAttribute('aria-hidden','true');
       menuOpen = false;
-      syncIntroPlaque();
     }
 
     viewer.addEventListener('wheel', e => {
