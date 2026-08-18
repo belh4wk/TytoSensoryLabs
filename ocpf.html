@@ -5,34 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Off-Center Photo Finish | Tyto Sensory Labs</title>
   <link rel="icon" href="Resources/OCPFicon.png" />
-  <meta name="description" content="Off-Center Photo Finish by Tyto Sensory Labs. Off-Center Photo Finish by Tyto Sensory Labs: focused global and local photo finishing, smart touch-ups, watermarking and safe export for desktop and mobile." />
+  <meta name="description" content="Off-Center Photo Finish by Tyto Sensory Labs. Preview-first photo finishing for desktop and mobile, with local edits, watermarking and safe export." />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="Resources/site-theme.css" />
   <style>
     :root {
       --accent: #6e603f;
-      --accent-2: #d7c69f;
       --border: rgba(255,255,255,.09);
-      --text: #d7d7d7;
-      --muted: #8f9297;
-      --shadow: 0 24px 64px rgba(0,0,0,.42);
       --ocpf-gap: 12px;
       --ocpf-radius: 24px;
       --ocpf-head-h: 54px;
       --ocpf-text: #f0f1f1;
       --ocpf-muted: #a9a9a9;
-      --ocpf-silver: #bfc4ca;
       --ocpf-gold: #d4c28f;
       --ocpf-gold-soft: #c7b580;
       --ocpf-line: rgba(220,225,232,.10);
+      --ocpf-line-soft: rgba(220,225,232,.06);
+      --ocpf-black-glass: rgba(4,4,4,.18);
+      --ocpf-black-glass-2: rgba(4,4,4,.32);
+      --ocpf-shadow: 0 22px 52px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.018);
+      --ocpf-page-surface: #000000;
+      --ocpf-side-text: #ffffff;
+      --ocpf-side-lead: #bdbfc2;
+      --ocpf-side-muted: #8f9296;
+      --ocpf-side-micro: #7f8387;
+      --ocpf-action-bg: rgba(1,1,1,.34);
+      --ocpf-action-text: #d7d9dc;
+      --ocpf-cherry: 132, 10, 45;
+      --ocpf-cherry-deep: 82, 5, 29;
+    }
+    html[data-ocpf-theme="light"] {
+      --ocpf-line: rgba(43,50,57,.14);
+      --ocpf-line-soft: rgba(43,50,57,.08);
+      --ocpf-page-surface: #eef1f3;
+      --ocpf-side-text: #171a1d;
+      --ocpf-side-lead: #4e555b;
+      --ocpf-side-muted: #666d73;
+      --ocpf-side-micro: #747b81;
+      --ocpf-action-bg: rgba(255,255,255,.64);
+      --ocpf-action-text: #262a2e;
+      --ocpf-gold: #9b854f;
+      --ocpf-gold-soft: #8e7947;
     }
 
     * { box-sizing: border-box; }
-    .topbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(0,0,0,.78); border-bottom: 1px solid var(--border); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border-radius: 999px; padding: .9rem 1.25rem; font-weight: 600; text-decoration: none; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary { background: var(--accent); color: #111; border: 1px solid var(--accent); box-shadow: 0 10px 24px rgba(110,96,63,.18); }
-    .btn-primary:hover { background: #857552; }
     html { min-height: 100%; background: #000; scroll-behavior: smooth; }
     body {
       margin: 0;
@@ -43,24 +59,27 @@
       background: #000 !important;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
+    .topbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(0,0,0,.78); border-bottom: 1px solid var(--border); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border-radius: 999px; padding: .9rem 1.25rem; font-weight: 600; text-decoration: none; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #111; border: 1px solid var(--accent); box-shadow: 0 10px 24px rgba(110,96,63,.18); }
+    .btn-primary:hover { background: #857552; }
 
-    /* The shared site header/footer remain canonical. OCPF-specific styling starts below them. */
     .ocpf-viewport {
       height: calc(100svh - var(--ocpf-head-h));
       min-height: 620px;
       padding: 12px 16px 16px;
       overflow: hidden;
+      background: var(--ocpf-page-surface);
+      transition: background 180ms ease;
     }
-
     .ocpf-frames {
       width: 100%;
       height: 100%;
-      margin: 0;
       display: grid;
-      grid-template-columns: minmax(230px,.82fr) minmax(470px,1.42fr) minmax(245px,.86fr);
+      grid-template-columns: minmax(230px,.82fr) minmax(520px,1.55fr) minmax(245px,.86fr);
       gap: var(--ocpf-gap);
     }
-
     .ocpf-frame {
       position: relative;
       min-width: 0;
@@ -71,10 +90,9 @@
       background: linear-gradient(180deg, rgba(4,4,4,.22), rgba(0,0,0,.12));
       backdrop-filter: blur(9px) saturate(52%);
       -webkit-backdrop-filter: blur(9px) saturate(52%);
-      box-shadow: 0 22px 52px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.018);
+      box-shadow: var(--ocpf-shadow);
       isolation: isolate;
     }
-
     .ocpf-frame::after {
       content: "";
       position: absolute;
@@ -85,6 +103,39 @@
       z-index: 5;
     }
 
+    /* OCPF-only environmental colour: cherry lives in the two side panes only. */
+    .ocpf-frame:not(.ocpf-centre) {
+      background:
+        radial-gradient(circle at 10% 6%, rgba(var(--ocpf-cherry), .28), transparent 38%),
+        radial-gradient(circle at 92% 84%, rgba(var(--ocpf-cherry-deep), .12), transparent 44%),
+        linear-gradient(180deg, rgba(13,13,14,.76), rgba(3,3,4,.58));
+      backdrop-filter: blur(13px) saturate(58%);
+      -webkit-backdrop-filter: blur(13px) saturate(58%);
+    }
+    .ocpf-frames > .ocpf-frame:nth-child(3):not(.ocpf-centre) {
+      background:
+        radial-gradient(circle at 90% 7%, rgba(var(--ocpf-cherry), .26), transparent 39%),
+        radial-gradient(circle at 8% 86%, rgba(var(--ocpf-cherry-deep), .11), transparent 44%),
+        linear-gradient(180deg, rgba(13,13,14,.76), rgba(3,3,4,.58));
+    }
+    html[data-ocpf-theme="light"] .ocpf-frame:not(.ocpf-centre) {
+      background:
+        radial-gradient(circle at 10% 6%, rgba(var(--ocpf-cherry), .16), transparent 39%),
+        radial-gradient(circle at 92% 84%, rgba(var(--ocpf-cherry-deep), .065), transparent 44%),
+        linear-gradient(180deg, rgba(251,252,252,.86), rgba(235,238,240,.74));
+      border-color: rgba(45,52,59,.15);
+      box-shadow: 0 20px 46px rgba(57,64,71,.11), inset 0 1px 0 rgba(255,255,255,.72);
+      backdrop-filter: blur(15px) saturate(62%);
+      -webkit-backdrop-filter: blur(15px) saturate(62%);
+    }
+    html[data-ocpf-theme="light"] .ocpf-frames > .ocpf-frame:nth-child(3):not(.ocpf-centre) {
+      background:
+        radial-gradient(circle at 90% 7%, rgba(var(--ocpf-cherry), .15), transparent 40%),
+        radial-gradient(circle at 8% 86%, rgba(var(--ocpf-cherry-deep), .06), transparent 44%),
+        linear-gradient(180deg, rgba(251,252,252,.86), rgba(235,238,240,.74));
+    }
+    .ocpf-frame:first-child .ocpf-eyebrow { padding-right: 92px; min-height: 30px; display: flex; align-items: center; }
+
     .ocpf-side {
       position: relative;
       z-index: 2;
@@ -94,48 +145,35 @@
       flex-direction: column;
       padding: clamp(22px, 2.4vw, 34px);
     }
-
     .ocpf-eyebrow {
       margin: 0 0 14px;
-      color: #8f9296;
+      color: var(--ocpf-side-muted);
       font-size: .68rem;
       letter-spacing: .21em;
       text-transform: uppercase;
     }
-
-    .ocpf-side h1,
-    .ocpf-side h2 {
+    .ocpf-side h1, .ocpf-side h2 {
       margin: 0;
-      color: #fff;
+      color: var(--ocpf-side-text);
       font-size: clamp(1.7rem, 2.6vw, 2.8rem);
       line-height: 1.02;
       letter-spacing: -.04em;
       font-weight: 700;
     }
-
-    .ocpf-side h1 span,
-    .ocpf-side h2 span { color: var(--ocpf-gold); }
-
+    .ocpf-side h1 span, .ocpf-side h2 span { color: var(--ocpf-gold); }
     .ocpf-lead {
       margin: 16px 0 0;
-      color: #bdbfc2;
+      color: var(--ocpf-side-lead);
       font-size: clamp(.79rem, .95vw, .95rem);
       line-height: 1.68;
     }
-
     .ocpf-rule {
       height: 1px;
       margin: 24px 0 20px;
       background: linear-gradient(90deg, rgba(220,225,232,.14), rgba(220,225,232,.06) 45%, transparent);
     }
-
     .ocpf-list { display: grid; gap: 16px; }
-    .ocpf-list-item {
-      display: grid;
-      grid-template-columns: 7px 1fr;
-      gap: 11px;
-      align-items: start;
-    }
+    .ocpf-list-item { display: grid; grid-template-columns: 7px 1fr; gap: 11px; align-items: start; }
     .ocpf-list-item::before {
       content: "";
       width: 5px;
@@ -145,52 +183,57 @@
       background: var(--ocpf-gold-soft);
       box-shadow: 0 0 10px rgba(199,181,128,.14);
     }
-    .ocpf-list-item strong {
-      display: block;
-      margin-bottom: 3px;
-      color: #f1f1f1;
-      font-size: .82rem;
-      font-weight: 650;
-    }
-    .ocpf-list-item span {
-      display: block;
-      color: #8f9296;
-      font-size: .74rem;
-      line-height: 1.46;
-    }
-
+    .ocpf-list-item strong { display: block; margin-bottom: 3px; color: var(--ocpf-side-text); font-size: .82rem; font-weight: 650; }
+    .ocpf-list-item span { display: block; color: var(--ocpf-side-muted); font-size: .74rem; line-height: 1.46; }
     .ocpf-spacer { flex: 1 1 auto; min-height: 12px; }
-    .ocpf-micro {
-      color: #7f8387;
-      font-size: .68rem;
-      line-height: 1.52;
-    }
-
+    .ocpf-micro { color: var(--ocpf-side-micro); font-size: .68rem; line-height: 1.52; }
     .ocpf-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
     .ocpf-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 36px;
-      padding: 8px 13px;
-      border-radius: 999px;
-      border: 1px solid var(--ocpf-line);
-      background: rgba(1,1,1,.34);
-      color: #d7d9dc;
-      text-decoration: none;
-      font-size: .75rem;
-      font-weight: 650;
-      cursor: pointer;
-      backdrop-filter: blur(5px) saturate(52%);
-      -webkit-backdrop-filter: blur(5px) saturate(52%);
+      display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 8px 13px;
+      border-radius: 999px; border: 1px solid var(--ocpf-line); background: var(--ocpf-action-bg); color: var(--ocpf-action-text);
+      text-decoration: none; font-size: .75rem; font-weight: 650; cursor: pointer;
+      backdrop-filter: blur(5px) saturate(52%); -webkit-backdrop-filter: blur(5px) saturate(52%);
     }
     .ocpf-action:hover { background: rgba(7,7,7,.46); border-color: rgba(230,234,240,.15); }
+    html[data-ocpf-theme="light"] .ocpf-action:hover { background: rgba(255,255,255,.84); border-color: rgba(75,82,88,.20); }
     .ocpf-action.primary { color: #f0e3bc; border-color: rgba(212,194,143,.38); }
+    html[data-ocpf-theme="light"] .ocpf-action.primary { color: #7b683a; border-color: rgba(142,121,71,.42); }
 
-    /* Centre frame is one uninterrupted information surface. */
+    .ocpf-theme-toggle {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      z-index: 8;
+      display: inline-grid;
+      grid-template-columns: 34px auto;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      padding: 4px 9px 4px 5px;
+      border: 1px solid var(--ocpf-line);
+      border-radius: 999px;
+      background: var(--ocpf-action-bg);
+      color: var(--ocpf-action-text);
+      font-size: .67rem;
+      font-weight: 650;
+      cursor: pointer;
+      backdrop-filter: blur(10px) saturate(58%);
+      -webkit-backdrop-filter: blur(10px) saturate(58%);
+      box-shadow: 0 8px 22px rgba(0,0,0,.14);
+    }
+    .ocpf-theme-track {
+      width: 34px; height: 18px; padding: 2px; border-radius: 999px; border: 1px solid var(--ocpf-line);
+      background: rgba(108,112,116,.28); display: flex; align-items: center; justify-content: flex-start;
+    }
+    .ocpf-theme-thumb {
+      width: 12px; height: 12px; border-radius: 50%; background: #101112; border: 1px solid var(--ocpf-gold-soft);
+      box-shadow: 0 0 9px rgba(199,181,128,.12); transition: transform 150ms ease, background 150ms ease;
+    }
+    html[data-ocpf-theme="light"] .ocpf-theme-thumb { transform: translateX(14px); background: #f8f9fa; }
+
     .ocpf-centre {
-      cursor: context-menu;
-      touch-action: manipulation;
+      cursor: default;
+      touch-action: none;
       user-select: none;
       background: #000;
     }
@@ -199,260 +242,146 @@
       position: absolute;
       inset: -30px;
       background: url("Resources/OCPF-RigBackdrop.jpg") center 55% / cover no-repeat;
-      filter: grayscale(.74) saturate(.34) brightness(.62) contrast(1.08) blur(9px);
+      filter: grayscale(.72) saturate(.42) brightness(.68) contrast(1.06) blur(8px);
       transform: scale(1.045);
-      opacity: .90;
+      opacity: .94;
       z-index: -2;
       pointer-events: none;
     }
     .ocpf-centre::after {
-      background:
-        radial-gradient(circle at 50% 43%, rgba(0,0,0,.08) 0%, rgba(0,0,0,.20) 48%, rgba(0,0,0,.50) 100%),
-        linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.34));
+      background: radial-gradient(circle at 50% 43%, rgba(0,0,0,.08) 0%, rgba(0,0,0,.18) 48%, rgba(0,0,0,.46) 100%), linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.32));
       z-index: -1;
     }
-    .ocpf-centre:focus-visible { outline: 1px solid rgba(212,194,143,.42); outline-offset: -2px; }
-
     .ocpf-centre-page {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      display: grid;
-      place-items: center;
-      padding: clamp(28px, 5vw, 76px);
-      text-align: center;
-    }
-    .ocpf-centre-copy { width: min(640px, 90%); }
-    .ocpf-centre-kicker {
-      margin-bottom: 12px;
-      color: #8f9296;
-      font-size: .64rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-    }
-    .ocpf-centre-page h2 {
-      margin: 0;
-      color: #fff;
-      font-size: clamp(1.8rem, 3.4vw, 3.8rem);
-      line-height: 1.01;
-      letter-spacing: -.05em;
-      font-weight: 700;
-      text-shadow: 0 3px 20px rgba(0,0,0,.75);
-    }
-    .ocpf-centre-page h2 .accent { color: var(--ocpf-gold); }
-    .ocpf-centre-page p {
-      margin: 16px auto 0;
-      max-width: 52ch;
-      color: #b9bbbe;
-      font-size: clamp(.78rem, .98vw, .95rem);
-      line-height: 1.65;
-      text-shadow: 0 2px 12px rgba(0,0,0,.76);
-    }
-    .ocpf-centre-lines {
-      width: min(500px, 100%);
-      margin: 25px auto 0;
-      border-top: 1px solid rgba(220,225,232,.09);
-    }
-    .ocpf-centre-line {
-      min-height: 39px;
-      display: grid;
-      grid-template-columns: 92px 1fr;
+      position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column;
+      padding: clamp(22px, 2.4vw, 30px);
       gap: 14px;
-      align-items: center;
-      padding: 8px 2px;
-      border-bottom: 1px solid rgba(220,225,232,.09);
+    }
+    .ocpf-centre-header {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 12px;
+      align-items: start;
       text-align: left;
     }
-    .ocpf-centre-line strong {
-      color: var(--ocpf-gold-soft);
-      font-size: .69rem;
-      font-weight: 650;
-      letter-spacing: .06em;
-      text-transform: uppercase;
+    .ocpf-centre-copy { min-width: 0; }
+    .ocpf-centre-kicker { color: #8f9296; font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px; }
+    .ocpf-centre-title { margin: 0; color: #fff; font-size: clamp(1.5rem, 2.5vw, 2.75rem); line-height: 1.02; letter-spacing: -.05em; font-weight: 700; }
+    .ocpf-centre-title .accent { color: var(--ocpf-gold); }
+    .ocpf-centre-body { margin: 10px 0 0; color: #b9bbbe; font-size: clamp(.76rem, .98vw, .92rem); line-height: 1.56; max-width: 68ch; }
+    .ocpf-showcase-tools { display: inline-flex; align-items: center; gap: 8px; }
+    .ocpf-tool-btn {
+      min-width: 34px; min-height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ocpf-line);
+      background: rgba(2,2,2,.42); color: #eff0f1; font-size: .75rem; font-weight: 700; cursor: pointer;
+      backdrop-filter: blur(8px) saturate(60%); -webkit-backdrop-filter: blur(8px) saturate(60%);
     }
-    .ocpf-centre-line span {
-      color: #909397;
-      font-size: .72rem;
-      line-height: 1.4;
+    .ocpf-tool-btn:hover { border-color: rgba(212,194,143,.34); color: #f0e3bc; }
+    .ocpf-tool-btn.wide { min-width: auto; padding-inline: 12px; }
+
+    .ocpf-viewer-shell {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      border-radius: 18px;
+      border: 1px solid rgba(220,225,232,.10);
+      background: linear-gradient(180deg, rgba(2,2,2,.42), rgba(0,0,0,.52));
+      backdrop-filter: blur(8px) saturate(48%);
+      -webkit-backdrop-filter: blur(8px) saturate(48%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.018), 0 18px 40px rgba(0,0,0,.32);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto minmax(0,1fr);
     }
-    .ocpf-centre-copy.has-media { width: min(960px, 94%); }
-    .ocpf-centre-media {
-      width: min(100%, 940px);
-      max-height: min(44vh, 440px);
-      margin: 20px auto 0;
-      object-fit: contain;
-      display: block;
-      border-radius: 14px;
-      border: 1px solid rgba(220,225,232,.11);
-      background: #020202;
-      box-shadow: 0 22px 48px rgba(0,0,0,.44);
-      user-select: none;
-      pointer-events: none;
+    .ocpf-viewer-topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 10px 12px; border-bottom: 1px solid rgba(220,225,232,.07);
+      background: linear-gradient(180deg, rgba(8,8,8,.30), rgba(8,8,8,.18));
     }
-    .ocpf-centre-caption {
-      margin: 8px auto 0 !important;
-      color: #85898d !important;
-      font-size: .66rem !important;
-      line-height: 1.4 !important;
+    .ocpf-viewer-note { color: #85898d; font-size: .66rem; line-height: 1.35; }
+    .ocpf-viewer-tag {
+      display: inline-flex; align-items: center; min-height: 30px; padding: 0 11px; border-radius: 999px;
+      border: 1px solid rgba(220,225,232,.12); background: rgba(0,0,0,.34); color: #f2f2f2; font-size: .72rem; font-weight: 650;
+      white-space: nowrap;
     }
+    .ocpf-viewer {
+      position: relative; min-height: 0; overflow: hidden; cursor: default; background: rgba(0,0,0,.22);
+      display: grid; place-items: center;
+    }
+    .ocpf-viewer.drag-ready { cursor: grab; }
+    .ocpf-viewer.dragging { cursor: grabbing; }
+    .ocpf-viewer img {
+      position: absolute; left: 50%; top: 50%; width: auto; height: auto; max-width: none; max-height: none;
+      user-select: none; -webkit-user-drag: none; pointer-events: none;
+      transform-origin: center center;
+      will-change: transform;
+      border-radius: 12px;
+      box-shadow: 0 26px 54px rgba(0,0,0,.42);
+    }
+    .ocpf-viewer-overlay {
+      position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 8px; z-index: 3;
+      padding: 7px 10px; border-radius: 999px; border: 1px solid rgba(220,225,232,.10); background: rgba(0,0,0,.36);
+      color: #d7dadf; font-size: .63rem; line-height: 1.25; backdrop-filter: blur(8px) saturate(55%); -webkit-backdrop-filter: blur(8px) saturate(55%);
+    }
+    .ocpf-viewer-caption {
+      margin: 0; color: #aeb2b6; font-size: .72rem; line-height: 1.52; text-align: left;
+    }
+    .ocpf-centre-lines {
+      display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px;
+    }
+    .ocpf-centre-line {
+      min-height: 76px; padding: 12px 12px 11px; border-radius: 14px; border: 1px solid rgba(220,225,232,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.016), rgba(255,255,255,.006)); text-align: left;
+    }
+    .ocpf-centre-line strong { display: block; color: var(--ocpf-gold-soft); font-size: .66rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+    .ocpf-centre-line span { color: #8f9296; font-size: .71rem; line-height: 1.42; }
 
     .ocpf-invoke-hint {
-      position: absolute;
-      left: 50%;
-      bottom: 18px;
-      z-index: 2;
-      transform: translateX(-50%);
-      color: #73777c;
-      font-size: .61rem;
-      letter-spacing: .08em;
-      white-space: nowrap;
-      pointer-events: none;
+      position: absolute; right: 18px; bottom: 18px; z-index: 2;
+      color: #73777c; font-size: .61rem; letter-spacing: .08em; white-space: nowrap; pointer-events: none;
     }
-
     .ocpf-radial {
       position: absolute;
-      width: 286px;
-      height: 286px;
-      margin: -143px 0 0 -143px;
+      width: 298px;
+      height: 298px;
+      margin: -149px 0 0 -149px;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
       transform: scale(.96);
       transition: opacity 120ms ease, transform 120ms ease;
-      z-index: 10;
+      z-index: 12;
       border-radius: 50%;
-      background: rgba(9,11,13,.22);
-      backdrop-filter: blur(18px) saturate(34%) brightness(.72);
-      -webkit-backdrop-filter: blur(18px) saturate(34%) brightness(.72);
-      box-shadow: 0 20px 46px rgba(0,0,0,.48), inset 0 0 38px rgba(0,0,0,.24);
-      filter: drop-shadow(0 16px 30px rgba(0,0,0,.38));
+      background: rgba(0,0,0,.34);
+      backdrop-filter: blur(18px) saturate(42%);
+      -webkit-backdrop-filter: blur(18px) saturate(42%);
+      box-shadow: 0 18px 42px rgba(0,0,0,.66), inset 0 0 0 1px rgba(220,225,232,.04);
+      filter: drop-shadow(0 18px 34px rgba(0,0,0,.5));
     }
     .ocpf-radial.open { opacity: 1; visibility: visible; pointer-events: auto; transform: scale(1); }
     .ocpf-radial svg { width: 100%; height: 100%; overflow: visible; }
     .ocpf-radial-sector {
-      fill: rgba(15,17,19,.76);
-      stroke: rgba(220,225,232,.035);
-      stroke-width: .35;
-      cursor: pointer;
-      transition: fill 100ms ease, stroke 100ms ease, filter 100ms ease;
-      filter: drop-shadow(0 0 5px rgba(0,0,0,.25));
+      fill: rgba(3,3,3,.84); stroke: rgba(220,225,232,.13); stroke-width: 1; cursor: pointer; transition: fill 100ms ease, stroke 100ms ease;
     }
-    .ocpf-radial-sector:hover,
-    .ocpf-radial-sector.active {
-      fill: rgba(28,30,32,.84);
-      stroke: rgba(199,181,128,.48);
-      filter: drop-shadow(0 0 8px rgba(199,181,128,.10));
-    }
-    .ocpf-radial-label {
-      fill: #f0f1f1;
-      font-size: 10px;
-      font-weight: 650;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-      paint-order: stroke;
-      stroke: rgba(0,0,0,.7);
-      stroke-width: 2px;
-      stroke-linejoin: round;
-    }
-    .ocpf-radial-centre {
-      fill: rgba(15,17,19,.84);
-      stroke: rgba(199,181,128,.42);
-      stroke-width: .8;
-      cursor: pointer;
-    }
-    .ocpf-radial-centre-title {
-      fill: #fff;
-      font-size: 10px;
-      font-weight: 700;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-    }
-    .ocpf-radial-centre-sub {
-      fill: #aeb2b6;
-      font-size: 8px;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-    }
-
+    .ocpf-radial-sector:hover, .ocpf-radial-sector.active { fill: rgba(14,14,14,.88); stroke: rgba(199,181,128,.70); }
+    .ocpf-radial-label { fill: #f0f1f1; font-size: 10px; font-weight: 650; text-anchor: middle; dominant-baseline: middle; pointer-events: none; paint-order: stroke; stroke: rgba(0,0,0,.76); stroke-width: 2px; stroke-linejoin: round; }
+    .ocpf-radial-centre { fill: rgba(4,4,4,.96); stroke: rgba(199,181,128,.72); stroke-width: 1.4; cursor: pointer; }
+    .ocpf-radial-centre-title { fill: #fff; font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+    .ocpf-radial-centre-sub { fill: #aeb2b6; font-size: 8px; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
     .tyto-site-footer { margin-top: 0 !important; }
-
-    .ocpf-mobile-nav {
-      display: none;
-    }
+    .ocpf-mobile-nav { display: none; }
 
     @media (max-width: 860px) {
       :root { --ocpf-gap: 8px; --ocpf-radius: 18px; }
-      .ocpf-viewport {
-        min-height: 0;
-        padding: 8px 10px 10px;
-        display: grid;
-        grid-template-rows: minmax(0, 1fr) 44px;
-        gap: 8px;
-      }
-      .ocpf-frames {
-        position: relative;
-        width: 100%;
-        min-height: 0;
-        height: 100%;
-        display: block;
-        overflow: hidden;
-      }
-      .ocpf-frame {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transform: translateX(7%);
-        transition: opacity 160ms ease, transform 190ms ease, visibility 190ms step-end;
-      }
-      .ocpf-frame.mobile-active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateX(0);
-        transition: opacity 160ms ease, transform 190ms ease, visibility 0s;
-      }
-      .ocpf-mobile-nav {
-        display: grid;
-        grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
-        align-items: center;
-        gap: 8px;
-        min-height: 0;
-      }
-      .ocpf-mobile-nav button {
-        min-height: 38px;
-        border-radius: 999px;
-        border: 1px solid var(--ocpf-line);
-        background: rgba(5,5,5,.78);
-        color: #dfe2e5;
-        font-size: .72rem;
-        font-weight: 650;
-        letter-spacing: .02em;
-        backdrop-filter: blur(9px) saturate(55%);
-        -webkit-backdrop-filter: blur(9px) saturate(55%);
-      }
-      .ocpf-mobile-nav button:disabled {
-        opacity: .34;
-        cursor: default;
-      }
-      .ocpf-mobile-nav button:not(:disabled):active {
-        border-color: rgba(212,194,143,.46);
-        color: #f2e6c6;
-      }
-      .ocpf-mobile-step {
-        min-width: 62px;
-        text-align: center;
-        color: #85898d;
-        font-size: .62rem;
-        letter-spacing: .14em;
-        text-transform: uppercase;
-      }
+      .ocpf-viewport { min-height: 0; padding: 8px 10px 10px; display: grid; grid-template-rows: minmax(0, 1fr) 44px; gap: 8px; }
+      .ocpf-frames { position: relative; width: 100%; min-height: 0; height: 100%; display: block; overflow: hidden; }
+      .ocpf-frame { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; pointer-events: none; transform: translateX(7%); transition: opacity 160ms ease, transform 190ms ease, visibility 190ms step-end; }
+      .ocpf-frame.mobile-active { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0); transition: opacity 160ms ease, transform 190ms ease, visibility 0s; }
+      .ocpf-mobile-nav { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 8px; min-height: 0; }
+      .ocpf-mobile-nav button { min-height: 38px; border-radius: 999px; border: 1px solid var(--ocpf-line); background: rgba(5,5,5,.78); color: #dfe2e5; font-size: .72rem; font-weight: 650; letter-spacing: .02em; backdrop-filter: blur(9px) saturate(55%); -webkit-backdrop-filter: blur(9px) saturate(55%); }
+      .ocpf-mobile-nav button:disabled { opacity: .34; cursor: default; }
+      .ocpf-mobile-step { min-width: 62px; text-align: center; color: #85898d; font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; }
+      .ocpf-theme-toggle { top: 12px; right: 14px; min-height: 27px; padding: 3px 7px 3px 4px; font-size: .61rem; }
+      html[data-ocpf-theme="light"] .ocpf-mobile-nav button { background: rgba(255,255,255,.76); color: #24282c; border-color: rgba(45,52,59,.15); }
       .ocpf-side { padding: 16px 18px; }
       .ocpf-eyebrow { margin-bottom: 8px; font-size: .56rem; }
       .ocpf-side h1, .ocpf-side h2 { font-size: clamp(1.5rem, 7.8vw, 2.15rem); }
@@ -464,31 +393,28 @@
       .ocpf-micro { font-size: .61rem; line-height: 1.36; }
       .ocpf-actions { margin-top: 10px; gap: 7px; }
       .ocpf-action { min-height: 30px; padding: 6px 10px; font-size: .64rem; }
-      .ocpf-centre-page { padding: 22px 24px 38px; }
-      .ocpf-centre-kicker { margin-bottom: 8px; font-size: .54rem; }
-      .ocpf-centre-page h2 { font-size: clamp(1.55rem, 8vw, 2.3rem); }
-      .ocpf-centre-page p { margin-top: 10px; font-size: .72rem; line-height: 1.47; max-width: 43ch; }
-      .ocpf-centre-media { max-height: 34vh; margin-top: 10px; border-radius: 10px; }
-      .ocpf-centre-caption { font-size: .58rem !important; margin-top: 5px !important; }
-      .ocpf-centre-lines { margin-top: 14px; width: min(390px,100%); }
-      .ocpf-centre-line { min-height: 31px; grid-template-columns: 72px 1fr; gap: 9px; padding: 5px 1px; }
+      .ocpf-centre-page { padding: 16px 16px 36px; gap: 10px; }
+      .ocpf-centre-header { grid-template-columns: minmax(0,1fr); }
+      .ocpf-centre-kicker { margin-bottom: 6px; font-size: .54rem; }
+      .ocpf-centre-title { font-size: clamp(1.35rem, 7vw, 2.15rem); }
+      .ocpf-centre-body { margin-top: 8px; font-size: .70rem; line-height: 1.42; }
+      .ocpf-showcase-tools { justify-content: flex-start; }
+      .ocpf-tool-btn { min-width: 32px; min-height: 32px; font-size: .69rem; }
+      .ocpf-viewer-shell { border-radius: 14px; }
+      .ocpf-viewer-topbar { padding: 8px 10px; }
+      .ocpf-viewer-note { font-size: .58rem; }
+      .ocpf-viewer-tag { min-height: 28px; padding-inline: 10px; font-size: .64rem; }
+      .ocpf-viewer-caption { font-size: .65rem; line-height: 1.42; }
+      .ocpf-centre-lines { grid-template-columns: 1fr; gap: 8px; }
+      .ocpf-centre-line { min-height: 0; padding: 10px 10px 9px; }
       .ocpf-centre-line strong { font-size: .59rem; }
-      .ocpf-centre-line span { font-size: .62rem; line-height: 1.28; }
-      .ocpf-invoke-hint { bottom: 10px; font-size: .52rem; }
-      .ocpf-radial { width: 220px; height: 220px; margin: -110px 0 0 -110px; }
+      .ocpf-centre-line span { font-size: .64rem; line-height: 1.32; }
+      .ocpf-radial { width: 230px; height: 230px; margin: -115px 0 0 -115px; }
       .ocpf-radial-label { font-size: 9px; }
-      .ocpf-centre::before {
-        background-position: center 57%;
-        filter: grayscale(.74) saturate(.34) brightness(.64) contrast(1.06) blur(8px);
-        opacity: .92;
-      }
-      .ocpf-centre::after {
-        background:
-          radial-gradient(circle at 50% 42%, rgba(0,0,0,.07) 0%, rgba(0,0,0,.18) 52%, rgba(0,0,0,.46) 100%),
-          linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.30));
-      }
+      .ocpf-centre::before { background-position: center 57%; filter: grayscale(.72) saturate(.42) brightness(.70) contrast(1.05) blur(7px); opacity: .94; }
+      .ocpf-centre::after { background: radial-gradient(circle at 50% 42%, rgba(0,0,0,.07) 0%, rgba(0,0,0,.16) 52%, rgba(0,0,0,.42) 100%), linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.28)); }
+      .ocpf-invoke-hint { right: 50%; transform: translateX(50%); bottom: 10px; font-size: .52rem; }
     }
-
     @media (max-height: 730px) and (max-width: 860px) {
       .ocpf-side { padding: 12px 15px; }
       .ocpf-lead { font-size: .68rem; margin-top: 7px; }
@@ -496,14 +422,25 @@
       .ocpf-list { gap: 6px; }
       .ocpf-list-item span { font-size: .60rem; }
       .ocpf-micro { font-size: .57rem; }
-      .ocpf-centre-lines { margin-top: 9px; }
-      .ocpf-centre-line { min-height: 26px; }
+      .ocpf-centre-line { padding: 8px 9px; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; }
     }
   </style>
+  <script>
+    (() => {
+      try {
+        const saved = localStorage.getItem('ocpf-theme');
+        const theme = saved === 'light' || saved === 'dark'
+          ? saved
+          : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.ocpfTheme = theme;
+      } catch {
+        document.documentElement.dataset.ocpfTheme = 'dark';
+      }
+    })();
+  </script>
 </head>
 <body>
   <script>
@@ -534,6 +471,10 @@
       <section class="ocpf-frame" aria-labelledby="intro-title">
         <div class="ocpf-side">
           <p class="ocpf-eyebrow">Off-Center Photo Finish</p>
+          <button id="theme-toggle" class="ocpf-theme-toggle" type="button" aria-pressed="false" aria-label="Switch OCPF appearance">
+            <span class="ocpf-theme-track" aria-hidden="true"><span class="ocpf-theme-thumb"></span></span>
+            <span id="theme-toggle-label">Dark</span>
+          </button>
           <h1 id="intro-title">Finish photos.<br><span>Without the detour.</span></h1>
           <p class="ocpf-lead">Off-Center Photo Finish is a focused Windows and mobile photo-finishing tool for quick global and local edits, watermarking and safe batch export.</p>
           <div class="ocpf-rule"></div>
@@ -543,13 +484,38 @@
             <div class="ocpf-list-item"><div><strong>Export safe copies</strong><span>Keep originals untouched while applying shared watermark settings and per-photo finishing choices.</span></div></div>
           </div>
           <div class="ocpf-spacer"></div>
-          <div class="ocpf-micro">The middle frame is interactive: click, right-click, tap or hold to explore the editing model.</div>
+          <div class="ocpf-micro">The middle frame is a live showcase: use the radial menu to switch views, then zoom and drag the image like the app preview.</div>
         </div>
       </section>
 
-      <section id="centre" class="ocpf-frame ocpf-centre" tabindex="0" aria-label="Interactive OCPF information surface. Click, right-click or long-press to open the radial menu.">
-        <div id="centre-page" class="ocpf-centre-page"></div>
-        <div class="ocpf-invoke-hint">CLICK · RIGHT-CLICK · TAP/HOLD FOR MENU</div>
+      <section id="centre" class="ocpf-frame ocpf-centre" tabindex="0" aria-label="Interactive OCPF information surface. Right-click or long-press to open the radial menu.">
+        <div class="ocpf-centre-page">
+          <div class="ocpf-centre-header">
+            <div class="ocpf-centre-copy">
+              <div id="showcase-kicker" class="ocpf-centre-kicker">Interactive app walkthrough</div>
+              <h2 id="showcase-title" class="ocpf-centre-title">See the <span class="accent">workflow</span>.</h2>
+              <p id="showcase-body" class="ocpf-centre-body">Use the 5-segment radial menu to switch between key OCPF views. Scroll to zoom, drag when zoomed, and double-click or tap the reset control to fit the image again.</p>
+            </div>
+            <div class="ocpf-showcase-tools" aria-label="Showcase image controls">
+              <button id="zoom-out" class="ocpf-tool-btn" type="button" aria-label="Zoom out">−</button>
+              <button id="zoom-reset" class="ocpf-tool-btn wide" type="button">Fit</button>
+              <button id="zoom-in" class="ocpf-tool-btn" type="button" aria-label="Zoom in">+</button>
+            </div>
+          </div>
+          <div class="ocpf-viewer-shell">
+            <div class="ocpf-viewer-topbar">
+              <div id="viewer-note" class="ocpf-viewer-note">Dark-mode desktop workflow overview.</div>
+              <div id="viewer-tag" class="ocpf-viewer-tag">Dark mode</div>
+            </div>
+            <div id="viewer" class="ocpf-viewer" aria-label="Zoomable Off-Center Photo Finish showcase image">
+              <img id="viewer-image" alt="Off-Center Photo Finish showcase" draggable="false" />
+              <div class="ocpf-viewer-overlay">SCROLL TO ZOOM · DRAG WHEN ZOOMED · DOUBLE-CLICK TO RESET</div>
+            </div>
+          </div>
+          <p id="viewer-caption" class="ocpf-viewer-caption"></p>
+          <div id="showcase-lines" class="ocpf-centre-lines"></div>
+        </div>
+        <div class="ocpf-invoke-hint">RIGHT-CLICK · TAP/HOLD FOR MENU</div>
         <div id="radial" class="ocpf-radial" aria-hidden="true"></div>
       </section>
 
@@ -567,7 +533,7 @@
           <div class="ocpf-spacer"></div>
           <div class="ocpf-actions">
             <a id="side-buy" class="ocpf-action primary" href="#">Get OCPF</a>
-            <button id="menu-button" class="ocpf-action" type="button">Explore features</button>
+            <button id="menu-button" class="ocpf-action" type="button">Explore views</button>
           </div>
           <div class="ocpf-micro" style="margin-top:9px;">Original photos are never overwritten; exports are written as new files.</div>
         </div>
@@ -581,60 +547,115 @@
   </main>
 
   <script>
-    const pages = [
+    const showcaseItems = [
       {
-        id: 'overview', label: 'Overview', kicker: 'OCPF', title: 'Finish the photo. <span class="accent">Keep your flow.</span>',
-        body: 'OCPF is a focused finisher for the part between capturing a photo and sharing it: batch import, preview-first editing, targeted local work, watermarking and safe export without turning every image into a full editing project.',
-        lines: [['IMPORT','JPEG · PNG · TIFF · BMP · folders · ZIP'],['EDIT','Global + local non-destructive recipes'],['RECOVER','Working sessions and edits restore automatically']],
-        media: 'Resources/OCPF-App-01.png',
-        caption: 'The three-frame desktop workflow: choose photos, work from the preview, then export safe copies.'
+        id: 'dark',
+        label: 'Dark mode',
+        tag: 'Dark mode',
+        kicker: 'Interactive app walkthrough',
+        title: 'See the <span class="accent">dark workflow</span>.',
+        body: 'The full OCPF desktop flow stays visible: choose photos, work from the preview, then export safe copies. This is the darker Tyto-family presentation used by default.',
+        media: 'Resources/OCPF-Showcase-Dark.png',
+        caption: 'The desktop workflow in dark mode. Local path information in this site image is redacted.',
+        note: 'Dark-mode desktop workflow overview.',
+        lines: [['FLOW','Choose · Imagine · Export'],['LOOK','Smoky black glass with restrained gold state accents'],['SAVE','Session state and edits can be restored automatically']]
       },
       {
-        id: 'radial', label: 'Radial', kicker: 'Preview-first control', title: 'Keep the picture <span class="accent">in front of you.</span>',
-        body: 'Right-click or long-press the preview to bring controls to the photo instead of leaving the image for a permanent wall of tools. Menus stay contextual and can be adjusted directly from the wheel.',
-        lines: [['OPEN','Right-click / long-press'],['ADJUST','Hover or touch + direct control'],['COMPARE','Before / after from the same working surface']],
-        media: 'Resources/OCPF-App-03.png',
-        caption: 'The main radial menu over the working photo. Local file paths in this site image are redacted.'
+        id: 'light',
+        label: 'Light mode',
+        tag: 'Light mode',
+        kicker: 'Same workflow, alternate material system',
+        title: 'Switch to a <span class="accent">lighter room</span>.',
+        body: 'Light mode keeps the exact same layout and editing model, but moves the surrounding application material into pale graphite and frosted glass while keeping the image workspace dark and usable.',
+        media: 'Resources/OCPF-Showcase-Light.png',
+        caption: 'The same desktop workflow in light mode. Local path information in this site image is redacted.',
+        note: 'Light-mode desktop workflow overview.',
+        lines: [['CONSISTENT','Same controls, same flow, same preview-first approach'],['MATERIAL','Very light grey base with frosted glass panels'],['EDITING','The photo workspace stays dark for clarity over images']]
       },
       {
-        id: 'focus', label: 'Focus', kicker: 'Focused submenus', title: 'Go deeper <span class="accent">without going elsewhere.</span>',
-        body: 'Open a tool family and the radial becomes the controls for that job. Focus, atmosphere, light, colour, framing, cleanup, touch-ups and watermarking keep the same interaction language.',
-        lines: [['FOCUS','Amount + softness from the wheel'],['ATMO','Vignette and atmosphere controls'],['HISTORY','Undo / redo stays with the photo']],
-        media: 'Resources/OCPF-App-02.png',
-        caption: 'A focused radial submenu. Local file paths in this site image are redacted.'
+        id: 'main-radial',
+        label: 'Edit wheel',
+        tag: 'Edit wheel',
+        kicker: 'Preview-first control',
+        title: 'Bring the tools <span class="accent">to the photo</span>.',
+        body: 'The main radial keeps the picture front and centre. From here you can jump into framing, focus, light, colour, atmosphere, cleanup and watermarking without leaving the image surface.',
+        media: 'Resources/OCPF-Showcase-Radial.png',
+        caption: 'The main editing radial over the preview image.',
+        note: 'Main editing wheel.',
+        lines: [['OPEN','Right-click or long-press on the image'],['ADJUST','A direct, contextual menu instead of permanent side tool drawers'],['FEEL','One consistent radial language across the editor']]
       },
       {
-        id: 'local', label: 'Local', kicker: 'Smart local editing', title: 'Touch only <span class="accent">what needs it.</span>',
-        body: 'Seed an area, refine it with the smart brush, then adjust that region independently. Multiple local layers can live on one photo, with add/subtract, feather, reach and edge-protection controls.',
-        lines: [['SELECT','Seed + intelligent brush refinement'],['REFINE','Size · feather · reach · edge protection'],['LAYER','Multiple independent local selections']]
+        id: 'watermark-cards',
+        label: 'Assets',
+        tag: 'Watermark assets',
+        kicker: 'Batch watermark setup',
+        title: 'Load both <span class="accent">watermark variants</span>.',
+        body: 'Keep a dark and a light PNG ready for the batch. OCPF lets you preview and choose whichever version makes sense per photo, while keeping the surrounding export workflow intact.',
+        media: 'Resources/OCPF-Showcase-WatermarkCards.png',
+        caption: 'The paired dark and light watermark asset cards in the Imagine frame.',
+        note: 'Dark and light watermark assets.',
+        lines: [['ASSETS','Independent dark and light PNG watermark files'],['BATCH','Shared settings with per-photo judgement'],['PREVIEW','See both options from the same working surface']]
       },
       {
-        id: 'watermark', label: 'Watermark', kicker: 'Watermarking', title: 'One batch recipe. <span class="accent">Per-photo judgement.</span>',
-        body: 'Load dark and light watermark assets once, preview both variants and let OCPF choose an appropriate version per photo. Use preset anchors or drag the watermark directly where you want it.',
-        lines: [['ASSETS','Independent dark + light PNG files'],['PLACE','Preset anchors or direct drag placement'],['BATCH','Shared settings with per-photo choice']]
-      },
-      {
-        id: 'export', label: 'Export', kicker: 'Safe delivery', title: 'Finish the copy. <span class="accent">Never the original.</span>',
-        body: 'Choose an output folder, optional session name, filename suffix and JPEG quality, then export the queue or selected photos. Existing files and originals remain protected from overwrite.',
-        lines: [['OUTPUT','Root + optional session folder'],['NAMES','Session naming + filename suffix'],['SAFE','New output files; originals untouched']]
+        id: 'watermark-wheel',
+        label: 'WM wheel',
+        tag: 'Watermark wheel',
+        kicker: 'Focused submenu',
+        title: 'Tune watermarking <span class="accent">without leaving the photo</span>.',
+        body: 'The watermark submenu keeps everything contextual: asset choice, mode, position, size, opacity, margin and background balancing all stay in the same radial interaction model.',
+        media: 'Resources/OCPF-Showcase-WatermarkMenu.png',
+        caption: 'The watermark submenu, with direct controls over placement and presentation.',
+        note: 'Watermark submenu.',
+        lines: [['PLACE','Preset anchors or direct placement where appropriate'],['BALANCE','Opacity, margin and light/dark background compensation'],['MATCH','Same radial logic as the rest of OCPF']]
       }
     ];
 
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleLabel = document.getElementById('theme-toggle-label');
+    function syncThemeToggle() {
+      const light = document.documentElement.dataset.ocpfTheme === 'light';
+      if (themeToggle) themeToggle.setAttribute('aria-pressed', String(light));
+      if (themeToggleLabel) themeToggleLabel.textContent = light ? 'Light' : 'Dark';
+      if (themeToggle) themeToggle.title = light ? 'Switch to dark mode' : 'Switch to light mode';
+    }
+    themeToggle?.addEventListener('click', () => {
+      const next = document.documentElement.dataset.ocpfTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.ocpfTheme = next;
+      try { localStorage.setItem('ocpf-theme', next); } catch {}
+      syncThemeToggle();
+    });
+    syncThemeToggle();
+
     const topbar = document.querySelector('.topbar');
     const centre = document.getElementById('centre');
-    const centrePage = document.getElementById('centre-page');
     const radial = document.getElementById('radial');
     const menuButton = document.getElementById('menu-button');
     const mobilePrev = document.getElementById('mobile-prev');
     const mobileNext = document.getElementById('mobile-next');
     const mobileStep = document.getElementById('mobile-step');
     const mobileFrames = [...document.querySelectorAll('.ocpf-frames > .ocpf-frame')];
+    const showcaseKicker = document.getElementById('showcase-kicker');
+    const showcaseTitle = document.getElementById('showcase-title');
+    const showcaseBody = document.getElementById('showcase-body');
+    const viewer = document.getElementById('viewer');
+    const viewerImage = document.getElementById('viewer-image');
+    const viewerTag = document.getElementById('viewer-tag');
+    const viewerNote = document.getElementById('viewer-note');
+    const viewerCaption = document.getElementById('viewer-caption');
+    const showcaseLines = document.getElementById('showcase-lines');
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+    const zoomResetBtn = document.getElementById('zoom-reset');
+
     let active = 0;
     let mobileFrame = 0;
     let menuOpen = false;
     let holdTimer = null;
-    let pointer = null;
-    const cx = 143, cy = 143, inner = 55, outer = 132;
+    const cx = 149, cy = 149, inner = 58, outer = 138;
+    const transform = { scale: 1, x: 0, y: 0 };
+    const dragState = { active: false, startX: 0, startY: 0, originX: 0, originY: 0 };
+    let fitBox = { width: 0, height: 0 };
+    let maxScale = 1;
 
     function syncViewportHeight() {
       document.documentElement.style.setProperty('--ocpf-head-h', `${Math.ceil(topbar?.getBoundingClientRect().height || 54)}px`);
@@ -649,15 +670,22 @@
       const large = end - start > 180 ? 1 : 0;
       return `M ${p1.x} ${p1.y} A ${outer} ${outer} 0 ${large} 1 ${p2.x} ${p2.y} L ${p3.x} ${p3.y} A ${inner} ${inner} 0 ${large} 0 ${p4.x} ${p4.y} Z`;
     }
+    function splitLabel(label) {
+      const words = label.split(' ');
+      if (words.length === 1) return [label];
+      if (words.length === 2) return words;
+      const midpoint = Math.ceil(words.length / 2);
+      return [words.slice(0, midpoint).join(' '), words.slice(midpoint).join(' ')];
+    }
 
     function buildRadial() {
       const svgNS = 'http://www.w3.org/2000/svg';
       const svg = document.createElementNS(svgNS,'svg');
-      svg.setAttribute('viewBox','0 0 286 286');
-      pages.forEach((page,i) => {
-        const sweep = 360 / pages.length;
-        const start = i*sweep + 1.3;
-        const end = (i+1)*sweep - 1.3;
+      svg.setAttribute('viewBox','0 0 298 298');
+      showcaseItems.forEach((item,i) => {
+        const sweep = 360 / showcaseItems.length;
+        const start = i*sweep + 1.5;
+        const end = (i+1)*sweep - 1.5;
         const path = document.createElementNS(svgNS,'path');
         path.setAttribute('d', sectorPath(start,end));
         path.setAttribute('class','ocpf-radial-sector');
@@ -665,67 +693,193 @@
         path.addEventListener('click', e => { e.stopPropagation(); setPage(i); closeMenu(); });
         svg.appendChild(path);
         const mid = (start+end)/2;
-        const lp = polar(92,mid);
+        const lp = polar(94,mid);
         const text = document.createElementNS(svgNS,'text');
-        text.setAttribute('x',lp.x); text.setAttribute('y',lp.y);
+        text.setAttribute('x',lp.x);
+        text.setAttribute('y',lp.y);
         text.setAttribute('class','ocpf-radial-label');
-        text.textContent = page.label;
+        const lines = splitLabel(item.label);
+        lines.forEach((line, idx) => {
+          const tspan = document.createElementNS(svgNS,'tspan');
+          tspan.setAttribute('x', lp.x);
+          tspan.setAttribute('dy', idx === 0 ? (lines.length > 1 ? '-0.45em' : '0') : '1.05em');
+          tspan.textContent = line;
+          text.appendChild(tspan);
+        });
         svg.appendChild(text);
       });
       const core = document.createElementNS(svgNS,'circle');
-      core.setAttribute('cx',cx); core.setAttribute('cy',cy); core.setAttribute('r','48'); core.setAttribute('class','ocpf-radial-centre');
+      core.setAttribute('cx',cx); core.setAttribute('cy',cy); core.setAttribute('r','50'); core.setAttribute('class','ocpf-radial-centre');
       core.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
       svg.appendChild(core);
       const title = document.createElementNS(svgNS,'text');
       title.setAttribute('x',cx); title.setAttribute('y',cy-5); title.setAttribute('class','ocpf-radial-centre-title'); title.textContent='CLOSE'; svg.appendChild(title);
       const sub = document.createElementNS(svgNS,'text');
-      sub.setAttribute('x',cx); sub.setAttribute('y',cy+10); sub.setAttribute('class','ocpf-radial-centre-sub'); sub.textContent='OCPF menu'; svg.appendChild(sub);
+      sub.setAttribute('x',cx); sub.setAttribute('y',cy+10); sub.setAttribute('class','ocpf-radial-centre-sub'); sub.textContent='showcase'; svg.appendChild(sub);
       radial.appendChild(svg);
     }
 
-    function renderPage() {
-      const page = pages[active];
-      const media = page.media
-        ? `<img class="ocpf-centre-media" src="${page.media}" alt="Off-Center Photo Finish interface showing ${page.label.toLowerCase()} workflow" />
-           <p class="ocpf-centre-caption">${page.caption || ''}</p>`
-        : '';
-      centrePage.innerHTML = `
-        <div class="ocpf-centre-copy ${page.media ? 'has-media' : ''}">
-          <div class="ocpf-centre-kicker">${page.kicker}</div>
-          <h2>${page.title}</h2>
-          <p>${page.body}</p>
-          ${media}
-          <div class="ocpf-centre-lines">
-            ${page.lines.map(([k,v]) => `<div class="ocpf-centre-line"><strong>${k}</strong><span>${v}</span></div>`).join('')}
-          </div>
-        </div>`;
-      radial.querySelectorAll('.ocpf-radial-sector').forEach((el,i) => el.classList.toggle('active',i===active));
+    function computeFitBox() {
+      const rect = viewer.getBoundingClientRect();
+      const nw = viewerImage.naturalWidth || 1;
+      const nh = viewerImage.naturalHeight || 1;
+      const fit = Math.min(1, rect.width / nw, rect.height / nh);
+      fitBox.width = nw * fit;
+      fitBox.height = nh * fit;
+      maxScale = Math.max(1, 1 / fit);
+      viewerImage.style.width = `${fitBox.width}px`;
+      viewerImage.style.height = `${fitBox.height}px`;
+      clampPan();
+      applyTransform();
+    }
+    function clamp(num, min, max) { return Math.max(min, Math.min(max, num)); }
+    function clampPan() {
+      const rect = viewer.getBoundingClientRect();
+      const maxX = Math.max(0, (fitBox.width * transform.scale - rect.width) / 2);
+      const maxY = Math.max(0, (fitBox.height * transform.scale - rect.height) / 2);
+      transform.x = clamp(transform.x, -maxX, maxX);
+      transform.y = clamp(transform.y, -maxY, maxY);
+    }
+    function applyTransform() {
+      viewerImage.style.transform = `translate(calc(-50% + ${transform.x}px), calc(-50% + ${transform.y}px)) scale(${transform.scale})`;
+      viewer.classList.toggle('drag-ready', transform.scale > 1.02 && !dragState.active);
+      viewer.classList.toggle('dragging', dragState.active);
+      zoomOutBtn.disabled = transform.scale <= 1.01;
+      zoomInBtn.disabled = transform.scale >= maxScale - 0.01;
+      zoomResetBtn.disabled = transform.scale <= 1.01 && Math.abs(transform.x) < 0.5 && Math.abs(transform.y) < 0.5;
+    }
+    function resetView() {
+      transform.scale = 1;
+      transform.x = 0;
+      transform.y = 0;
+      applyTransform();
+    }
+    function changeZoom(multiplier) {
+      const next = clamp(transform.scale * multiplier, 1, maxScale);
+      if (next === transform.scale) return;
+      transform.scale = next;
+      clampPan();
+      applyTransform();
+    }
+    function zoomAt(clientX, clientY, multiplier) {
+      const rect = viewer.getBoundingClientRect();
+      const prev = transform.scale;
+      const next = clamp(prev * multiplier, 1, maxScale);
+      if (next === prev) return;
+      const offsetX = clientX - rect.left - rect.width / 2 - transform.x;
+      const offsetY = clientY - rect.top - rect.height / 2 - transform.y;
+      const ratio = next / prev;
+      transform.scale = next;
+      transform.x -= offsetX * (ratio - 1);
+      transform.y -= offsetY * (ratio - 1);
+      clampPan();
+      applyTransform();
     }
 
-    function setPage(i) { active=i; renderPage(); }
+    function renderPage() {
+      const item = showcaseItems[active];
+      showcaseKicker.textContent = item.kicker;
+      showcaseTitle.innerHTML = item.title;
+      showcaseBody.textContent = item.body;
+      viewerTag.textContent = item.tag;
+      viewerNote.textContent = item.note;
+      viewerCaption.textContent = item.caption;
+      showcaseLines.innerHTML = item.lines.map(([k,v]) => `<div class="ocpf-centre-line"><strong>${k}</strong><span>${v}</span></div>`).join('');
+      radial.querySelectorAll('.ocpf-radial-sector').forEach((el,i) => el.classList.toggle('active',i===active));
+      if (viewerImage.src !== new URL(item.media, document.baseURI).href) {
+        viewerImage.onload = computeFitBox;
+        viewerImage.src = item.media;
+        viewerImage.alt = `${item.tag} screenshot of Off-Center Photo Finish`;
+      } else {
+        computeFitBox();
+      }
+      resetView();
+    }
+    function setPage(i) { active = i; renderPage(); }
+
     function eventPoint(e) {
       if (typeof e.clientX === 'number' && typeof e.clientY === 'number') return {x:e.clientX,y:e.clientY};
-      const t=e.touches?.[0] || e.changedTouches?.[0];
+      const t = e.touches?.[0] || e.changedTouches?.[0];
       return t ? {x:t.clientX,y:t.clientY} : null;
     }
     function openMenu(x,y) {
-      const r=centre.getBoundingClientRect();
-      const radius=(radial.offsetWidth || 286)/2;
-      const localX=Math.min(Math.max(x-r.left,radius+8),r.width-radius-8);
-      const localY=Math.min(Math.max(y-r.top,radius+8),r.height-radius-8);
-      radial.style.left=localX+'px'; radial.style.top=localY+'px';
-      radial.classList.add('open'); radial.setAttribute('aria-hidden','false'); menuOpen=true;
+      const r = centre.getBoundingClientRect();
+      const radius = (radial.offsetWidth || 298) / 2;
+      const localX = Math.min(Math.max(x - r.left, radius + 8), r.width - radius - 8);
+      const localY = Math.min(Math.max(y - r.top, radius + 8), r.height - radius - 8);
+      radial.style.left = localX + 'px';
+      radial.style.top = localY + 'px';
+      radial.classList.add('open');
+      radial.setAttribute('aria-hidden','false');
+      menuOpen = true;
     }
-    function openDefault() { const r=centre.getBoundingClientRect(); openMenu(r.left+r.width/2,r.top+r.height/2); }
-    function closeMenu() { radial.classList.remove('open'); radial.setAttribute('aria-hidden','true'); menuOpen=false; }
+    function openDefault() {
+      const r = centre.getBoundingClientRect();
+      openMenu(r.left + r.width / 2, r.top + r.height / 2);
+    }
+    function closeMenu() {
+      radial.classList.remove('open');
+      radial.setAttribute('aria-hidden','true');
+      menuOpen = false;
+    }
 
-    centre.addEventListener('contextmenu',e=>{e.preventDefault(); const p=eventPoint(e); if(p) openMenu(p.x,p.y);});
-    centre.addEventListener('click',e=>{ if(e.target.closest('.ocpf-radial')) return; if(menuOpen){closeMenu();return;} const p=eventPoint(e); if(p) openMenu(p.x,p.y); });
-    centre.addEventListener('pointerdown',e=>{ pointer=eventPoint(e); clearTimeout(holdTimer); holdTimer=setTimeout(()=>{ if(pointer) openMenu(pointer.x,pointer.y); },420); });
-    centre.addEventListener('pointermove',e=>{ pointer=eventPoint(e); });
-    ['pointerup','pointercancel','pointerleave'].forEach(name=>centre.addEventListener(name,()=>clearTimeout(holdTimer)));
-    centre.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMenu(); if((e.key==='Enter'||e.key===' ')&&!menuOpen){e.preventDefault();openDefault();} });
-    menuButton.addEventListener('click',()=>{openDefault();centre.focus();});
+    viewer.addEventListener('wheel', e => {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 0.89);
+    }, { passive: false });
+    viewer.addEventListener('dblclick', e => { e.preventDefault(); resetView(); });
+    viewer.addEventListener('pointerdown', e => {
+      if (e.button !== 0 || transform.scale <= 1.01) return;
+      dragState.active = true;
+      dragState.startX = e.clientX;
+      dragState.startY = e.clientY;
+      dragState.originX = transform.x;
+      dragState.originY = transform.y;
+      viewer.setPointerCapture?.(e.pointerId);
+      applyTransform();
+    });
+    viewer.addEventListener('pointermove', e => {
+      if (!dragState.active) return;
+      transform.x = dragState.originX + (e.clientX - dragState.startX);
+      transform.y = dragState.originY + (e.clientY - dragState.startY);
+      clampPan();
+      applyTransform();
+    });
+    function endDrag(e) {
+      if (!dragState.active) return;
+      dragState.active = false;
+      viewer.releasePointerCapture?.(e.pointerId);
+      applyTransform();
+    }
+    viewer.addEventListener('pointerup', endDrag);
+    viewer.addEventListener('pointercancel', endDrag);
+    viewer.addEventListener('pointerleave', e => { if (dragState.active && e.pointerType === 'mouse') endDrag(e); });
+
+    zoomInBtn.addEventListener('click', () => changeZoom(1.18));
+    zoomOutBtn.addEventListener('click', () => changeZoom(0.85));
+    zoomResetBtn.addEventListener('click', resetView);
+
+    centre.addEventListener('contextmenu', e => {
+      if (e.target.closest('.ocpf-radial')) return;
+      e.preventDefault();
+      const p = eventPoint(e);
+      if (p) openMenu(p.x, p.y);
+    });
+    centre.addEventListener('pointerdown', e => {
+      if (menuOpen && !e.target.closest('.ocpf-radial') && !e.target.closest('#menu-button')) closeMenu();
+      clearTimeout(holdTimer);
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        const start = { x: e.clientX, y: e.clientY };
+        holdTimer = setTimeout(() => openMenu(start.x, start.y), 420);
+      }
+    });
+    centre.addEventListener('pointermove', () => clearTimeout(holdTimer));
+    ['pointerup','pointercancel','pointerleave'].forEach(name => centre.addEventListener(name, () => clearTimeout(holdTimer)));
+    centre.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeMenu();
+      if ((e.key === 'Enter' || e.key === ' ') && !menuOpen) { e.preventDefault(); openDefault(); }
+    });
+    menuButton.addEventListener('click', () => { openDefault(); centre.focus(); });
 
     function mobileMode() { return window.matchMedia('(max-width: 860px)').matches; }
     function syncMobileFrames() {
@@ -734,6 +888,7 @@
       if (mobileNext) mobileNext.disabled = mobileFrame >= mobileFrames.length - 1;
       if (mobileStep) mobileStep.textContent = `${mobileFrame + 1} / ${mobileFrames.length}`;
       if (mobileMode() && mobileFrame !== 1) closeMenu();
+      computeFitBox();
     }
     function setMobileFrame(index) {
       mobileFrame = Math.max(0, Math.min(mobileFrames.length - 1, index));
@@ -743,12 +898,12 @@
     mobilePrev?.addEventListener('click', () => setMobileFrame(mobileFrame - 1));
     mobileNext?.addEventListener('click', () => setMobileFrame(mobileFrame + 1));
 
-    function buy(e){ e.preventDefault(); window.open(OCPF_PURCHASE_URL,'_blank','noopener'); }
-    document.getElementById('top-buy').addEventListener('click',buy);
-    document.getElementById('side-buy').addEventListener('click',buy);
+    function buy(e) { e.preventDefault(); window.open(OCPF_PURCHASE_URL, '_blank', 'noopener'); }
+    document.getElementById('top-buy').addEventListener('click', buy);
+    document.getElementById('side-buy').addEventListener('click', buy);
 
     window.addEventListener('resize', () => { syncViewportHeight(); syncMobileFrames(); }, { passive: true });
-    window.addEventListener('load', syncViewportHeight, { once: true });
+    window.addEventListener('load', () => { syncViewportHeight(); computeFitBox(); }, { once: true });
     syncViewportHeight();
     buildRadial();
     renderPage();
