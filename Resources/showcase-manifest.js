@@ -117,7 +117,7 @@ window.TYTO_SHOWCASE_MANIFESTS = {
       },
       {
         "name": "Screenshot 2026-08-19 213430.png",
-        "sha": "97dda19b45c1"
+        "sha": "00c2fa9010ff"
       },
       {
         "name": "Screenshot 2026-08-19 213639.png",
@@ -125,7 +125,7 @@ window.TYTO_SHOWCASE_MANIFESTS = {
       },
       {
         "name": "Screenshot 2026-08-19 213754.png",
-        "sha": "4436e2b55dc4"
+        "sha": "9e65672fcefd"
       },
       {
         "name": "Screenshot 2026-08-19 213904.png",
