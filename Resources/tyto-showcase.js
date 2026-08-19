@@ -109,19 +109,24 @@
       };
     }
 
-    // When served over HTTP(S), the per-folder JSON can still override the JS
-    // registry immediately. This is mostly useful during deployment/cache churn.
-    try {
-      const bust = `${basePath}/showcase.json?v=${Date.now()}`;
-      const fetched = await fetchJson(bust);
-      if (fetched && typeof fetched === 'object') {
-        config = {
-          files: Array.isArray(fetched.files) && fetched.files.length ? fetched.files.slice() : config.files,
-          items: { ...config.items, ...(fetched.items && typeof fetched.items === 'object' ? fetched.items : {}) }
-        };
+    // The generated JS registry is the authoritative manifest for both local previews
+    // and the live site. Do NOT let showcase.json override it: during deployment or
+    // browser/CDN cache churn the JSON can lag behind the registry and point at files
+    // that have already been removed, producing a correct radial label with a blank image.
+    // Only consult showcase.json when no registry entry exists at all.
+    if (!registered) {
+      try {
+        const bust = `${basePath}/showcase.json?v=${Date.now()}`;
+        const fetched = await fetchJson(bust);
+        if (fetched && typeof fetched === 'object') {
+          config = {
+            files: Array.isArray(fetched.files) && fetched.files.length ? fetched.files.slice() : config.files,
+            items: { ...config.items, ...(fetched.items && typeof fetched.items === 'object' ? fetched.items : {}) }
+          };
+        }
+      } catch {
+        // Expected for file:// and harmless offline; built-in fallbacks remain available.
       }
-    } catch {
-      // Expected for file:// and harmless offline; the JS registry already covers it.
     }
 
     const files = Array.isArray(config.files) ? config.files : [];
@@ -146,6 +151,7 @@
           id: item.id || slugify(filename.replace(/\.[^.]+$/, '')),
           filename,
           media: `${basePath}/${encodeURIComponent(filename).replace(/%2F/g, '/')}${version}`,
+          legacyMedia: folder === 'OCPF' ? `Resources/${encodeURIComponent(filename).replace(/%2F/g, '/')}${version}` : '',
           label,
           tag: item.tag || label,
           caption: item.caption || `${label} showcase image.`,
@@ -269,10 +275,20 @@
       if (caption) caption.textContent = item.caption || item.label;
       radial.querySelectorAll('.tyto-showcase-sector').forEach((node, i) => node.classList.toggle('is-active', i === active));
       image.classList.remove('is-loaded');
+      let triedLegacy = false;
       image.onload = () => {
         image.classList.add('is-loaded');
         computeFit();
         resetView();
+      };
+      image.onerror = () => {
+        if (!triedLegacy && item.legacyMedia && image.src !== new URL(item.legacyMedia, document.baseURI).href) {
+          triedLegacy = true;
+          image.src = item.legacyMedia;
+          return;
+        }
+        image.classList.remove('is-loaded');
+        if (caption) caption.textContent = `${item.label} image could not be loaded.`;
       };
       image.src = item.media;
       image.alt = `${item.label} screenshot`;

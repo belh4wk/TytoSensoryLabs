@@ -930,19 +930,43 @@
       viewer.classList.add('default-view');
       viewerImage.classList.remove('loaded');
       viewerImage.classList.add('default-media');
-      const target = new URL(defaultMedia, document.baseURI).href;
+
+      // The backdrop is deliberately not part of the dynamic screenshot inventory.
+      // Try both the long-standing Resources location and the showcase folder so the
+      // intro remains resilient while screenshot folders are reorganised.
+      const candidates = [
+        defaultMedia,
+        'Resources/Showcases/OCPF/OCPF-Backdrop.jpg'
+      ];
+      let candidateIndex = 0;
+
       const finish = () => {
         viewerImage.classList.add('loaded');
         computeFitBox();
         resetView();
       };
-      if (viewerImage.src !== target) {
+      const tryCandidate = () => {
+        if (candidateIndex >= candidates.length) {
+          // Never leave the canvas blank. If the separate rig backdrop has genuinely
+          // gone, fall back to the first dynamically discovered OCPF screenshot.
+          if (showcaseItems.length) {
+            setPage(0);
+          } else {
+            hasShowcaseImage = false;
+            viewerImage.classList.remove('loaded');
+            viewerCaption.textContent = 'Add OCPF images to Resources/Showcases/OCPF and update the showcase manifest.';
+            applyTransform();
+          }
+          return;
+        }
+        const source = candidates[candidateIndex++];
         viewerImage.onload = finish;
-        viewerImage.src = defaultMedia;
+        viewerImage.onerror = tryCandidate;
+        viewerImage.src = source;
         viewerImage.alt = 'Rig photo shown in the OCPF preview canvas';
-      } else {
-        finish();
-      }
+      };
+
+      tryCandidate();
       syncRadialCentre();
     }
 
@@ -1084,14 +1108,19 @@
     window.addEventListener('resize', () => { syncViewportHeight(); syncMobileFrames(); }, { passive: true });
     window.addEventListener('load', () => { syncViewportHeight(); computeFitBox(); }, { once: true });
     async function initializeShowcase() {
+      // Paint the intro immediately; manifest discovery should never hold the first
+      // frame hostage. The screenshot inventory is then loaded through the same
+      // TytoShowcase manifest pipeline used by MCP4SH.
+      showBackdrop();
+      syncMobileFrames();
+
       try {
         showcaseItems = await TytoShowcase.load('OCPF');
       } catch {
         showcaseItems = [];
       }
       buildRadial();
-      showBackdrop();
-      syncMobileFrames();
+      syncRadialCentre();
     }
 
     syncViewportHeight();
