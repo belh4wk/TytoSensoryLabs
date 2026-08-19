@@ -686,6 +686,7 @@
     }
   </style>
   <link rel="stylesheet" href="Resources/site-theme.css" />
+  <link rel="stylesheet" href="Resources/tyto-showcase.css" />
 </head>
 <body>
 
@@ -755,73 +756,27 @@
       <div class="mb-6">
         <p class="eyebrow">Screenshots</p>
         <p class="copy mt-4 max-w-3xl text-sm md:text-base">
-          A closer look at MCP4SH in practice, from effect tuning and profile structure to the tools and interface that shape the overall haptics workflow.
+          A closer look at MCP4SH in practice. The showcase uses the same preview-first interaction language as OCPF: keep the product view in front, then open the radial to move between screenshots.
         </p>
       </div>
 
-      <div class="shots-shell">
-        <button type="button" class="shot-nav shot-nav-prev" data-shot-nav="prev" aria-label="Previous screenshot">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M15 18l-6-6 6-6"></path>
-          </svg>
-        </button>
-
-        <button type="button" class="shot-nav shot-nav-next" data-shot-nav="next" aria-label="Next screenshot">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M9 18l6-6-6-6"></path>
-          </svg>
-        </button>
-
-        <div class="shots-viewport">
-          <div class="shot-floor" id="shot-floor" aria-hidden="true"></div>
-          <div class="shots-track" id="shots-track" tabindex="0" aria-label="Screenshot coverflow">
-            <article class="shot-card">
-              <img src="Resources/Screenshot01.png" alt="MCP4SH screenshot 01" loading="lazy" />
-              <div class="shot-meta">
-                <p class="shot-kicker">Screenshot 01</p>
-              </div>
-            </article>
-
-            <article class="shot-card">
-              <img src="Resources/Screenshot02.png" alt="MCP4SH screenshot 02" loading="lazy" />
-              <div class="shot-meta">
-                <p class="shot-kicker">Screenshot 02</p>
-              </div>
-            </article>
-
-            <article class="shot-card">
-              <img src="Resources/Screenshot03.png" alt="MCP4SH screenshot 03" loading="lazy" />
-              <div class="shot-meta">
-                <p class="shot-kicker">Screenshot 03</p>
-              </div>
-            </article>
-
-            <article class="shot-card">
-              <img src="Resources/Screenshot04.png" alt="MCP4SH screenshot 04" loading="lazy" />
-              <div class="shot-meta">
-                <p class="shot-kicker">Screenshot 04</p>
-              </div>
-            </article>
-
-            <article class="shot-card">
-              <img src="Resources/Screenshot05.png" alt="MCP4SH screenshot 05" loading="lazy" />
-              <div class="shot-meta">
-                <p class="shot-kicker">Screenshot 05</p>
-              </div>
-            </article>
-			<article class="shot-card">
-              <img src="Resources/Screenshot06.png" alt="MCP4SH screenshot 06" loading="lazy" />
-              <div class="shot-meta">
-                <p class="shot-kicker">Screenshot 06</p>
-              </div>
-            </article>
-			<article class="shot-card">
-              <img src="Resources/Screenshot07.png" alt="MCP4SH screenshot 07" loading="lazy" />
-              <div class="shot-meta">
-                <p class="shot-kicker">Screenshot 07</p>
-              </div>
-            </article>
+      <div id="mcp4sh-showcase" class="tyto-showcase" data-showcase-folder="MCP4SH">
+        <div class="tyto-showcase-head">
+          <span class="tyto-showcase-tag" data-showcase-tag>MCP4SH preview</span>
+          <span class="tyto-showcase-hint">Right-click or hold the image to choose another view.</span>
+        </div>
+        <div class="tyto-showcase-canvas" data-showcase-canvas>
+          <img class="tyto-showcase-image" data-showcase-image alt="MCP4SH showcase" draggable="false" />
+          <div class="tyto-showcase-tools" aria-label="Screenshot controls">
+            <button type="button" class="tyto-showcase-button" data-showcase-zoom-out aria-label="Zoom out">−</button>
+            <button type="button" class="tyto-showcase-button" data-showcase-fit>Fit</button>
+            <button type="button" class="tyto-showcase-button" data-showcase-zoom-in aria-label="Zoom in">+</button>
           </div>
+          <div class="tyto-showcase-radial" data-showcase-radial aria-hidden="true"></div>
+        </div>
+        <div class="tyto-showcase-foot">
+          <span class="tyto-showcase-caption" data-showcase-caption>Loading MCP4SH screenshots…</span>
+          <button type="button" class="tyto-showcase-button" data-showcase-menu>Explore views</button>
         </div>
       </div>
     </section>
@@ -1582,6 +1537,10 @@
     })();
   </script>
 
+  <script src="Resources/tyto-showcase.js"></script>
+  <script>
+    TytoShowcase.mountRadialViewer(document.getElementById('mcp4sh-showcase'), { folder: 'MCP4SH' }).catch(() => {});
+  </script>
   <script src="Resources/site-nav.js"></script>
   <script src="Resources/site-footer.js"></script>
 </body>

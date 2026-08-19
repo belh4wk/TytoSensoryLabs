@@ -727,69 +727,9 @@
     </div>
   </main>
 
+  <script src="Resources/tyto-showcase.js"></script>
   <script>
-    const showcaseItems = [
-      {
-        id: 'dark',
-        label: 'Dark mode',
-        tag: 'Dark mode',
-        kicker: 'Interactive app walkthrough',
-        title: 'See the <span class="accent">dark workflow</span>.',
-        body: 'The full OCPF desktop flow stays visible: choose photos, work from the preview, then export safe copies. This is the darker Tyto-family presentation used by default.',
-        media: 'Resources/OCPF-Showcase-Dark.png',
-        caption: 'The desktop workflow in dark mode. Local path information in this site image is redacted.',
-        note: 'Dark-mode desktop workflow overview.',
-        lines: [['FLOW','Choose · Imagine · Export'],['LOOK','Smoky black glass with restrained gold state accents'],['SAVE','Session state and edits can be restored automatically']]
-      },
-      {
-        id: 'light',
-        label: 'Light mode',
-        tag: 'Light mode',
-        kicker: 'Same workflow, alternate material system',
-        title: 'Switch to a <span class="accent">lighter room</span>.',
-        body: 'Light mode keeps the exact same layout and editing model, but moves the surrounding application material into pale graphite and frosted glass while keeping the image workspace dark and usable.',
-        media: 'Resources/OCPF-Showcase-Light.png',
-        caption: 'The same desktop workflow in light mode. Local path information in this site image is redacted.',
-        note: 'Light-mode desktop workflow overview.',
-        lines: [['CONSISTENT','Same controls, same flow, same preview-first approach'],['MATERIAL','Very light grey base with frosted glass panels'],['EDITING','The photo workspace stays dark for clarity over images']]
-      },
-      {
-        id: 'main-radial',
-        label: 'Edit wheel',
-        tag: 'Edit wheel',
-        kicker: 'Preview-first control',
-        title: 'Bring the tools <span class="accent">to the photo</span>.',
-        body: 'The main radial keeps the picture front and centre. From here you can jump into framing, focus, light, colour, atmosphere, cleanup and watermarking without leaving the image surface.',
-        media: 'Resources/OCPF-Showcase-Radial.png',
-        caption: 'The main editing radial over the preview image.',
-        note: 'Main editing wheel.',
-        lines: [['OPEN','Right-click or long-press on the image'],['ADJUST','A direct, contextual menu instead of permanent side tool drawers'],['FEEL','One consistent radial language across the editor']]
-      },
-      {
-        id: 'watermark-cards',
-        label: 'Assets',
-        tag: 'Watermark assets',
-        kicker: 'Batch watermark setup',
-        title: 'Load both <span class="accent">watermark variants</span>.',
-        body: 'Keep a dark and a light PNG ready for the batch. OCPF lets you preview and choose whichever version makes sense per photo, while keeping the surrounding export workflow intact.',
-        media: 'Resources/OCPF-Showcase-WatermarkCards.png',
-        caption: 'The paired dark and light watermark asset cards in the Imagine frame.',
-        note: 'Dark and light watermark assets.',
-        lines: [['ASSETS','Independent dark and light PNG watermark files'],['BATCH','Shared settings with per-photo judgement'],['PREVIEW','See both options from the same working surface']]
-      },
-      {
-        id: 'watermark-wheel',
-        label: 'WM wheel',
-        tag: 'Watermark wheel',
-        kicker: 'Focused submenu',
-        title: 'Tune watermarking <span class="accent">without leaving the photo</span>.',
-        body: 'The watermark submenu keeps everything contextual: asset choice, mode, position, size, opacity, margin and background balancing all stay in the same radial interaction model.',
-        media: 'Resources/OCPF-Showcase-WatermarkMenu.png',
-        caption: 'The watermark submenu, with direct controls over placement and presentation.',
-        note: 'Watermark submenu.',
-        lines: [['PLACE','Preset anchors or direct placement where appropriate'],['BALANCE','Opacity, margin and light/dark background compensation'],['MATCH','Same radial logic as the rest of OCPF']]
-      }
-    ];
+    let showcaseItems = [];
 
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleLabel = document.getElementById('theme-toggle-label');
@@ -862,6 +802,7 @@
     }
 
     function buildRadial() {
+      radial.innerHTML = '';
       const svgNS = 'http://www.w3.org/2000/svg';
       const svg = document.createElementNS(svgNS,'svg');
       svg.setAttribute('viewBox','0 0 298 298');
@@ -881,6 +822,8 @@
         text.setAttribute('x',lp.x);
         text.setAttribute('y',lp.y);
         text.setAttribute('class','ocpf-radial-label');
+        if (showcaseItems.length >= 8) text.style.fontSize = '8px';
+        else if (showcaseItems.length >= 6) text.style.fontSize = '9px';
         const lines = splitLabel(item.label);
         lines.forEach((line, idx) => {
           const tspan = document.createElementNS(svgNS,'tspan');
@@ -1140,10 +1083,19 @@
 
     window.addEventListener('resize', () => { syncViewportHeight(); syncMobileFrames(); }, { passive: true });
     window.addEventListener('load', () => { syncViewportHeight(); computeFitBox(); }, { once: true });
+    async function initializeShowcase() {
+      try {
+        showcaseItems = await TytoShowcase.load('OCPF');
+      } catch {
+        showcaseItems = [];
+      }
+      buildRadial();
+      showBackdrop();
+      syncMobileFrames();
+    }
+
     syncViewportHeight();
-    buildRadial();
-    showBackdrop();
-    syncMobileFrames();
+    initializeShowcase();
   </script>
   <script src="Resources/site-nav.js"></script>
   <script src="Resources/site-footer.js"></script>

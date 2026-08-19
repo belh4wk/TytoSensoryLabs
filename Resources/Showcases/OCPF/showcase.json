@@ -1,0 +1,61 @@
+{
+  "files": [
+    {
+      "name": "OCPF-Showcase-Dark.png",
+      "sha": "730d04f4b053"
+    },
+    {
+      "name": "OCPF-Showcase-Light.png",
+      "sha": "984b26dba575"
+    },
+    {
+      "name": "OCPF-Showcase-Radial.png",
+      "sha": "4ce18b35b216"
+    },
+    {
+      "name": "OCPF-Showcase-WatermarkCards.png",
+      "sha": "dac6ddd562a4"
+    },
+    {
+      "name": "OCPF-Showcase-WatermarkMenu.png",
+      "sha": "76ea778d1f4d"
+    }
+  ],
+  "items": {
+    "OCPF-Showcase-Dark.png": {
+      "order": 10,
+      "label": "Dark mode",
+      "tag": "Dark mode",
+      "caption": "The desktop workflow in dark mode. Local path information in this site image is redacted.",
+      "note": "Dark-mode desktop workflow overview."
+    },
+    "OCPF-Showcase-Light.png": {
+      "order": 20,
+      "label": "Light mode",
+      "tag": "Light mode",
+      "caption": "The same desktop workflow in light mode. Local path information in this site image is redacted.",
+      "note": "Light-mode desktop workflow overview."
+    },
+    "OCPF-Showcase-Radial.png": {
+      "order": 30,
+      "label": "Edit wheel",
+      "tag": "Edit wheel",
+      "caption": "The main editing radial over the preview image.",
+      "note": "Main editing wheel."
+    },
+    "OCPF-Showcase-WatermarkCards.png": {
+      "order": 40,
+      "label": "Assets",
+      "tag": "Watermark assets",
+      "caption": "The paired dark and light watermark asset cards in the Imagine frame.",
+      "note": "Dark and light watermark assets."
+    },
+    "OCPF-Showcase-WatermarkMenu.png": {
+      "order": 50,
+      "label": "WM wheel",
+      "tag": "Watermark wheel",
+      "caption": "The watermark submenu, with direct controls over placement and presentation.",
+      "note": "Watermark submenu."
+    }
+  }
+}
