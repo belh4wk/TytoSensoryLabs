@@ -3,7 +3,7 @@ window.TYTO_SHOWCASE_MANIFESTS = {
     "files": [
       {
         "name": "Screenshot 2026-08-19 205032.png",
-        "sha": "c1c0b2ddc204"
+        "sha": "bf05e76c5f12"
       },
       {
         "name": "Screenshot 2026-08-19 205100.png",
