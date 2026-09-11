@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MCP4SH Research & Engineering Basis | Tyto Sensory Labs</title>
-  <meta name="description" content="Public research and engineering context behind MCP4SH frequency choices, tactile perception and vehicle movement interpretation." />
+  <meta name="description" content="Public research and engineering context behind MCP4SH, including the driving String Theory input-blending analogy, tactile perception, vehicle dynamics and tactile rendering." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root{--bg:#000;--border:rgba(255,255,255,.08);--text:#d6d6d6;--muted:#8d8d8d;--accent:#6e603f;--shadow:0 20px 50px rgba(0,0,0,.35)}
@@ -38,7 +38,7 @@
       <p class="eyebrow mt-6">Engineering basis</p>
       <h1 class="headline mt-3 max-w-4xl text-4xl md:text-6xl">From vehicle dynamics to a tactile <span class="accent">carrier</span>.</h1>
       <p class="lead mt-6">MCP4SH does not choose one frequency and call it physics. It sits between three different systems: what the vehicle is doing, what our sense of touch can read, and what the rig can physically reproduce.</p>
-      <p class="copy mt-4">This page collects some of the public research behind that way of thinking. It is linked from the Tyto home page as supporting context rather than treated as another product section.</p>
+      <p class="copy mt-4">This page collects some of the public research and engineering context behind that way of thinking, including the driving-coaching "String Theory" analogy that inspired the name. It is supporting context, not a claim that one driving analogy or one published frequency maps directly to one haptic effect.</p>
       <div class="mt-8 flex flex-wrap gap-3"><a href="index.html#so-far" class="btn btn-primary">Back to Tyto</a><a href="mcp4sh.html" class="btn btn-secondary">MCP4SH product page</a></div>
     </section>
 
@@ -51,6 +51,33 @@
         <div class="plain-item"><strong>Vehicle state</strong><p>Tyres, suspension, chassis, drivetrain and road input evolve on their own physical time scales.</p></div>
         <div class="plain-item"><strong>Perception</strong><p>Frequency, amplitude, timing and body location all change what a vibration feels like.</p></div>
         <div class="plain-item"><strong>Rig response</strong><p>Shakers, mounts, seats, frames and pedal plates reshape the signal again.</p></div>
+      </div>
+    </section>
+
+
+    <section id="string-theory-driving" class="reading-section">
+      <p class="eyebrow">String Theory in driving</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">The name starts with a driving-coaching technique: blend the inputs instead of treating them as separate switches.</h2>
+      <p class="copy mt-5">In track-driving instruction, "string theory" or the "string analogy" imagines an invisible string connecting the steering wheel to the brake and/or throttle pedal. The simple lesson is that as steering demand rises, the driver generally releases some longitudinal input; as the wheel opens, more braking or acceleration capability becomes available. It is closely related to the traction-circle idea and to teaching smooth trail-brake release.</p>
+      <p class="copy mt-4">That is the inspiration behind the MCP4SH name. It is not used as a literal linear formula inside the plugin. Real cars, tyres and drivers are more complicated than the beginner analogy; advanced coaching sources explicitly account for rotation, feedback, line, timing and vehicle behaviour. MCP4SH carries forward the useful part of the idea: interpret related inputs and states as a coupled system rather than treating every signal as an isolated effect.</p>
+      <div class="note"><strong>Why this matters to MCP4SH:</strong> the product name is about relationships. Steering and pedal inputs compete and cooperate through the tyre; MCP4SH similarly tries to make tyre, suspension, drivetrain, road and chassis cues coexist as parts of one readable vehicle state.</div>
+
+      <div class="source-list">
+        <div class="source-row"><div><div class="source-title">Teaching Trail Braking</div><span class="source-meta">Ross Bentley / Speed Secrets; 2021</span></div><div class="source-copy">Instructor-focused trail-braking material that explicitly introduces the "string theory" analogy alongside the friction-circle / 100% tyre concept: add steering as brake pressure is released rather than asking the tyre for peak braking and peak cornering at once.</div><a class="link" href="https://speedsecrets.com/wp-content/uploads/2021/10/RossBentley-Trail-Braking-20210928-1.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></div>
+
+        <div class="source-row"><div><div class="source-title">Track Technique: String Theory - Blending Steering with Pedal Inputs</div><span class="source-meta">Greg Troester; Utah Motor News; 2023</span></div><div class="source-copy">A practical driving-instruction version using imagined strings from the steering wheel to both pedals, with examples for throttle application, trail-brake release and smooth transitions.</div><a class="link" href="https://utahmotornews.com/track-technique-string-theory-blending-steering-with-pedal-inputs/" target="_blank" rel="noopener noreferrer">Read article</a></div>
+
+        <div class="source-row"><div><div class="source-title">String Theory / Advanced String Theory</div><span class="source-meta">Suellio Almeida Racing Academy</span></div><div class="source-copy">Modern racing and sim-racing coaching that uses the basic steering/brake relationship as an entry point, then explicitly warns that the simple linear version is incomplete and must give way to vehicle rotation, steering feedback and the intended line.</div><a class="link" href="https://almeidaracingacademy.com/sim-racing/learn/lessons/string-theory" target="_blank" rel="noopener noreferrer">Read lesson</a></div>
+
+        <div class="source-row"><div><div class="source-title">String Theory - motorsport glossary</div><span class="source-meta">Motorsports Calendar</span></div><div class="source-copy">A concise definition of the technique as coordinated steering, braking and throttle input using the imaginary-string visualization and a shared tyre-grip budget.</div><a class="link" href="https://motorsportscalendar.com/glossary/string-theory" target="_blank" rel="noopener noreferrer">Read glossary</a></div>
+
+        <div class="source-row"><div><div class="source-title">Trail Braking; The String Theory</div><span class="source-meta">BoxThisLap; 2023</span></div><div class="source-copy">Sim-racing-oriented explanation connecting progressive brake release, steering input, trail braking and the imaginary string analogy.</div><a class="link" href="https://boxthislap.org/trail-braking-the-string-theory/" target="_blank" rel="noopener noreferrer">Read article</a></div>
+
+        <div class="source-row"><div><div class="source-title">Big Lies #5: the string analogy</div><span class="source-meta">Ian Korf; You Suck at Racing; 2020</span></div><div class="source-copy">Useful counterpoint: accepts the value of coordinating steering and pedal input, but argues that a fixed linear string model is too simple for real corner timing, rotation and corrections. Included because the limitation matters as much as the analogy.</div><a class="link" href="https://yousuckatracing.wordpress.com/2020/08/04/big-lies-5-the-string-analogy/" target="_blank" rel="noopener noreferrer">Read critique</a></div>
+
+        <div class="source-row"><div><div class="source-title">Driving the Traction Circle</div><span class="source-meta">Mitchell, Schroer &amp; Grisez; SAE 2004-01-3545</span></div><div class="source-copy">Technical motorsport context for the underlying idea: longitudinal acceleration/deceleration and lateral cornering capability are combined rather than independent, and trail braking is one way a driver operates within that combined capability.</div><a class="link" href="https://saemobilus.sae.org/papers/driving-traction-circle-2004-01-3545" target="_blank" rel="noopener noreferrer">SAE paper</a></div>
+
+        <div class="source-row"><div><div class="source-title">String Theory driving-technique video</div><span class="source-meta">YouTube; additional visual reference</span></div><div class="source-copy">A visual explanation of the same steering/pedal coordination idea, included as an accessible companion to the written sources.</div><a class="link" href="https://www.youtube.com/watch?v=X0BVU1JPJH0" target="_blank" rel="noopener noreferrer">Watch video</a></div>
       </div>
     </section>
 
@@ -89,9 +116,9 @@
     </section>
 
     <section class="reading-section">
-      <p class="eyebrow">Original String Theory in Driving trail</p>
+      <p class="eyebrow">Earlier MCP4SH vibration research trail</p>
       <h2 class="headline mt-3 text-3xl md:text-5xl">Some of the sources cited while the early haptics rationale was being explained publicly.</h2>
-      <p class="copy mt-5">These are part of the earlier public research trail around String Theory in Driving. They support the physical and perceptual context behind vehicle vibration, seating, steering-wheel vibration and transfer paths. They were never intended as a lookup table where one paper frequency becomes one MCP4SH effect.</p>
+      <p class="copy mt-5">These are part of the earlier public research trail around MCP4SH's haptic engineering rationale. They support the physical and perceptual context behind vehicle vibration, seating, steering-wheel vibration and transfer paths. They were never intended as a lookup table where one paper frequency becomes one MCP4SH effect.</p>
       <div class="source-list">
         <div class="source-row"><div><div class="source-title">Predicting discomfort from whole-body vertical vibration when sitting with an inclined backrest</div><span class="source-meta">Basri &amp; Griffin; Applied Ergonomics; 2013</span></div><div class="source-copy">Experimental work across 1 to 20 Hz showing that perceived whole-body vibration depends on frequency and seating/backrest conditions.</div><a class="link" href="https://pubmed.ncbi.nlm.nih.gov/23190680/" target="_blank" rel="noopener noreferrer">PubMed</a></div>
         <div class="source-row"><div><div class="source-title">An Experimental Study of Vehicle 1st Order Vibration Improvement at Engine Idle</div><span class="source-meta">Shen et al.; International Journal of Acoustics and Vibration; 2020</span></div><div class="source-copy">Examines powertrain excitation, transfer paths, resonance and measured seat-rail vibration, including strong first and second engine-order components.</div><a class="link" href="https://iiav.org/ijav/content/volumes/25_2020_36521584896523/vol_4/1708_fullpaper_568371609345225.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></div>
@@ -121,6 +148,7 @@
         <tr><td>Vehicle vibration contains identifiable modes, harmonics, resonances and transfer paths.</td><td>MCP4SH reproduces every natural vehicle frequency one-to-one through a shaker.</td></tr>
         <tr><td>Steering wheels, seats and sim-racing interfaces can carry useful information across multiple vibration bands.</td><td>One published band is optimal for every device, body location, rig and effect.</td></tr>
         <tr><td>Hardware and receiver response materially change what reaches us.</td><td>Research papers remove the need for calibration, empirical testing or subjective validation.</td></tr>
+        <tr><td>The driving "string theory" analogy is a useful teaching model for coordinated steering and pedal input within a shared traction limit.</td><td>Steering and pedal inputs follow one universal linear ratio, or MCP4SH uses that coaching analogy as a literal effect formula.</td></tr>
       </tbody></table>
       <div class="note"><strong>Preserve the event. Adapt the carrier.</strong> The research helps define the problem. MCP4SH's job is to make the resulting cues coherent, readable and useful on a real rig.</div>
     </section>
