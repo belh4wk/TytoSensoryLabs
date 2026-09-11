@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCP4H | Tyto Sensory Labs</title>
+  <meta name="description" content="MCP4H is Tyto Sensory Labs' receiver-aware framework for preserving meaning while adapting the carrier." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --bg:#000; --border:rgba(255,255,255,.08); --text:#d6d6d6; --muted:#8d8d8d; --accent:#6e603f; --shadow:0 20px 50px rgba(0,0,0,.35); }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(circle at 50% -18%,#111 0%,var(--bg) 40%,#000 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+    .grain::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.055;background-image:radial-gradient(circle at 20% 20%,rgba(255,255,255,.05) 0 1px,transparent 1px),radial-gradient(circle at 80% 60%,rgba(255,255,255,.03) 0 1px,transparent 1px);background-size:10px 10px,14px 14px;mix-blend-mode:soft-light;z-index:2}
+    .topbar{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(0,0,0,.76);border-bottom:1px solid var(--border)}
+    .content{position:relative;z-index:5;padding:100px 0 5rem}.page-wrap{width:min(1040px,calc(100% - 2rem));margin:0 auto}
+    .panel{border:1px solid var(--border);background:linear-gradient(180deg,rgba(12,12,12,.38),rgba(2,2,2,.28));backdrop-filter:blur(22px) saturate(62%);-webkit-backdrop-filter:blur(22px) saturate(62%);box-shadow:var(--shadow);border-radius:28px}.page-hero{padding:clamp(1.7rem,4vw,3rem)}
+    .eyebrow{letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-size:.76rem}.protocol-expansion{color:#9da5af;font-size:.72rem;line-height:1.55;letter-spacing:.11em;text-transform:uppercase;font-weight:600}.protocol-expansion strong{color:#b9a97d;font-weight:650}
+    .headline{color:#fff;line-height:1.05;font-weight:700;letter-spacing:-.03em}.accent{color:#d7c69f}.copy{color:#bfbfbf;line-height:1.85;max-width:72ch}.lead{color:#d5d5d5;line-height:1.85;max-width:72ch;font-size:1.06rem}
+    .section-tag{display:inline-flex;align-items:center;gap:.55rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.72);border-radius:999px;padding:.48rem .75rem;font-size:.78rem}.dot{width:8px;height:8px;border-radius:999px;background:var(--accent);box-shadow:0 0 12px rgba(110,96,63,.48)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border-radius:999px;padding:.9rem 1.25rem;font-weight:600;text-decoration:none;transition:transform 180ms ease,background 180ms ease,border-color 180ms ease,color 180ms ease}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--accent);color:#111;border:1px solid var(--accent)}.btn-primary:hover{background:#857552}.btn-secondary{background:rgba(5,5,5,.44);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:rgba(110,96,63,.45);color:#f5f5f5}
+    .flow{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.5rem}.flow span{border:1px solid rgba(255,255,255,.075);background:rgba(1,1,1,.30);border-radius:999px;padding:.48rem .72rem;color:#b9bbbd;font-size:.76rem}
+    .reading-section{padding:clamp(2.5rem,6vw,4.75rem) clamp(.2rem,1.5vw,.8rem);border-top:1px solid rgba(255,255,255,.075)}.reading-section h2{max-width:760px}
+    .plain-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:1.8rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
+    .plain-item{padding:1.35rem 1.35rem 1.35rem 0}.plain-item:nth-child(even){padding-left:1.35rem;border-left:1px solid rgba(255,255,255,.07)}.plain-item:nth-child(n+3){border-top:1px solid rgba(255,255,255,.07)}.plain-item strong{display:block;color:#eee;font-size:.95rem}.plain-item p{margin:.42rem 0 0;color:#9da0a3;font-size:.9rem;line-height:1.65}
+    .simple-list{margin:1.5rem 0 0;padding:0;list-style:none;max-width:820px;border-top:1px solid rgba(255,255,255,.07)}.simple-list li{padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.07);color:#aeb0b2;line-height:1.7}.simple-list strong{color:#ececec}
+    .note{margin-top:1.6rem;padding:1rem 1.15rem;border-left:2px solid rgba(212,194,143,.55);background:linear-gradient(90deg,rgba(110,96,63,.10),transparent);color:#d3c9b0;line-height:1.75;max-width:820px}
+    .example{margin-top:1.5rem;padding:1.2rem 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);max-width:860px}.example-label{color:#b9a97d;font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;font-weight:700}.example p{margin:.55rem 0 0;color:#b5b7b9;line-height:1.75}
+    @media(max-width:760px){.content{padding-top:88px}.panel{border-radius:24px}.plain-grid{grid-template-columns:1fr}.plain-item,.plain-item:nth-child(even){padding:1.1rem 0;border-left:0}.plain-item:nth-child(n+2){border-top:1px solid rgba(255,255,255,.07)}}
+  </style>
+  <link rel="stylesheet" href="Resources/site-theme.css" />
+</head>
+<body class="grain">
+  <div class="topbar"><div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4"><a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white no-underline">Tyto Sensory Labs</a><nav class="site-global-nav hidden md:flex" aria-label="Site navigation"></nav></div></div>
+  <main class="content"><div class="page-wrap">
+    <section class="panel page-hero">
+      <div class="section-tag"><span class="dot"></span><span>MCP4H™</span></div>
+      <p class="protocol-expansion mt-6">Multimodal Communications Protocol <strong>For Humanity</strong></p>
+      <h1 class="headline mt-3 max-w-4xl text-4xl md:text-6xl">Preserve meaning. Adapt the <span class="accent">carrier</span>.</h1>
+      <p class="lead mt-6">MCP4H is Tyto's framework for a simple problem: useful information often exists in a form the receiver cannot use directly.</p>
+      <p class="copy mt-4">Instead of forcing every source, device or person to speak the same language, MCP4H aims to preserve what the information means, then adapt how it is expressed.</p>
+      <div class="flow"><span>Observe</span><span>Interpret</span><span>Choose a projection</span><span>Deliver</span><span>Perceive</span><span>Respond</span></div>
+      <div class="mt-8 flex flex-wrap gap-3"><a href="https://github.com/belh4wk/MCP4H-protocol" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Open protocol repo</a><a href="index.html" class="btn btn-secondary">Back to Tyto</a></div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">In plain English</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">The source should not dictate how the message must be received.</h2>
+      <p class="copy mt-5">A machine may expose telemetry. A person may need touch. Another receiver may need sound, force, light, text, spatial cues or a machine-readable event.</p>
+      <p class="copy mt-4">MCP4H sits between those ends. It tries to keep the useful meaning intact while allowing the carrier to change.</p>
+      <div class="example"><span class="example-label">Simple example</span><p>A simulator reports tyre and chassis state as numbers. MCP4SH interprets those numbers as useful driving events. A tactile system can then express those events through a shaker. A future wheelbase renderer could express the same useful state differently without changing what the event means.</p></div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">What stays separate</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">Meaning is easier to reuse when we stop mixing it with the plumbing.</h2>
+      <div class="plain-grid">
+        <div class="plain-item"><strong>Observation</strong><p>What the source actually measured or reported.</p></div>
+        <div class="plain-item"><strong>Interpretation</strong><p>What that observation appears to mean in context.</p></div>
+        <div class="plain-item"><strong>Policy</strong><p>Optional decisions about priority, suppression, escalation or timing.</p></div>
+        <div class="plain-item"><strong>Projection</strong><p>How the meaning should be expressed for this receiver.</p></div>
+        <div class="plain-item"><strong>Transport</strong><p>How the information gets from one part of the system to another.</p></div>
+        <div class="plain-item"><strong>Rendering</strong><p>The final physical or digital form: touch, sound, force, light, text or something else.</p></div>
+      </div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Patterns over time</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">A number is not always the message.</h2>
+      <p class="copy mt-5">Useful state can live in how something changes: rate, rhythm, oscillation, frequency, phase, modulation, recurrence, direction or relationships between signals.</p>
+      <p class="copy mt-4">MCP4H therefore needs to preserve meaningful temporal, spatial, relational and spectral structure when a task depends on it. Reducing everything to a static number or a sentence can throw useful information away.</p>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">The receiver matters</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">The best carrier depends on what is available at the other end.</h2>
+      <p class="copy mt-5">A receiving system may have different senses, hardware, actuator positions, usable frequency ranges, latency limits, accessibility needs, preferences or context.</p>
+      <ul class="simple-list">
+        <li><strong>Same meaning, different senses:</strong> an alert that would normally be heard could be translated into touch or light.</li>
+        <li><strong>Same meaning, different hardware:</strong> a vehicle event could be expressed through a shaker, pedal motor or wheelbase detail layer.</li>
+        <li><strong>Same meaning, different context:</strong> a cue that is useful while driving may need a different presentation when reviewing data later.</li>
+      </ul>
+      <div class="note">Receiver capability is not an afterthought. It is part of deciding how the message should be expressed.</div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">AI and interpretation</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">AI can help understand complexity; it is not required for the protocol to work.</h2>
+      <p class="copy mt-5">Some signals can be interpreted deterministically. Others may benefit from classifiers, learned models or AI. MCP4H should support both.</p>
+      <p class="copy mt-4">Where interpretation is uncertain, the framework should keep useful provenance and confidence so a receiver can tell where the conclusion came from and how strongly it is supported.</p>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Where it is being tested</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">Generality has to be earned.</h2>
+      <ul class="simple-list">
+        <li><strong>Simulation:</strong> MCP4SH is the first commercial reference implementation. Racing is the established proving ground; flight broadens the source domain.</li>
+        <li><strong>Remote operation:</strong> a future direction for restoring machine and environmental cues that disappear when the operator is somewhere else.</li>
+        <li><strong>Accessibility:</strong> a future reference domain for translating information away from a channel that is unavailable or overloaded.</li>
+        <li><strong>People + AI:</strong> a way to make useful machine interpretation perceivable without turning every conclusion into more text.</li>
+        <li><strong>Other living systems:</strong> a longer-horizon research direction where we should not assume our language or senses are the only useful representation.</li>
+      </ul>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Status</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">An active framework, not a finished universal standard.</h2>
+      <p class="copy mt-5">MCP4H is being developed in public. The next work focuses on a neutral semantic envelope, receiver capability profiles, provenance, temporal and spectral structure, domain profiles and reference implementations that prove the same base architecture can work across genuinely different problems.</p>
+      <p class="copy mt-4">If the framework only works naturally for the problem it started with, it is not general enough yet.</p>
+      <div class="mt-8 flex flex-wrap gap-3"><a href="https://github.com/belh4wk/MCP4H-protocol" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Follow MCP4H on GitHub</a><a href="index.html#so-far" class="btn btn-secondary">See Tyto so far</a></div>
+    </section>
+  </div></main>
+  <script src="Resources/site-nav.js"></script><script src="Resources/site-footer.js"></script>
+</body>
+</html>

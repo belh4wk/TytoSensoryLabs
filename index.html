@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tyto Sensory Labs</title>
-    <link rel="icon" href="data:," />
-<meta name="description" content="Tyto Sensory Labs homepage for Tyto Sensory Labs, MCP4H, MCP4SH, and Off-Center Photo Finish." />
+  <title>Tyto Sensory Labs | Preserve meaning. Adapt the carrier.</title>
+  <link rel="icon" href="data:," />
+  <meta name="description" content="Tyto Sensory Labs explores how meaningful patterns in complex systems can be interpreted, translated and expressed through the sensory channels available to the receiver." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -18,12 +18,8 @@
       --accent: #6e603f;
       --accent-soft: rgba(110, 96, 63, 0.26);
       --glow: rgba(110, 96, 63, 0.45);
-      --track: rgba(255,255,255,0.09);
-      --track-edge: rgba(255,255,255,0.16);
-      --line: rgba(255,255,255,0.10);
       --shadow: 0 20px 50px rgba(0,0,0,0.35);
     }
-
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -33,7 +29,6 @@
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       overflow-x: hidden;
     }
-
     .grain::before {
       content: "";
       position: fixed;
@@ -47,7 +42,6 @@
       mix-blend-mode: soft-light;
       z-index: 2;
     }
-
     .topbar {
       position: fixed;
       top: 0;
@@ -55,16 +49,10 @@
       right: 0;
       z-index: 50;
       backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       background: rgba(0,0,0,0.76);
       border-bottom: 1px solid var(--border);
     }
-
-    .navlink {
-      color: var(--muted);
-      transition: 160ms ease;
-    }
-    .navlink:hover { color: #f3f3f3; }
-
     .btn {
       display: inline-flex;
       align-items: center;
@@ -75,148 +63,14 @@
       font-weight: 600;
       text-decoration: none;
       transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
-      will-change: transform;
     }
     .btn:hover { transform: translateY(-1px); }
-    .btn-primary {
-      background: var(--accent);
-      color: #111;
-      border: 1px solid var(--accent);
-      box-shadow: 0 10px 24px rgba(110,96,63,0.18);
-    }
+    .btn-primary { background: var(--accent); color: #111; border: 1px solid var(--accent); box-shadow: 0 10px 24px rgba(110,96,63,0.18); }
     .btn-primary:hover { background: #857552; }
-    .btn-secondary {
-      background: rgba(5,5,5,0.44);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover {
-      border-color: rgba(110,96,63,0.45);
-      color: #f5f5f5;
-    }
-
-    .bg-stage {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .bg-vignette {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 50% 40%, transparent 0%, rgba(0,0,0,0.05) 42%, rgba(0,0,0,0.55) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.28) 100%);
-      z-index: 3;
-    }
-
-    .track-scene {
-      position: absolute;
-      inset: -8%;
-      transform-origin: center center;
-      will-change: transform, filter, opacity;
-      transition: transform 180ms linear, filter 180ms linear, opacity 180ms linear;
-      z-index: 1;
-    }
-
-    .scene-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(circle at center, black 20%, transparent 85%);
-      opacity: 0.45;
-    }
-
-    .track-wrap {
-      position: absolute;
-      inset: 0;
-      transform: perspective(1400px) rotateX(64deg) rotateZ(-9deg) scale(1.1);
-      transform-origin: 50% 50%;
-      filter: saturate(0.8);
-    }
-
-    .track-outline,
-    .track-racing-line,
-    .track-glow,
-    .track-markers {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .track-outline path {
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .track-outline .road {
-      stroke: var(--track);
-      stroke-width: 64;
-      filter: drop-shadow(0 0 28px rgba(255,255,255,0.05));
-    }
-    .track-outline .edge {
-      stroke: var(--track-edge);
-      stroke-width: 2.5;
-      opacity: 0.65;
-    }
-
-    .track-racing-line path {
-      fill: none;
-      stroke: rgba(215, 198, 159, 0.68);
-      stroke-width: 4.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 14 18;
-      filter: drop-shadow(0 0 10px rgba(110,96,63,0.22));
-      opacity: 0.55;
-    }
-
-    .track-glow path {
-      fill: none;
-      stroke: rgba(110,96,63,0.18);
-      stroke-width: 18;
-      filter: blur(22px);
-      opacity: 0.65;
-    }
-
-    .track-markers circle {
-      fill: rgba(255,255,255,0.06);
-      stroke: rgba(255,255,255,0.18);
-      stroke-width: 1.25;
-    }
-
-    .camera-label {
-      position: absolute;
-      right: 5vw;
-      bottom: 6vh;
-      z-index: 4;
-      font-size: 0.8rem;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.46);
-    }
-
-    .camera-label strong {
-      color: rgba(215,198,159,0.85);
-      font-weight: 600;
-    }
-
-    .content {
-      position: relative;
-      z-index: 5;
-    }
-
-    .story-block {
-      min-height: 170vh;
-      position: relative;
-    }
-
+    .btn-secondary { background: rgba(5,5,5,0.44); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: rgba(110,96,63,0.45); color: #f5f5f5; }
+    .content { position: relative; z-index: 5; padding-top: 72px; }
+    .story-block { min-height: 145vh; position: relative; }
     .story-inner {
       position: sticky;
       top: 84px;
@@ -225,284 +79,191 @@
       align-items: center;
       padding: 4rem 1.25rem;
     }
-
     .panel {
-      max-width: 720px;
+      max-width: 760px;
       border: 1px solid var(--border);
       background: linear-gradient(180deg, rgba(12,12,12,0.38) 0%, rgba(2,2,2,0.28) 100%);
       backdrop-filter: blur(22px) saturate(62%);
+      -webkit-backdrop-filter: blur(22px) saturate(62%);
       box-shadow: var(--shadow);
       border-radius: 28px;
     }
-
-    .eyebrow {
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-size: 0.76rem;
-    }
-
-    .headline {
-      color: white;
-      line-height: 1.03;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-    }
-
+    .panel-wide { max-width: 980px; }
+    .eyebrow { letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-size: 0.76rem; }
+    .headline { color: white; line-height: 1.03; font-weight: 700; letter-spacing: -0.03em; }
     .accent { color: #d7c69f; }
-
-    .mini-rail {
-      position: absolute;
-      left: clamp(10px, 3vw, 40px);
-      top: 18vh;
-      bottom: 18vh;
-      width: 2px;
-      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.09), transparent);
-      z-index: 6;
-      border-radius: 999px;
-    }
-
-    .mini-progress {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 22%;
-      background: linear-gradient(180deg, rgba(215,198,159,0.85), rgba(110,96,63,0.35));
-      border-radius: 999px;
-      box-shadow: 0 0 18px rgba(110,96,63,0.32);
-      transform-origin: top;
-      will-change: transform;
-    }
-
+    .copy { color: #bfbfbf; line-height: 1.9; max-width: 68ch; }
     .section-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.03);
-      color: rgba(255,255,255,0.72);
-      border-radius: 999px;
-      padding: 0.48rem 0.75rem;
-      font-size: 0.78rem;
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.72); border-radius: 999px; padding: 0.48rem 0.75rem; font-size: 0.78rem;
     }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 12px rgba(110,96,63,0.48); }
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(110,96,63,0.48);
+    .protocol-expansion {
+      color:#9da5af;
+      font-size:.76rem;
+      line-height:1.5;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-weight:600;
     }
+    .protocol-expansion strong { color:#b9a97d; font-weight:650; }
 
-    .copy {
-      color: #bfbfbf;
-      line-height: 1.95;
-      max-width: 62ch;
+    .principle {
+      display: inline-flex; align-items: center; gap: .65rem; margin-top: 1.6rem;
+      border: 1px solid rgba(212,194,143,.23); background: rgba(110,96,63,.08); color: #e7dcc1;
+      border-radius: 999px; padding: .7rem 1rem; font-weight: 650;
     }
-
-    .footer-nav {
-      border-top: 1px solid var(--border);
-      background: rgba(0,0,0,0.72);
-      backdrop-filter: blur(22px) saturate(62%);
+    .principle::before { content:""; width:7px; height:7px; border-radius:50%; background:#d4c28f; box-shadow:0 0 14px rgba(212,194,143,.35); }
+    .mini-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.8rem; margin-top:1.6rem; }
+    .mini-card {
+      border:1px solid rgba(255,255,255,.075); border-radius:18px; padding:1rem 1.05rem;
+      background:linear-gradient(180deg,rgba(6,6,6,.27),rgba(0,0,0,.16));
     }
-
+    .mini-card strong { display:block; color:#eee; font-size:.92rem; }
+    .mini-card span { display:block; margin-top:.35rem; color:#92969a; font-size:.82rem; line-height:1.55; }
+    .flow { display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.5rem; }
+    .flow span { border:1px solid rgba(255,255,255,.075); background:rgba(1,1,1,.30); border-radius:999px; padding:.48rem .72rem; color:#b9bbbd; font-size:.76rem; }
+    .note { margin-top:1.5rem; padding:1rem 1.1rem; border-left:2px solid rgba(212,194,143,.55); background:linear-gradient(90deg,rgba(110,96,63,.10),transparent); color:#d3c9b0; line-height:1.7; }
+    .mini-rail { position: fixed; left: clamp(10px, 3vw, 40px); top: 18vh; bottom: 18vh; width: 2px; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.09), transparent); z-index: 6; border-radius: 999px; }
+    .mini-progress { position:absolute; left:0; top:0; width:100%; height:22%; background:linear-gradient(180deg,rgba(215,198,159,.85),rgba(110,96,63,.35)); border-radius:999px; box-shadow:0 0 18px rgba(110,96,63,.32); transform-origin:top; }
     @media (max-width: 900px) {
-      .story-block { min-height: 145vh; }
+      .story-block { min-height: 125vh; }
       .story-inner { top: 76px; min-height: calc(100vh - 84px); padding: 2.5rem 1rem; }
       .panel { border-radius: 24px; }
-      .track-wrap { transform: perspective(1200px) rotateX(66deg) rotateZ(-8deg) scale(1.42) translateY(-2%); }
-      .camera-label { right: 1rem; bottom: 1rem; font-size: 0.72rem; letter-spacing: 0.16em; }
-      .mini-rail { display: none; }
+      .mini-grid { grid-template-columns:1fr; }
+      .mini-rail { display:none; }
     }
-  </style>
+</style>
   <link rel="stylesheet" href="Resources/site-theme.css" />
 </head>
 <body class="grain">
-  <script>
-    const MCP4SH_DOWNLOAD_URL = "https://github.com/belh4wk/mcp4sh/releases";
-    const MCP4SH_LICENSE_URL = "https://tytosensorylabs.lemonsqueezy.com/checkout/buy/1f9c1205-e6c6-422f-bb82-ce822d53ee2a";
-  </script>
-
   <div class="topbar">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
-      <a href="#top" class="text-sm font-semibold tracking-[0.18em] uppercase text-white">Tyto Sensory Labs</a>
-      <nav class="site-global-nav hidden md:flex" aria-label="Site navigation">
-        <a href="#mcp4h">MCP4H</a>
-        <a href="mcp4sh.html">MCP4SH</a>
-        <a href="ocpf.html">OCPF</a>
-        <a href="reviews.html">Reviews</a>
-        <a href="labnotes.html">Lab Notes</a>
-      </nav>
+      <a href="#top" class="text-sm font-semibold tracking-[0.18em] uppercase text-white no-underline">Tyto Sensory Labs</a>
+      <nav class="site-global-nav hidden md:flex" aria-label="Site navigation"></nav>
     </div>
-    <nav class="mobile-global-links md:hidden" aria-label="Mobile site navigation">
-      <a href="reviews.html">Reviews</a>
-      <a href="labnotes.html">Lab Notes</a>
-    </nav>
   </div>
-
-  <div class="mini-rail" aria-hidden="true">
-    <div id="miniProgress" class="mini-progress"></div>
-  </div>
+  <div class="mini-rail" aria-hidden="true"><div id="miniProgress" class="mini-progress"></div></div>
 
   <main id="top" class="content">
-    <section id="tyto" class="story-block" data-scene="source">
+    <section id="tyto" class="story-block">
       <div class="story-inner mx-auto max-w-7xl">
-        <div class="panel p-8 md:p-12">
+        <div class="panel panel-wide p-8 md:p-12">
           <div class="section-tag"><span class="dot"></span><span>Tyto Sensory Labs</span></div>
-          <img src="/Resources/belh4wkBanner.png" 
-		  alt="belh4wk tyto logo"
-          class="w-full max-w-3xl rounded-2xl shadow-lg"/>
-          <h1 class="headline mt-3 text-4xl md:text-7xl">Signals made <span class="accent">human</span>.</h1>
-          <p class="copy mt-6 text-base md:text-lg">
-            Tyto Sensory Labs exists to make dense technical output easier to feel, read, and trust.<br><br>
-The broader idea behind it is MCP4H™ - the Multimodal Communications Protocol For Humanity: a structured way of turning raw machine output into cues that are more coherent, more intuitive, and more usable for real people under real conditions.<br><br>
-The problem is straightforward. Modern systems generate enormous amounts of information, but much of it still reaches people in forms that are hard to parse quickly: dashboards, graphs, raw telemetry, logs, alerts, or fragmented signals spread across multiple interfaces. In many environments, that is not just inconvenient. It is a communication problem.<br><br>
-MCP4H is my attempt to address that problem through translation rather than accumulation. The aim is not simply to output more information, but to wrap data in a structured envelope that can drive different output types - haptics, audio, visuals, lighting, or combinations of them - depending on what the person on the receiving end actually needs.<br><br>
-The first practical proving ground for that idea is MCP4SH™, which applies this thinking to sim-racing haptics. It uses sim telemetry as raw input, then works to shape that output into cues that feel more readable, more layered, and less like undifferentiated noise. That makes sim racing a useful testbed: the feedback loop is fast, the signal density is high, and the value of clearer machine-to-human communication becomes obvious very quickly.<br><br>
-Today, MCP4H is in an early but real state: documented, structured, and actively being tested through working implementations and supporting schemas, examples, and harmonization concepts. It is not a finished universal standard yet, but it is no longer just an idea either.<br><br>
-MCP4H is also complementary to the wider Model Context Protocol (MCP) ecosystem, not a replacement for it. MCP provides a standard way for AI applications to connect to external systems and expose resources, tools, and prompts. MCP4H focuses on a different but related layer: once information is available, how should it be normalized, prioritized, and delivered so that a person can understand it quickly and act on it with confidence?<br><br>
-The long-term ambition is simple: less noise, better interpretation, and more trustworthy cues between machines and people.
-          </p>
+          <img src="Resources/belh4wkBanner.png" alt="Tyto Sensory Labs banner" class="mt-6 w-full max-w-3xl rounded-2xl shadow-lg" />
+          <p class="eyebrow mt-7">Mission</p>
+          <h1 class="headline mt-3 text-4xl md:text-6xl">Meaningful patterns, translated for the <span class="accent">receiver</span>.</h1>
+          <p class="copy mt-6 text-base md:text-lg"><strong class="text-white">Tyto Sensory Labs explores how meaningful patterns in complex systems can be interpreted, translated and expressed through the sensory channels available to the receiver.</strong></p>
+          <div class="principle">Preserve meaning. Adapt the carrier.</div>
+          <p class="copy mt-6 text-base md:text-lg">The aim is deliberately broad, but the work starts from practical problems. Systems around us are continuously expressing state. We can measure more of that state than ever, yet we still spend a remarkable amount of effort staring at dashboards, graphs, warnings and disconnected values, then translating them in our own heads.</p>
+          <p class="copy mt-4 text-base md:text-lg">Tyto is interested in the layer between measurement and understanding.</p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#mcp4h" class="btn btn-secondary">See MCP4H</a>
-            <a href="#mcp4sh" class="btn btn-primary">See MCP4SH</a>
-            <a href="#ocpf" class="btn btn-secondary">See OCPF</a>
+            <a href="#beginning" class="btn btn-primary">Start at the beginning</a>
+            <a href="mcp4h.html" class="btn btn-secondary">Explore MCP4H</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="mcp4h" class="story-block" data-scene="eaurouge">
+    <section id="beginning" class="story-block">
       <div class="story-inner mx-auto max-w-7xl justify-end">
+        <div class="panel p-8 md:p-12">
+          <div class="section-tag"><span class="dot"></span><span>In the beginning</span></div>
+          <p class="eyebrow mt-6">Before language, there was signal</p>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">State lives in <span class="accent">change</span>.</h2>
+          <p class="copy mt-6 text-base md:text-lg">Things move, pulse, vibrate, resonate, strain, call, flash, heat, cool, accelerate, drift and react. Those changes carry information about state. Across the systems Tyto is interested in, useful structure often appears in timing, rhythm, oscillation, frequency, phase, modulation, recurrence, force, motion, spatial relationships and interactions between signals.</p>
+          <p class="copy mt-4 text-base md:text-lg">Frequency is a recurring key because so much useful state becomes visible when we stop looking only at a value and start looking at how it changes. That does not mean every property of everything can be reduced to one frequency. It means patterns over time are often part of the message.</p>
+          <p class="copy mt-4 text-base md:text-lg">We learned to communicate extremely well in some ways. We are still surprisingly poor at listening to much of our environment, including machines and systems we built ourselves.</p>
+          <div class="note">The recurring Tyto question became simple: <strong>what is this system actually expressing, what part of it matters, and how can that meaning reach the receiver through a channel they can use?</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mcp4h" class="story-block">
+      <div class="story-inner mx-auto max-w-7xl">
         <div class="panel p-8 md:p-12">
           <div class="section-tag"><span class="dot"></span><span>MCP4H™</span></div>
-		  <img src="/Resources/MCP4HLogo.png" 
-		  alt="MCP4H™ logo"
-          class="w-full max-w-3xl rounded-2xl shadow-lg"/>
-          <p class="eyebrow mt-6">The protocol layer</p>
-          <h2 class="headline mt-3 text-4xl md:text-6xl">A grammar for <span class="accent">awareness</span>.</h2>
-          <p class="copy mt-6 text-base md:text-lg">
-            Machines produce too much raw output<br>
-most people cannot interpret it quickly<br>
-MCP4H™ (Multimodal Communications Protocol For Humanity) is the layer that helps turn that output into clearer, perhaps more intuitive cues<br><br>
-The idea behind it is simple: turn dense data into communication people can use, more naturally, intuitively.<br><br>
-Modern systems produce vast amounts of data. They the problem is us having to make that data easy for people to understand, especially under pressure, in high volumes at lightspeed. Too often, important information shows up as scattered alerts, raw numbers, graphs, or isolated signals that force people to do the translation work themselves.<br><br>
-This is designed to close that gap.<br><br>
-It provides a structured way to take any variety of data (be it system, software, hardware, cognitive, research,...) and wrap it so it can be projected across visual, audio, and haptic channels. Instead of leaving people to decode disconnected outputs, MCP4H aims to organize information into communication that feels more coherent, more intuitive, and easier to act on in real time.<br><br>
-The goal is better, more intuitively interpretable signals.<br><br>
-At its core, MCP4H focuses on things like context, priority, timing, and intent so that different technologies can communicate in ways that are easier for us to read, trust, and respond to. That could mean helping a driver feel what a car is doing more clearly, helping an operator notice the right warning sooner, or helping technical systems present information in ways that are less overwhelming and more useful than yet another dashboard.<br><br>
-In (relatively) simple terms, MCP4H is about making data feel less like data and more like understanding.<br><br>
-MCP4H also strengthens the human side of AI workflows built on MCP.<br>
-MCP gives AI systems a common way to access tools, data, and structured prompts. MCP4H adds a people-facing layer on top of that by helping shape outputs into communication that is easier to inspect, compare, and sanity-check. The aim is less black-box ambiguity, more clarity about what the system is surfacing and how it should be understood. That matters most in places where trust, timing, and accuracy are not optional.
-          </p>
+          <p class="eyebrow mt-6">The architectural centre</p>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">A communication layer for <span class="accent">meaning</span>.</h2>
+          <p class="protocol-expansion mt-6">MCP4H <span aria-hidden="true">/</span> Multimodal Communications Protocol <strong>For Humanity</strong></p>
+          <p class="copy mt-4 text-base md:text-lg">MCP4H grew from that translation problem. The idea is to separate useful meaning from the carrier in which it first appears, then let that meaning be projected through a channel appropriate to the receiver.</p>
+          <div class="flow" aria-label="MCP4H flow">
+            <span>Observe</span><span>Interpret</span><span>Project</span><span>Perceive</span><span>Respond</span>
+          </div>
+          <p class="copy mt-6 text-base md:text-lg">Text can be one carrier. So can sound, touch, force, motion, light, spatial cues or a machine-readable event. MCP4H is evolving so none of those must pretend to be the universal intermediate form.</p>
+          <p class="copy mt-4 text-base md:text-lg">The receiver matters as much as the source. Available senses, hardware, topology, timing, calibration, accessibility needs and context can all affect the most useful projection.</p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#mcp4sh" class="btn btn-primary">Go to MCP4SH</a>
-            <a href="#tyto" class="btn btn-secondary">Back to Tyto</a>
-            <a href="https://github.com/belh4wk/MCP4H-protocol" class="btn btn-secondary">Learn more</a>
+            <a href="mcp4h.html" class="btn btn-primary">MCP4H public overview</a>
+            <a href="https://github.com/belh4wk/MCP4H-protocol" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Protocol repo</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="mcp4sh" class="story-block" data-scene="raidillon">
+    <section id="so-far" class="story-block">
+      <div class="story-inner mx-auto max-w-7xl justify-end">
+        <div class="panel panel-wide p-8 md:p-12">
+          <div class="section-tag"><span class="dot"></span><span>So far</span></div>
+          <p class="eyebrow mt-6">Focused products, shared lessons</p>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">The idea is already being <span class="accent">tested</span>.</h2>
+          <p class="copy mt-6 text-base md:text-lg">Tyto is not waiting for a perfect universal theory before building anything. Each project solves a concrete problem while testing structures that may transfer elsewhere.</p>
+          <div class="mini-grid">
+            <div class="mini-card"><strong>MCP4SH™</strong><span>The first commercial reference implementation. It interprets simulation telemetry and translates useful machine behaviour into tactile cues. Racing is the current proving ground; flight broadens the test.</span></div>
+            <div class="mini-card"><strong>MCP4H™</strong><span>The open protocol and framework that turns the underlying translation idea into inspectable contracts, semantics, provenance and receiver capability.</span></div>
+            <div class="mini-card"><strong>Off-Center Photo Finish</strong><span>A focused independent product. It matters strategically because Tyto is a product and R&amp;D company, not a haptics monoculture.</span></div>
+            <div class="mini-card"><strong>Tyto Sensory Lab</strong><span>The internal workbench and orchestration direction for building, testing, releasing and eventually connecting shared Tyto capabilities.</span></div>
+          </div>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="mcp4sh.html" class="btn btn-primary">See MCP4SH</a>
+            <a href="mcp4sh-research.html" class="btn btn-secondary">Research behind MCP4SH</a>
+            <a href="ocpf.html" class="btn btn-secondary">See OCPF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="trajectories" class="story-block">
       <div class="story-inner mx-auto max-w-7xl">
-        <div class="panel p-8 md:p-12">
-          <div class="section-tag"><span class="dot"></span><span>MCP4SH™</span></div>
-		  <img src="/Resources/MCP4SHLogo.png" 
-		  alt="MCP4SH™ logo"
-          class="w-full max-w-3xl rounded-2xl shadow-lg"/>
-          <p class="eyebrow mt-6">The flagship implementation</p>
-          <h2 class="headline mt-3 text-4xl md:text-6xl">From telemetry to <span class="accent">weighted movement information</span>.</h2>
-          <p class="copy mt-6 text-base md:text-lg">
-            MCP4SH® - String Theory Haptics for SimHub is a plugin built on the protocol's principles.
-            It aims to make sim-racing haptics feel more coherent. More like a connected chassis, less like a pile of buzzers fighting for attention.
-            v1.1 adds the Setup Assistant, so users can select the shakers on their rig, test-pulse channels, and generate a matching SimHub sound output profile without needing to understand every routing detail first.
-            The codec still does the haptics work. The Setup Assistant helps people actually get it wired and mapped.
-          </p>
-          <div class="mt-6 rounded-2xl border border-[#2a2a2a] bg-[#111111cc] p-5">
-            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[#bfa483]">Licensing</p>
-            <p class="copy mt-3 text-sm md:text-base">
-              Free gives you the core MCP4SH String Theory Haptics experience and the Setup Assistant.
-              A license gives you the extra control layer for shaping the feel around your rig, and directly supports continued development.
-              The current early-adopter <strong>Pioneer</strong> option is <strong>12.99</strong> for <strong>up to 2 machines</strong>. Store availability is the source of truth for what is actually live.
-            </p>
-            <p class="copy mt-3 text-sm md:text-base">
-              In plain English: free gets you working. A license gives you more control over how it feels on your rig.
-            </p>
-          </div>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
-            <a id="hero-license" href="#" class="btn btn-secondary">Purchase license</a>
-            <a id="hero-info" href="mcp4sh.html" class="btn btn-secondary">Learn more</a>
+        <div class="panel panel-wide p-8 md:p-12">
+          <div class="section-tag"><span class="dot"></span><span>Trajectories</span></div>
+          <p class="eyebrow mt-6">Where the same problem keeps reappearing</p>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">Different domains, the same <span class="accent">translation gap</span>.</h2>
+          <div class="mini-grid">
+            <div class="mini-card"><strong>Simulation</strong><span>Make virtual machines easier to understand through more of the sensory bandwidth already available to us.</span></div>
+            <div class="mini-card"><strong>Remote operation</strong><span>Restore useful machine and environmental cues that disappear when the operator is physically separated from the equipment.</span></div>
+            <div class="mini-card"><strong>Accessibility</strong><span>Translate information away from an unavailable or overloaded sensory channel and into one the receiver can use.</span></div>
+            <div class="mini-card"><strong>People + AI</strong><span>Let AI help interpret complexity while keeping useful conclusions inspectable, grounded and perceivable instead of merely verbose.</span></div>
+            <div class="mini-card"><strong>Built and natural environments</strong><span>Find better ways to let systems communicate their changing condition back to us rather than only making them respond to our commands.</span></div>
+            <div class="mini-card"><strong>Other living systems</strong><span>A long-horizon research direction: study communication without assuming our language or sensory priorities are the only useful representation.</span></div>
           </div>
         </div>
       </div>
     </section>
 
-
-    <section id="ocpf" class="story-block" data-scene="finish">
+    <section id="why" class="story-block">
       <div class="story-inner mx-auto max-w-7xl justify-end">
         <div class="panel p-8 md:p-12">
-          <div class="section-tag"><span class="dot"></span><span>Off-Center Photo Finish</span></div>
-          <div class="mt-6 flex items-center gap-6">
-            <img src="Resources/OCPFicon.png"
-                 alt="Off-Center Photo Finish PF lens icon"
-                 class="h-28 w-28 rounded-[28%] bg-white object-cover shadow-2xl md:h-36 md:w-36" />
-            <div>
-              <p class="eyebrow">A focused photo-finishing app</p>
-              <h2 class="headline mt-3 text-4xl md:text-6xl">Finish the shot, <span class="accent">not your patience</span>.</h2>
-            </div>
-          </div>
-          <p class="copy mt-7 text-base md:text-lg">
-            Off-Center Photo Finish is built for the common stretch between choosing a picture and being ready to share it. Select photos, edit in a darkroom-style workspace, compare individual editing categories without losing context, then export safe copies into a clean dated folder.
-          </p>
-          <p class="copy mt-4 text-sm md:text-base">
-            It is deliberately not a sprawling traditional editing suite. The aim is a useful, approachable finishing workflow with Light, Colour, Frame, Focus, Atmosphere, Colour Wash, Watermark, Touch-ups, Cleanup, and layer-aware Before/After built around a hollow radial editor.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="ocpf.html" class="btn btn-primary">Explore OCPF</a>
-            <a href="#mcp4sh" class="btn btn-secondary">Back to MCP4SH</a>
-            <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
-          </div>
+          <div class="section-tag"><span class="dot"></span><span>Why</span></div>
+          <p class="eyebrow mt-6">Better feedback loops</p>
+          <h2 class="headline mt-3 text-4xl md:text-6xl">Better sensing. Better translation. Better <span class="accent">resonance</span>.</h2>
+          <p class="copy mt-6 text-base md:text-lg">We have become very good at making our environment respond to us. We are less good at allowing the systems around us - including the ones we build ourselves - to communicate their state back in forms we intuitively understand.</p>
+          <p class="copy mt-4 text-base md:text-lg">Tyto exists to explore whether better translation can make those relationships more informed, accessible and mutually responsive.</p>
+          <div class="note"><strong>State changes - pattern is observed - meaning is interpreted - the carrier adapts - the receiver responds - state changes.</strong><br />Communication is a loop. The quality of the loop depends on what survives the translation.</div>
+          <div class="mt-8 flex flex-wrap gap-3"><a href="mcp4h.html" class="btn btn-primary">Explore the framework</a><a href="labnotes.html" class="btn btn-secondary">Lab Notes</a></div>
         </div>
       </div>
     </section>
-    <footer class="footer-nav">
-      <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between md:px-6">
-        <p class="text-sm text-[#8d8d8d]">Tyto Sensory Labs · Engineering Intuition.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="#tyto" class="btn btn-secondary !px-4 !py-2 text-sm">Tyto Sensory Labs</a>
-          <a href="#mcp4h" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4H</a>
-          <a href="#mcp4sh" class="btn btn-secondary !px-4 !py-2 text-sm">MCP4SH</a>
-          <a href="#ocpf" class="btn btn-secondary !px-4 !py-2 text-sm">OCPF</a>
-          <a href="reviews.html" class="btn btn-secondary !px-4 !py-2 text-sm">Reviews</a>
-          <a href="labnotes.html" class="btn btn-primary !px-4 !py-2 text-sm">Lab Notes</a>
-        </div>
-      </div>
-    </footer>
   </main>
-
   <script>
     const miniProgress = document.getElementById('miniProgress');
-
     function updateScrollProgress() {
       if (!miniProgress) return;
-      const vh = window.innerHeight;
-      const totalScroll = Math.max(document.body.scrollHeight - vh, 1);
-      const scrollY = window.scrollY || window.pageYOffset;
-      const globalProgress = Math.min(Math.max(scrollY / totalScroll, 0), 1);
-      miniProgress.style.transform = `scaleY(${Math.max(globalProgress, 0.06)})`;
+      const total = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(Math.max(window.scrollY / total, 0), 1);
+      miniProgress.style.transform = `scaleY(${Math.max(progress, 0.06)})`;
     }
-
-    function wireLinks() {
-      const download = document.getElementById('hero-download');
-      if (download) download.href = MCP4SH_DOWNLOAD_URL;
-      const license = document.getElementById('hero-license');
-      if (license) license.href = MCP4SH_LICENSE_URL;
-    }
-
-    wireLinks();
     updateScrollProgress();
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
     window.addEventListener('resize', updateScrollProgress);

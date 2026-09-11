@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCP4SH Research & Engineering Basis | Tyto Sensory Labs</title>
+  <meta name="description" content="Public research and engineering context behind MCP4SH frequency choices, tactile perception and vehicle movement interpretation." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--bg:#000;--border:rgba(255,255,255,.08);--text:#d6d6d6;--muted:#8d8d8d;--accent:#6e603f;--shadow:0 20px 50px rgba(0,0,0,.35)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(circle at 50% -18%,#111 0%,var(--bg) 40%,#000 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+    .grain::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.055;background-image:radial-gradient(circle at 20% 20%,rgba(255,255,255,.05) 0 1px,transparent 1px),radial-gradient(circle at 80% 60%,rgba(255,255,255,.03) 0 1px,transparent 1px);background-size:10px 10px,14px 14px;mix-blend-mode:soft-light;z-index:2}
+    .topbar{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(0,0,0,.76);border-bottom:1px solid var(--border)}
+    .content{position:relative;z-index:5;padding:100px 0 5rem}.page-wrap{width:min(1040px,calc(100% - 2rem));margin:0 auto}
+    .panel{border:1px solid var(--border);background:linear-gradient(180deg,rgba(12,12,12,.38),rgba(2,2,2,.28));backdrop-filter:blur(22px) saturate(62%);-webkit-backdrop-filter:blur(22px) saturate(62%);box-shadow:var(--shadow);border-radius:28px}.page-hero{padding:clamp(1.7rem,4vw,3rem)}
+    .eyebrow{letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-size:.76rem}.headline{color:#fff;line-height:1.05;font-weight:700;letter-spacing:-.03em}.accent{color:#d7c69f}.copy{color:#bfbfbf;line-height:1.85;max-width:74ch}.lead{color:#d5d5d5;line-height:1.85;max-width:74ch;font-size:1.06rem}
+    .section-tag{display:inline-flex;align-items:center;gap:.55rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.72);border-radius:999px;padding:.48rem .75rem;font-size:.78rem}.dot{width:8px;height:8px;border-radius:999px;background:var(--accent);box-shadow:0 0 12px rgba(110,96,63,.48)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border-radius:999px;padding:.9rem 1.25rem;font-weight:600;text-decoration:none;transition:transform 180ms ease,background 180ms ease,border-color 180ms ease,color 180ms ease}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--accent);color:#111;border:1px solid var(--accent)}.btn-primary:hover{background:#857552}.btn-secondary{background:rgba(5,5,5,.44);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:rgba(110,96,63,.45);color:#f5f5f5}
+    .reading-section{padding:clamp(2.5rem,6vw,4.6rem) clamp(.2rem,1.5vw,.8rem);border-top:1px solid rgba(255,255,255,.075)}.reading-section h2{max-width:780px}
+    .plain-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:1.8rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
+    .plain-item{padding:1.3rem}.plain-item:first-child{padding-left:0}.plain-item+.plain-item{border-left:1px solid rgba(255,255,255,.07)}.plain-item strong{display:block;color:#eee;font-size:.95rem}.plain-item p{margin:.42rem 0 0;color:#9da0a3;font-size:.9rem;line-height:1.65}
+    .flow{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.5rem}.flow span{border:1px solid rgba(255,255,255,.075);background:rgba(1,1,1,.30);border-radius:999px;padding:.48rem .72rem;color:#b9bbbd;font-size:.76rem}
+    .note{margin-top:1.6rem;padding:1rem 1.15rem;border-left:2px solid rgba(212,194,143,.55);background:linear-gradient(90deg,rgba(110,96,63,.10),transparent);color:#d3c9b0;line-height:1.75;max-width:860px}
+    .band-chart{margin-top:1.7rem;display:grid;gap:.85rem;max-width:900px}.band-row{display:grid;grid-template-columns:minmax(170px,240px) 1fr;gap:1rem;align-items:center}.band-label{color:#9ea1a4;font-size:.82rem;line-height:1.4}.band-track{position:relative;height:12px;border-radius:999px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);overflow:hidden}.band{position:absolute;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,#776846,#b7a371)}
+    .figure-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.72fr);gap:2rem;align-items:center;padding:1.8rem 0;border-top:1px solid rgba(255,255,255,.07)}.figure-row:last-child{border-bottom:1px solid rgba(255,255,255,.07)}.figure-row img{width:100%;max-height:285px;object-fit:contain;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.96)}.license{display:inline-flex;margin-top:.8rem;border:1px solid rgba(212,194,143,.20);border-radius:999px;padding:.35rem .6rem;color:#cdbf98;font-size:.7rem}
+    .source-list{margin-top:1.6rem;border-top:1px solid rgba(255,255,255,.07)}.source-row{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr) auto;gap:1.2rem;align-items:start;padding:1.15rem 0;border-bottom:1px solid rgba(255,255,255,.07)}.source-title{color:#ececec;font-weight:700;line-height:1.45}.source-copy{color:#9da0a3;font-size:.88rem;line-height:1.65}.source-meta{display:block;color:#74787c;font-size:.73rem;margin-top:.35rem;line-height:1.45}.link{color:#d7c69f;text-decoration:none;white-space:nowrap}.link:hover{color:#fff}
+    table{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:.9rem}th,td{text-align:left;vertical-align:top;padding:.85rem .8rem;border-bottom:1px solid rgba(255,255,255,.07);color:#aeb0b2;line-height:1.6}th{color:#e3dac1;font-weight:650}
+    @media(max-width:820px){.content{padding-top:88px}.panel{border-radius:24px}.plain-grid{grid-template-columns:1fr}.plain-item,.plain-item:first-child{padding:1.05rem 0}.plain-item+.plain-item{border-left:0;border-top:1px solid rgba(255,255,255,.07)}.figure-row{grid-template-columns:1fr}.source-row{grid-template-columns:1fr;gap:.45rem}.link{white-space:normal}.band-row{grid-template-columns:1fr;gap:.4rem}}
+  </style>
+  <link rel="stylesheet" href="Resources/site-theme.css" />
+</head>
+<body class="grain">
+  <div class="topbar"><div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4"><a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white no-underline">Tyto Sensory Labs</a><nav class="site-global-nav hidden md:flex" aria-label="Site navigation"></nav></div></div>
+  <main class="content"><div class="page-wrap">
+    <section class="panel page-hero">
+      <div class="section-tag"><span class="dot"></span><span>MCP4SH™ research note</span></div>
+      <p class="eyebrow mt-6">Engineering basis</p>
+      <h1 class="headline mt-3 max-w-4xl text-4xl md:text-6xl">From vehicle dynamics to a tactile <span class="accent">carrier</span>.</h1>
+      <p class="lead mt-6">MCP4SH does not choose one frequency and call it physics. It sits between three different systems: what the vehicle is doing, what our sense of touch can read, and what the rig can physically reproduce.</p>
+      <p class="copy mt-4">This page collects some of the public research behind that way of thinking. It is linked from the Tyto home page as supporting context rather than treated as another product section.</p>
+      <div class="mt-8 flex flex-wrap gap-3"><a href="index.html#so-far" class="btn btn-primary">Back to Tyto</a><a href="mcp4sh.html" class="btn btn-secondary">MCP4SH product page</a></div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">The short version</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">Interpret the event first; then choose a tactile expression that can actually work.</h2>
+      <p class="copy mt-5">The natural motion of a car, the vibration that reaches a seat or steering wheel, the sensitivity of touch, and the useful range of a tactile transducer are not the same thing.</p>
+      <p class="copy mt-4">MCP4SH therefore does not try to copy every real-world frequency one-to-one. It uses vehicle state and relationships to identify useful events, then renders those events within a tactile range that can be perceived and reproduced.</p>
+      <div class="plain-grid">
+        <div class="plain-item"><strong>Vehicle state</strong><p>Tyres, suspension, chassis, drivetrain and road input evolve on their own physical time scales.</p></div>
+        <div class="plain-item"><strong>Perception</strong><p>Frequency, amplitude, timing and body location all change what a vibration feels like.</p></div>
+        <div class="plain-item"><strong>Rig response</strong><p>Shakers, mounts, seats, frames and pedal plates reshape the signal again.</p></div>
+      </div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Frequency context</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">Different parts of the problem live in different bands.</h2>
+      <p class="copy mt-5">Low-frequency vehicle body motion, wheel and suspension behaviour, steering-wheel vibration and tactile rendering overlap in places, but they are not interchangeable.</p>
+      <div class="band-chart" aria-label="Illustrative frequency ranges">
+        <div class="band-row"><div class="band-label">Body bounce / ride modes</div><div class="band-track"><span class="band" style="left:1%;width:5%"></span></div></div>
+        <div class="band-row"><div class="band-label">Wheel-hop region</div><div class="band-track"><span class="band" style="left:8%;width:9%"></span></div></div>
+        <div class="band-row"><div class="band-label">MCP4SH calibration window</div><div class="band-track"><span class="band" style="left:14%;width:48%"></span></div></div>
+        <div class="band-row"><div class="band-label">Measured sim-wheel vibrotactile bands</div><div class="band-track"><span class="band" style="left:19%;width:7%"></span><span class="band" style="left:39%;width:8%"></span><span class="band" style="left:58%;width:8%"></span></div></div>
+      </div>
+      <p class="copy mt-5 text-sm">This is an explanatory map, not a universal tuning chart. Hardware, mounting, body location, amplitude and individual perception all matter.</p>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">What the receiver changes</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">The same signal does not feel the same everywhere.</h2>
+      <div class="figure-row">
+        <div><h3 class="headline text-2xl md:text-3xl">Tactile perception is frequency-dependent.</h3><p class="copy mt-4">Pacinian corpuscles are one of several mechanoreceptive structures involved in vibration perception. The practical point is not that one receptor gives us a tuning table. It is that the receiving body has its own response to frequency, timing, amplitude and location.</p><span class="license">CC0; commercial reuse permitted</span><p class="mt-4"><a class="link" href="https://commons.wikimedia.org/wiki/File:Histology_of_a_Pacinian_corpuscle.jpg" target="_blank" rel="noopener noreferrer">Image source and licence</a></p></div>
+        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Histology_of_a_Pacinian_corpuscle.jpg" alt="Histology image of a Pacinian corpuscle" />
+      </div>
+      <div class="figure-row">
+        <div><h3 class="headline text-2xl md:text-3xl">The vehicle is a coupled system too.</h3><p class="copy mt-4">Road input, wheel and axle motion, spring stiffness, damping and chassis movement are related. MCP4SH looks for useful relationships in the telemetry rather than treating every raw value as a separate vibration effect.</p><span class="license">Public domain; commercial reuse permitted</span><p class="mt-4"><a class="link" href="https://commons.wikimedia.org/wiki/File:Suspension_System_(PSF).png" target="_blank" rel="noopener noreferrer">Image source and public-domain notice</a></p></div>
+        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/7/79/Suspension_System_%28PSF%29.png" alt="Public-domain vehicle suspension diagram" />
+      </div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Vehicle movement</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">Movement is interpreted as a relationship, not a pile of isolated axes.</h2>
+      <p class="copy mt-5">A vehicle can heave, pitch, roll, yaw, surge and sway. Those motions interact with suspension travel, load transfer, tyre state, acceleration and road input.</p>
+      <p class="copy mt-4">MCP4SH is not a replacement physics solver. It uses the state the simulator exposes, conditions it, compares related signals and translates the useful part into tactile semantics.</p>
+      <div class="flow"><span>Telemetry</span><span>Conditioning</span><span>Semantic event</span><span>Tactile projection</span><span>Rig + receiver</span></div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Original String Theory in Driving trail</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">Some of the sources cited while the early haptics rationale was being explained publicly.</h2>
+      <p class="copy mt-5">These are part of the earlier public research trail around String Theory in Driving. They support the physical and perceptual context behind vehicle vibration, seating, steering-wheel vibration and transfer paths. They were never intended as a lookup table where one paper frequency becomes one MCP4SH effect.</p>
+      <div class="source-list">
+        <div class="source-row"><div><div class="source-title">Predicting discomfort from whole-body vertical vibration when sitting with an inclined backrest</div><span class="source-meta">Basri &amp; Griffin; Applied Ergonomics; 2013</span></div><div class="source-copy">Experimental work across 1 to 20 Hz showing that perceived whole-body vibration depends on frequency and seating/backrest conditions.</div><a class="link" href="https://pubmed.ncbi.nlm.nih.gov/23190680/" target="_blank" rel="noopener noreferrer">PubMed</a></div>
+        <div class="source-row"><div><div class="source-title">An Experimental Study of Vehicle 1st Order Vibration Improvement at Engine Idle</div><span class="source-meta">Shen et al.; International Journal of Acoustics and Vibration; 2020</span></div><div class="source-copy">Examines powertrain excitation, transfer paths, resonance and measured seat-rail vibration, including strong first and second engine-order components.</div><a class="link" href="https://iiav.org/ijav/content/volumes/25_2020_36521584896523/vol_4/1708_fullpaper_568371609345225.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></div>
+        <div class="source-row"><div><div class="source-title">Micro-Doppler Signal Features of Idling Vehicle Vibrations</div><span class="source-meta">Signals; 2025; open access</span></div><div class="source-copy">Uses measured vehicle vibration signatures to show how mechanical state and operating conditions appear in spectral and time-frequency structure.</div><a class="link" href="https://www.mdpi.com/2624-6120/6/3/35" target="_blank" rel="noopener noreferrer">Open paper</a></div>
+        <div class="source-row"><div><div class="source-title">A Survey Study of Steering Wheel Vibration and Sound in Automobiles at Idle</div><span class="source-meta">Ajovalasit &amp; Giacomin; Engineering Integrity Society; 2008</span></div><div class="source-copy">Field measurements from 24 cars found important low-frequency harmonic content in steering-wheel vibration, with substantial energy in roughly the 20 to 40 Hz region and strong dependence on engine and vehicle structure.</div><a class="link" href="https://hcdstudios.com/wp-content/uploads/2019/08/ag2008ass.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></div>
+      </div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Additional research</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">More context for perception, dynamics and sim-racing haptics.</h2>
+      <div class="source-list">
+        <div class="source-row"><div><div class="source-title">Decoding the Feeling</div><span class="source-meta">Murphy, Campbell &amp; Toth; Sensors; 2025; CC BY 4.0</span></div><div class="source-copy">Direct measurement of force and vibrotactile content from a sim-racing wheel; useful for separating low-frequency steering motion from higher vibrotactile bands.</div><a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12694510/" target="_blank" rel="noopener noreferrer">Open paper</a></div>
+        <div class="source-row"><div><div class="source-title">Audio-Tactile Rendering Review</div><span class="source-meta">Open-access review</span></div><div class="source-copy">Broad context for vibrotactile perception, body-site differences and why frequency, amplitude and placement cannot be considered independently.</div><a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8513049/" target="_blank" rel="noopener noreferrer">Open review</a></div>
+        <div class="source-row"><div><div class="source-title">Importance of Spike Timing in Touch</div><span class="source-meta">Neuroscience review</span></div><div class="source-copy">Useful support for treating temporal structure and tactile frequency selectivity as information rather than amplitude alone.</div><a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5315566/" target="_blank" rel="noopener noreferrer">Open paper</a></div>
+        <div class="source-row"><div><div class="source-title">Transmission of fore-aft vibration to a car seat</div><span class="source-meta">Qiu &amp; Griffin; Journal of Sound and Vibration; 2003</span></div><div class="source-copy">Reports coupled seat/body resonance regions around 4 to 5 Hz, 25 to 30 Hz and 45 to 50 Hz; useful evidence that the receiver and seat system reshape vibration.</div><a class="link" href="https://eprints.soton.ac.uk/50460/" target="_blank" rel="noopener noreferrer">Research record</a></div>
+        <div class="source-row"><div><div class="source-title">Quarter-car active suspension model</div><span class="source-meta">Machines; 2023; open access</span></div><div class="source-copy">A clear example of sprung and unsprung mass relationships between road input, wheel/axle and chassis response.</div><a class="link" href="https://www.mdpi.com/2075-1702/11/11/1022" target="_blank" rel="noopener noreferrer">Open paper</a></div>
+        <div class="source-row"><div><div class="source-title">Tire-road interaction review</div><span class="source-meta">Machines; 2024; open access</span></div><div class="source-copy">Background for why load, slip, road state and contact behaviour should be treated as a coupled problem rather than one raw scalar.</div><a class="link" href="https://www.mdpi.com/2075-1702/12/11/812" target="_blank" rel="noopener noreferrer">Open review</a></div>
+      </div>
+    </section>
+
+    <section class="reading-section">
+      <p class="eyebrow">Research honesty</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl">What these sources support; and what MCP4SH does not claim.</h2>
+      <table><thead><tr><th>Supported</th><th>Not claimed</th></tr></thead><tbody>
+        <tr><td>Tactile sensitivity depends on frequency, amplitude, timing and body location.</td><td>One receptor curve gives a universal "correct" frequency for an effect.</td></tr>
+        <tr><td>Vehicle vibration contains identifiable modes, harmonics, resonances and transfer paths.</td><td>MCP4SH reproduces every natural vehicle frequency one-to-one through a shaker.</td></tr>
+        <tr><td>Steering wheels, seats and sim-racing interfaces can carry useful information across multiple vibration bands.</td><td>One published band is optimal for every device, body location, rig and effect.</td></tr>
+        <tr><td>Hardware and receiver response materially change what reaches us.</td><td>Research papers remove the need for calibration, empirical testing or subjective validation.</td></tr>
+      </tbody></table>
+      <div class="note"><strong>Preserve the event. Adapt the carrier.</strong> The research helps define the problem. MCP4SH's job is to make the resulting cues coherent, readable and useful on a real rig.</div>
+    </section>
+  </div></main>
+  <script src="Resources/site-nav.js"></script><script src="Resources/site-footer.js"></script>
+</body>
+</html>

@@ -194,12 +194,12 @@
     <section class="mt-10 grid gap-4 md:grid-cols-3">
       <div class="panel p-6">
         <p class="eyebrow">Published</p>
-        <p id="review-count" class="summary-number mt-3">—</p>
+        <p id="review-count" class="summary-number mt-3"> - </p>
         <p class="review-meta mt-2">approved reviews</p>
       </div>
       <div class="panel p-6">
         <p class="eyebrow">Rated reviews</p>
-        <p id="rating-average" class="summary-number mt-3">—</p>
+        <p id="rating-average" class="summary-number mt-3"> - </p>
         <p id="rating-stars" class="stars mt-2">☆☆☆☆☆</p>
       </div>
       <div class="panel p-6">
@@ -339,7 +339,7 @@
       document.getElementById('review-count').textContent = String(reviews.length);
       const rated = reviews.filter(item => Number(item.stars) >= 1 && Number(item.stars) <= 5);
       const average = rated.length ? rated.reduce((sum, item) => sum + Number(item.stars), 0) / rated.length : 0;
-      document.getElementById('rating-average').textContent = rated.length ? average.toFixed(1) : '—';
+      document.getElementById('rating-average').textContent = rated.length ? average.toFixed(1) : ' - ';
       document.getElementById('rating-stars').textContent = rated.length ? `${'★'.repeat(Math.round(average))}${'☆'.repeat(5 - Math.round(average))}` : '☆☆☆☆☆';
 
       if (!reviews.length) {

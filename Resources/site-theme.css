@@ -1,4 +1,4 @@
-/* Tyto Sensory Labs — canonical site material system.
+/* Tyto Sensory Labs  -  canonical site material system.
    MCP4SH is the visual reference: near-black / neutral graphite frosted glass,
    with metallic gold and silver reserved for intentional accents only.
    Page identities (notably Lab Notes blueprint paper) remain page-specific. */
@@ -154,7 +154,7 @@ select {
   color-scheme: dark;
 }
 
-/* MCP4SH media / ecosystem material — neutral, transparent and blurred enough
+/* MCP4SH media / ecosystem material  -  neutral, transparent and blurred enough
    for the Spa motion to remain legible through the useful content. */
 .video-shell,
 .shots-shell,
