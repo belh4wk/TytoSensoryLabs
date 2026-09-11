@@ -4,21 +4,20 @@ window.TYTO_LAB_NOTES = {
   "updated": "2026-09-11",
   "notes": [
     {
-      "title": "More website updates",
+      "title": "MCP4SH 1.1.13.4 is live",
       "date": "2026-09-11",
-      "category": "Tyto Sensory Labs",
-      "slug": "more-website-updates",
-      "summary": "More Tyto Sensory Labs website updates! Some relatively big ones.",
+      "category": "MCP4SH",
+      "slug": "mcp4sh-1-1-13-4-is-live",
+      "summary": "Latest update for the SimHub plugin that aims to make haptics easier to set up and more informative, allowing you to get more immersion and potentially performance from your virtual driving sesh.",
       "tags": [
         "Update",
-        "Website",
         "MCP4SH",
         "MCP4H",
         "R&D",
         "Tyto Sensory Labs",
         "Lab Notes"
       ],
-      "body": "Right so, as the title says;\n\nAs things evolve behind the scenes, so must the public-facing content to better reflect and explain that and what Tyto Sensory Labs does.\n\nI'll keep it short, but in essence, I refreshed the site around the wider mission and MCP4H philosophy. \nAdded clearer background on the ideas behind Tyto Sensory Labs (Tyto), simplified the MCP4H explanation, introduced a dedicated MCP4SH research page with supporting vehicle-dynamics, tactile-perception and String Theory in Driving sources, and kept the overall presentation aligned with the existing Tyto Visual Style.\n\nSome visual tweaks were needed as well, but nothing too drastic, but all part of a move towards a unifying Visual Style I'm working on; a design language I can reuse across projects.\n\nAnywho, if you have any feedback or requests or ideas you want to talk about or mention, based on what Tyto already does, what you think is worth researching or investigating, let us know!"
+      "body": "This release focuses heavily on yet more polish and (hopefully :') ) reliability; better multichannel/output-device handling, more accurate mapping and routing, and test-pulse feedback, now effectively instant from the MCP4SH plugin GUI, some UI/text-scaling improvements (or additions, i guess, light and dark mode too by the way), and cleaner profile/update handling.\n\nIt also includes a v1.2 <strong>Preview</strong> <em>Chassis</em> (the current standard one basically) and a new, very much undeveloped <em><strong>Airframe</strong></em> profile. \n\nThe Airframe profile is an early look rather than finished flight support, but it gives a first taste of where MCP4SH is going next.\n\nWith 1.1.13.4 now released, development is moving properly into v1.2.\nProper native Powerplant and Airframe Load effects, improved flight telemetry handling will be next, along with AMS2/PC2 custom FFB file tweaking, early audio-based effects support groundwork, and the beginnings of the SDK/standalone architecture.\n\nContact <a href=\"mailto:dirkvanechelpoel@tytosensorylabs.com\">dirkvanechelpoel@tytosensorylabs.com</a> for more info about potential collaboration please."
     },
     {
       "title": "Website updates",
