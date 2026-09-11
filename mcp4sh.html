@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MCP4SH™ | Tyto Sensory Labs</title>
     <link rel="icon" href="Resources/MCP4SHLogo.png" />
-<meta name="description" content="MCP4SH® brings telemetry-driven String Theory Haptics to SimHub, shaping tyre, road, suspension, drivetrain and chassis cues into a clearer, more connected tactile experience across driving sims." />
+<meta name="description" content="MCP4SH® is a telemetry-first String Theory Haptics plugin for SimHub, with cross-sim conditioning, guided hardware mapping, multichannel routing, optional Premium controls and a published research and engineering basis." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -726,7 +726,8 @@
         <p class="eyebrow">High-level plugin overview</p>
         <h1 class="headline text-4xl md:text-6xl">Haptics that aim to feel more like a <span class="accent">weighted, connected chassis</span>. Across games.</h1>
         <p class="copy text-base md:text-lg">
-          MCP4SH™ is a SimHub plugin built to make sim-racing haptics feel more connected, minimize masking and more intuitively useful overall. The goal is better info: tyre scrub, road and suspension details, drivetrain information, and less time wasted re-tuning everything from (almost) scratch every time you switch sim.<br><br>
+          MCP4SH™ is a telemetry-first SimHub plugin built to make sim-racing haptics feel more connected, reduce masking, and make the information easier to interpret. The goal is clearer tyre scrub, road and suspension detail, drivetrain information, chassis/load cues, and less time spent rebuilding the feel every time you switch sim.<br><br>
+          It is also the first commercial reference implementation of the wider MCP4H approach: preserve useful machine-state meaning, then adapt how that meaning is rendered to the receiver and hardware.<br><br>
 		  Yes, AI was used for drafting and faster iteration. The plugin's codec architecture was however entirely ideated, designed and constructed by me.
         </p>
 		<p class="copy text-base md:text-lg">
@@ -737,6 +738,7 @@
         <div class="flex flex-wrap gap-3">
           <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
           <a id="hero-license" href="#" class="btn btn-secondary">Buy / activate license</a>
+          <a href="mcp4sh-research.html" class="btn btn-secondary">Research &amp; engineering basis</a>
           <a href="#faq" class="btn btn-secondary">Read the FAQ</a>
           <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
         </div>
@@ -748,6 +750,32 @@
         </video>
         <div class="px-2 pb-2 pt-4 md:px-3">
           <p class="text-sm font-semibold text-white">Comparison Overlays showing haptic feedback driven by MCP4SH (right). Terrible driving, i know ;) .<br>The left shows how the raw data would enter and drive the effects, the right shows the plugin's codec output used by the effects.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="current-release" class="mt-12 panel p-8">
+      <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div>
+          <p class="eyebrow">Current public release</p>
+          <h2 class="headline mt-3 text-3xl md:text-5xl">MCP4SH <span class="accent">1.1.13.4</span></h2>
+          <p class="copy mt-5 text-sm md:text-base">
+            The current 1.1.13.x line is mostly about making the useful bits easier to trust: cleaner hardware identity, safer routing, faster proof pulses, less update noise, and a UI that is easier to live with on different screens.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="https://github.com/belh4wk/MCP4SH/releases" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Release notes</a>
+            <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
+          </div>
+        </div>
+        <div>
+          <ul class="copy space-y-3 text-sm md:text-base">
+            <li><strong class="text-white">More exact shaker routing:</strong> improved physical endpoint identity and channel handling, including multichannel Windows audio cases.</li>
+            <li><strong class="text-white">Near-instant proof pulses:</strong> plugin-GUI test pulses now use a persistent local renderer so checking a mapping feels immediate.</li>
+            <li><strong class="text-white">Safer Setup Assistant mapping:</strong> shared-channel mapping is explicit, device selection follows the shaker you click, and the last useful device choice is remembered.</li>
+            <li><strong class="text-white">Less false update noise:</strong> manifest-only profile revision changes no longer present themselves as new profile updates.</li>
+            <li><strong class="text-white">Presentation controls:</strong> persistent UI text scaling plus light/dark presentation options.</li>
+            <li><strong class="text-white">Release integrity:</strong> continued cleanup around manifests, version identity and updater/content verification.</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -801,52 +829,56 @@
 
     <section id="paid" class="mt-12 grid gap-6 lg:grid-cols-[1fr_0.95fr]">
       <div class="panel p-8">
-        <p class="eyebrow">Licensing and roadmap</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">Good to go, for free. <span class="accent">License</span> optional.</h2>
+        <p class="eyebrow">Free + Premium</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Core haptics free. <span class="accent">Premium</span> for deeper control.</h2>
         <div class="copy mt-6 space-y-4 text-sm md:text-base">
-          <p>The free version is not a crippled demo. It gives you the core MCP4SH String Theory Haptics experience and the Setup Assistant.</p>
-          <p>That means you can pick the shakers on your rig, test-pulse your sound outputs, generate a matching SimHub sound output profile, and get driving without needing to become a SimHub routing expert first.</p>
-          <p><strong class="text-white">Current early-adopter option:</strong> Pioneer - 12.99 for up to 2 machines.</p>
-          <p>The license adds the extra control layer: advanced haptic controls now, and deeper configuration/routing tools as they mature. It also directly supports continued MCP4SH development.</p>
-          <p>The store listing is the source of truth for what is live right now. If the roadmap changes, the store and GitHub release notes will reflect that.</p>
+          <p>The free version is not a crippled demo. It includes the core MCP4SH String Theory Haptics experience and the Setup Assistant.</p>
+          <p>That means you can map the shakers on your rig, proof-pulse your sound outputs, create explicit shared-channel mappings where needed, generate the matching SimHub sound output profile, and get driving without first becoming a SimHub routing expert.</p>
+          <p><strong class="text-white">MCP4SH Premium</strong> is the current paid tier. The earlier Pioneer tier is retired; existing Pioneer users remain grandfathered.</p>
+          <p>Premium unlocks the extra control layer, including the Advanced controls and ST Tensioner presentation, for people who want to shape the balance and feel around their own rig rather than only use the supplied defaults.</p>
+          <p>The store listing remains the source of truth for current pricing, promotions and exactly what is included at the time you buy.</p>
         </div>
       </div>
       <div class="panel p-8">
-        <p class="eyebrow">What license?</p>
-        <h2 class="mt-3 text-2xl font-semibold text-white">So, why would I pay for it?</h2>
+        <p class="eyebrow">Why Premium?</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Because the useful baseline should still be usable for free.</h2>
         <ul class="copy mt-6 space-y-4 text-sm md:text-base">
-          <li><strong class="text-white">You do not need a license to get going:</strong> the core haptics and Setup Assistant are included for free.</li>
-          <li><strong class="text-white">A license gives you more control:</strong> advanced haptic controls help you shape the feel around your rig instead of just accepting the default mix.</li>
-          <li><strong class="text-white">More configuration over time:</strong> the planned Configurator/custom routing tools are aimed at people who want to go beyond “this works” and move toward “this feels right”.</li>
-          <li><strong class="text-white">Continued development:</strong> paid licenses directly support compatibility work, refinement, testing, and the boring bits that keep the project alive.</li>
+          <li><strong class="text-white">Free gets you driving:</strong> the core codec, supplied profile and Setup Assistant are enough to use MCP4SH as intended.</li>
+          <li><strong class="text-white">Premium gives you more control:</strong> Advanced tuning lets you change emphasis without dismantling the supported signal chain.</li>
+          <li><strong class="text-white">The product can keep moving:</strong> paid licenses directly support compatibility work, hardware testing, telemetry refinement and the boring release-engineering bits.</li>
+          <li><strong class="text-white">No profile-sharing dependency:</strong> the goal remains a coherent baseline that adapts across titles and rigs, not a library of game-specific profiles you have to keep hunting down.</li>
         </ul>
       </div>
     </section>
-	
-	<section id="Still to come" class="mt-12">
-	  <div class="panel p-8">
+
+    <section id="features-roadmap" class="mt-12">
+      <div class="panel p-8">
         <p class="eyebrow">What you get</p>
-        <h2 class="mt-3 text-2xl font-semibold text-white">Features</h2>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Current feature set</h2>
         <ul class="copy mt-6 space-y-4 text-sm md:text-base">
-          <li>- A full suite of custom-designed haptic effects, built to feel like connected moving parts of a whole.</li>
-          <li>- Setup Assistant for shaker layout selection, test pulses, and generated SimHub sound output profiles.</li>
-          <li>- SimHub Helper flow to make importing/applying generated profiles less confusing.</li>
-          <li>- Integrated plugin UI for tuning and checking mapped device/channel/effect information.</li>
-          <li>- FOV advisor, available in the plugin and via the dashboard.</li>
-          <li>- Dashboard featuring raw/plugin haptics visualization, FOV advisor, and a digital rear-view mirror using SimHub screen capture.</li>
-          <li>- Comparative overlays for testing and tuning. They may cost frames, so maybe do not run them in an actual race.</li>
+          <li>- A telemetry-first codec that normalizes, cleans, gates and balances game data before the supplied SimHub effects render it.</li>
+          <li>- A full suite of custom-designed haptic effects built to feel like connected moving parts of a whole rather than isolated buzzers.</li>
+          <li>- Setup Assistant for shaker layout selection, explicit device/channel mapping, fast proof pulses and generated SimHub sound output profiles.</li>
+          <li>- Improved multichannel audio endpoint handling for more awkward Windows/WASAPI/WinMM and SPDIF-style setups.</li>
+          <li>- SimHub Helper flow to make importing and applying generated profiles less confusing.</li>
+          <li>- Integrated plugin UI for tuning, mapped device/channel/effect information, persistent text scaling and light/dark presentation.</li>
+          <li>- Premium Advanced controls for deeper tuning while preserving the supported MCP4SH signal chain.</li>
+          <li>- FOV advisor in the plugin and dashboard, plus raw/plugin haptics visualization and digital rear-view mirror support via SimHub screen capture.</li>
+          <li>- Comparative overlays for testing and tuning. They can cost frames, so they are better used for setup than during a race.</li>
           <li>- Auto-launch helpers for the titles/tools you want to pair with SimHub.</li>
-        </ul><br>
-        <h2 class="mt-3 text-2xl font-semibold text-white">Still to come</h2>
+        </ul>
+
+        <h2 class="mt-10 text-2xl font-semibold text-white">In development / next</h2>
         <ul class="copy mt-6 space-y-4 text-sm md:text-base">
-          <li>- Further implement GT7 support.</li>
-		  <li>- Better (more complete) ATS/ETS, Snow/Mudrunner, Beam.NG support.</li>
-          <li>- Further refine current haptic profiles.</li>
-		  <li>- Add profiles for complex multi-stereo setups.</li>
-          <li>- Expand on existing effects<br>(improve/add semantics for brake-state, suspension, flatspotting, sustained load/body load, traction transition,...).</li>
-		  <li>- Expand on motion support implementation<br>(currently available for the daring, no official support, test at your own risk; look for MCP4SH.motion properties when experimenting).</li>
-		  <li>- Look into public API/SDK development.</li>
-		  <li>- Flight sim support ... ?.</li>
+          <li>- <strong class="text-white">v1.2 flight-sim track:</strong> first native flight semantics around Powerplant / Engine Vibration and Airframe Load, with separate land-chassis and airframe profiles.</li>
+          <li>- Continue Adaptive Telemetry Conditioning work so more of the useful signal can be normalized without growing title-specific tuning debt.</li>
+          <li>- Refine tyre-activity definition where supported titles can still feel light, while preserving the current cross-title baseline.</li>
+          <li>- Further improve GT7 and broader ATS/ETS, Snow/Mudrunner and BeamNG coverage where telemetry access allows.</li>
+          <li>- Better support for complex multi-stereo and larger transducer layouts.</li>
+          <li>- Continue expanding semantics for brake state, suspension, flatspotting, sustained body/chassis load and traction transitions.</li>
+          <li>- Continue the experimental motion path. It remains unsupported for normal use for now; the public <code>MCP4SH.motion</code> properties are there for people who knowingly want to experiment.</li>
+          <li>- Prepare cleaner standalone/API/SDK and renderer-abstraction paths so MCP4SH intelligence is not permanently tied to one host or output route.</li>
+          <li>- Explore direct device/OEM renderer paths where platform and SDK access make that practical.</li>
         </ul>
       </div>
     </section>
@@ -856,12 +888,16 @@
       <p class="eyebrow">Support baseline</p>
       <h2 class="mt-3 text-2xl md:text-4xl font-semibold text-white">Not a standard SimHub effects stack.</h2>
       <p class="copy mt-4 text-sm md:text-base">
-        MCP4SH is built as a telemetry-to-haptics codec rather than a usual SimHub profile made from standalone raw formulas. The plugin processes available telemetry signals from the game before exposing that as public outputs used by the supplied SimHub profile.
+        MCP4SH is built as a telemetry-to-haptics codec rather than a usual SimHub profile made from standalone raw formulas. The plugin processes available telemetry signals from the game before exposing shaped public outputs used by the supplied SimHub profile.
       </p>
       <p class="copy mt-4 text-sm md:text-base">
         That means separated graphs, manually edited formulas, or heavily modified profiles can be useful for personal experimentation, but they are not the supported reference for accurately and methodically judging whether MCP4SH is behaving correctly. The supported baseline is the current supplied MCP4SH plugin, profile, generated channel map, and Setup Assistant workflow.
       </p>
+      <p class="copy mt-4 text-sm md:text-base">
+        The frequency ranges, tactile carrier choices and vehicle-motion interpretation are not arbitrary lookup tables. They are informed by published work on tactile perception, vehicle vibration and transfer behaviour, then tested empirically against the telemetry and hardware MCP4SH actually has to work with. Research provides the engineering context; telemetry quality, calibration and the real rig still determine the implementation.
+      </p>
       <div class="mt-6 flex flex-wrap gap-3">
+        <a href="mcp4sh-research.html" class="btn btn-secondary">Research &amp; engineering basis</a>
         <a href="labnotes.html?note=mcp4sh-supported-baseline" class="btn btn-secondary">Read the baseline note</a>
         <a href="labnotes.html?note=what-tcr-means" class="btn btn-secondary">What TCR means</a>
       </div>
@@ -895,7 +931,7 @@
         <details class="faq-item">
           <summary>Does it work the same in every sim?</summary>
           <div class="faq-body">
-            Mostly, yes. But no haptics solution works identically across every sim because telemetry quality and behaviour differ. MCP4SH is built to be broadly usable across common driving titles, but some sims will always give cleaner telemetry than others. 
+            The intended semantics and overall balance are meant to stay recognizable across sims, but the source telemetry is not identical. MCP4SH conditions and normalizes what each title exposes so you do not start from scratch every time, while still allowing cars and titles to retain meaningful differences. Cleaner telemetry gives the codec more to work with.
           </div>
         </details>
         <details class="faq-item">
@@ -917,7 +953,7 @@
             <p>If your current hardware is driven by SimHub ShakeIt Bass Shaker effects, then yes, it should.<br>
 			However, and I can not stress this enough: Mounting discipline is crucial, not optional.<br><br>
 			As I learned myself, all transducers on any given rig should be:<br>
-			- <strong>mounted correctly</strong>: flush with it's mounting surface or directionally in-line with/on top of the (virtual) axis along which the vibrations will travel.<br>
+			- <strong>mounted correctly</strong>: flush with its mounting surface or directionally in-line with/on top of the (virtual) axis along which the vibrations will travel.<br>
 			- <strong>hard-mounted</strong>: nuts and bolts, heavy duty doublesided mounting tape or strong zip-ties.<br>
 			- <strong>isolated/separated</strong>: use shock-absorbing washers or bushings to isolate each transducer (sounds counterintuitive, i know), this limits frame/rig cross-talk.<br><br>
 			use this rule of thumb: if you can hear the shaker more than you feel it, it's not mounted right, or something on your rig is loose/rattling.</p>
@@ -930,8 +966,9 @@
 			<ul>2x Nobsound NS-10G Pro amps</ul>
 			<ul>2x Dayton BST-1 shakers (under pedal plate and seat)</ul>
 			<ul>3x Dayton TT25-16 pucks (brake, backrest, handbrake/shifter)</ul><br>
-			Any claim made about the quality of this plugin's output, is based entirely on my own frame of reference, which is, based on market-research, represents a decent demographic of both beginners and enthusiasts.<br>
-			It should work on anything that connects to SimHub to get it's haptic effects via ShakeIt Bass Shakers.
+			Any claim made about the quality of this plugin's output, is based entirely on my own frame of reference, which is, based on market-research, represents a decent demographic of both beginners and enthusiasts.<br><br>
+            Recent 1.1.13.x work also strengthened multichannel Windows audio endpoint detection and routing, including awkward 8-channel USB/SPDIF cases. If SimHub can expose a compatible endpoint, the Setup Assistant is now much better at identifying and proof-pulsing the intended physical channels.<br><br>
+			It should work on anything that connects to SimHub to get its haptic effects via ShakeIt Bass Shakers.
           </div>
         </details>
 		<details class="faq-item">
@@ -956,15 +993,15 @@
         </details>
 
         <details class="faq-item">
-          <summary>Why is there a paid version?</summary>
+          <summary>Why is there a Premium version?</summary>
           <div class="faq-body">
-            Because the project has a usable base layer and a more advanced adaptive layer. The paid side unlocks the finer control and dynamic prioritization of effects and helps fund the time, testing, and refinement needed to keep improving compatibility and behaviour across sims and hardware setups. Continuous improvement.
+            Because the useful baseline should remain accessible while the deeper control layer helps fund continued development. Premium unlocks the Advanced tuning layer for people who want more control over balance and emphasis without dismantling the supported signal chain.
           </div>
         </details>
         <details class="faq-item">
-          <summary>What does the paid version add?</summary>
+          <summary>What does MCP4SH Premium add?</summary>
           <div class="faq-body">
-            The license unlocks the extra control layer. Free gets the core haptics and Setup Assistant working. A license gives you deeper tuning and, over time, the more powerful configuration/routing tools for shaping the feel around your own rig. It also directly supports continued development.
+            Free gets the core codec, supplied profile and Setup Assistant working. Premium adds the deeper Advanced control layer, including the ST Tensioner presentation, and directly supports compatibility work, testing and continued development. The store listing is the source of truth for the exact current feature split and price.
           </div>
         </details>
 		<!-- details class="faq-item">
