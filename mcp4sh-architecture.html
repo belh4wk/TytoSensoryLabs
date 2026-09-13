@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designed to Scale | MCP4SH™ | Tyto Sensory Labs</title>
+  <meta name="description" content="Why MCP4SH uses a semantic telemetry-to-haptics architecture: specialised input, shared physical meaning, coordinated orchestration and adaptable output across sims and hardware." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --bg:#000;
+      --border:rgba(255,255,255,.08);
+      --text:#d6d6d6;
+      --muted:#8d8d8d;
+      --accent:#6e603f;
+      --accent-2:#d7c69f;
+      --shadow:0 20px 50px rgba(0,0,0,.35)
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:radial-gradient(circle at 50% -18%,#111 0%,var(--bg) 40%,#000 100%);
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      overflow-x:hidden
+    }
+    .topbar{
+      position:fixed;top:0;left:0;right:0;z-index:50;
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      background:rgba(0,0,0,.76);
+      border-bottom:1px solid var(--border)
+    }
+    .content{position:relative;z-index:5;padding:100px 0 5rem}
+    .page-wrap{width:min(1120px,calc(100% - 2rem));margin:0 auto}
+    .panel{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(12,12,12,.38),rgba(2,2,2,.28));
+      backdrop-filter:blur(22px) saturate(62%);
+      -webkit-backdrop-filter:blur(22px) saturate(62%);
+      box-shadow:var(--shadow);
+      border-radius:28px
+    }
+    .page-hero{padding:clamp(1.7rem,4vw,3rem)}
+    .eyebrow{
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-size:.76rem
+    }
+    .headline{
+      color:#fff;
+      line-height:1.05;
+      font-weight:700;
+      letter-spacing:-.03em
+    }
+    .accent{color:var(--accent-2)}
+    .copy{color:#bfbfbf;line-height:1.85;max-width:78ch}
+    .lead{color:#d5d5d5;line-height:1.85;max-width:78ch;font-size:1.06rem}
+    .section-tag{
+      display:inline-flex;align-items:center;gap:.55rem;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:rgba(255,255,255,.72);
+      border-radius:999px;
+      padding:.48rem .75rem;
+      font-size:.78rem
+    }
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 12px rgba(110,96,63,.48)
+    }
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+      border-radius:999px;padding:.9rem 1.25rem;
+      font-weight:600;text-decoration:none;
+      transition:transform 180ms ease,background 180ms ease,border-color 180ms ease,color 180ms ease
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--accent);color:#111;border:1px solid var(--accent)}
+    .btn-primary:hover{background:#857552}
+    .btn-secondary{
+      background:rgba(5,5,5,.44);color:var(--text);border:1px solid var(--border)
+    }
+    .btn-secondary:hover{border-color:rgba(110,96,63,.45);color:#f5f5f5}
+    .reading-section{
+      padding:clamp(2.8rem,7vw,5.4rem) clamp(.2rem,1.5vw,.8rem);
+      border-top:1px solid rgba(255,255,255,.075)
+    }
+    .reading-section h2{max-width:900px}
+    .principle{
+      margin-top:1.5rem;padding:1.2rem 1.35rem;
+      border-left:2px solid rgba(212,194,143,.58);
+      background:linear-gradient(90deg,rgba(110,96,63,.12),transparent);
+      color:#e0d5b8;line-height:1.7;max-width:900px;font-size:1.06rem
+    }
+    .diagram{
+      margin-top:1.8rem;padding:1.2rem;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:22px;background:rgba(0,0,0,.24);overflow:auto
+    }
+    .diagram-flow{
+      display:grid;
+      grid-template-columns:minmax(160px,1fr) 42px minmax(200px,1.25fr) 42px minmax(160px,1fr);
+      gap:.55rem;align-items:center;min-width:720px
+    }
+    .node{
+      display:flex;min-height:88px;align-items:center;justify-content:center;
+      text-align:center;padding:.9rem;
+      border:1px solid rgba(255,255,255,.085);
+      border-radius:16px;background:rgba(255,255,255,.018);
+      color:#d9d9d9;font-size:.86rem;line-height:1.5
+    }
+    .node.core{
+      border-color:rgba(212,194,143,.34);
+      background:linear-gradient(180deg,rgba(110,96,63,.16),rgba(0,0,0,.15));
+      color:#f1e5c4
+    }
+    .arrow{display:flex;align-items:center;justify-content:center;color:#746b55;font-size:1.25rem}
+    .three-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.8rem}
+    .card{
+      padding:1.25rem;border:1px solid rgba(255,255,255,.075);
+      border-radius:20px;background:rgba(255,255,255,.015)
+    }
+    .card strong{display:block;color:#f0f0f0;margin-bottom:.45rem}
+    .card p{margin:0;color:#9ea1a4;line-height:1.65;font-size:.92rem}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.8rem}
+    .compare-col{
+      padding:1.25rem;border:1px solid rgba(255,255,255,.075);
+      border-radius:20px;background:rgba(255,255,255,.014)
+    }
+    .compare-col h3{margin:0;color:#eee;font-size:1rem}
+    .stack{display:grid;gap:.55rem;margin-top:1rem}
+    .stack span{
+      padding:.7rem .8rem;border:1px solid rgba(255,255,255,.07);
+      border-radius:12px;color:#aeb0b2;background:rgba(0,0,0,.22);font-size:.84rem
+    }
+    .stack .shared{
+      border-color:rgba(212,194,143,.30);
+      color:#e2d7b8;background:rgba(110,96,63,.09)
+    }
+    .state-track{position:relative;margin-top:1.8rem;padding:2rem 0 3rem}
+    .state-line{
+      height:10px;border-radius:999px;
+      background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(212,194,143,.5));
+      border:1px solid rgba(255,255,255,.08)
+    }
+    .state-marker{position:absolute;top:1.25rem;width:1px;height:42px;background:#d7c69f}
+    .state-marker.event{left:82%}
+    .state-marker.semantic{left:24%;background:#888}
+    .state-label{
+      position:absolute;top:3.8rem;font-size:.74rem;color:#8f9296;white-space:nowrap
+    }
+    .state-label.semantic{left:24%;transform:translateX(-15%)}
+    .state-label.event{left:82%;transform:translateX(-70%);color:#d7c69f}
+    .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.85rem;margin-top:1.8rem}
+    .metric{
+      padding:1.25rem;border:1px solid rgba(255,255,255,.075);
+      border-radius:20px;background:rgba(255,255,255,.014);min-height:145px
+    }
+    .metric small{
+      display:block;color:#777d82;text-transform:uppercase;
+      letter-spacing:.13em;font-size:.68rem
+    }
+    .metric strong{display:block;margin-top:.65rem;color:#efefef;font-size:1.05rem}
+    .metric span{display:block;margin-top:.8rem;color:#cdbf98;font-size:.82rem}
+    .fine{color:#7f8387;font-size:.82rem;line-height:1.7;max-width:82ch}
+    @media(max-width:900px){
+      .three-grid,.metrics{grid-template-columns:1fr 1fr}
+      .compare{grid-template-columns:1fr}
+    }
+    @media(max-width:620px){
+      .content{padding-top:88px}
+      .panel{border-radius:24px}
+      .three-grid,.metrics{grid-template-columns:1fr}
+      .reading-section{padding-top:2.8rem;padding-bottom:2.8rem}
+      .state-label{white-space:normal;width:140px}
+    }
+  </style>
+  <link rel="stylesheet" href="Resources/site-theme.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 md:py-4">
+      <a href="index.html" class="text-sm font-semibold tracking-[0.18em] uppercase text-white no-underline">Tyto Sensory Labs</a>
+      <nav class="site-global-nav hidden md:flex" aria-label="Site navigation"></nav>
+    </div>
+  </div>
+
+  <main class="content">
+    <div class="page-wrap">
+      <section class="panel page-hero">
+        <div class="section-tag"><span class="dot"></span><span>MCP4SH™ architecture</span></div>
+        <p class="eyebrow mt-6">Designed to scale</p>
+        <h1 class="headline mt-3 max-w-5xl text-4xl md:text-6xl">
+          Haptics should not need to be rebuilt every time the <span class="accent">game changes</span>.
+        </h1>
+        <p class="lead mt-6">
+          Different simulators expose different data. Different hardware expresses sensation differently.
+          The physical meaning in between does not need to start from zero every time.
+        </p>
+        <p class="copy mt-4">
+          MCP4SH is built as a semantic telemetry-to-haptics layer: specialised where the source or hardware requires it,
+          consistent where the physics means the same thing. The current product is delivered through SimHub, but the
+          architecture is deliberately separated so the interpretation and orchestration logic is not defined by one renderer
+          or one device class.
+        </p>
+        <div class="principle"><strong>Preserve meaning. Adapt the carrier.</strong></div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="mcp4sh.html" class="btn btn-primary">MCP4SH product page</a>
+          <a href="mcp4sh-research.html" class="btn btn-secondary">Research &amp; engineering basis</a>
+        </div>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">01 · The architecture</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Different sims. Same physical world.</h2>
+        <p class="copy mt-5">
+          One simulator may expose a direct signal. Another may provide richer tyre data. Another may require the same physical
+          state to be derived from several related inputs. MCP4SH does not pretend those sources are identical.
+        </p>
+        <p class="copy mt-4">
+          The design goal is to understand those differences at the input, translate them into a consistent description of what
+          the vehicle is doing, coordinate that information, and only then express it through the available hardware.
+        </p>
+        <div class="diagram">
+          <div class="diagram-flow">
+            <div class="node">Specialised input<br/>game / host telemetry</div>
+            <div class="arrow">→</div>
+            <div class="node core">Physical / semantic interpretation<br/>+ orchestration</div>
+            <div class="arrow">→</div>
+            <div class="node">Specialised projection<br/>shakers · pedals · wheels · seats</div>
+          </div>
+        </div>
+        <div class="principle">
+          <strong>Normalize meaning, not information.</strong>
+          Richer telemetry should stay richer. What becomes consistent is the semantic contract downstream.
+        </div>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">02 · Fidelity without fragmentation</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Specialise at the edges. Standardise the meaning.</h2>
+        <p class="copy mt-5">
+          A title-specific adapter can remain as specialised as necessary. The mistake is assuming that every downstream effect
+          and every output device must then become title-specific too.
+        </p>
+        <div class="three-grid">
+          <div class="card">
+            <strong>Use the best source available</strong>
+            <p>Native signals, derived relationships and graceful fallbacks can all contribute without pretending they have identical fidelity.</p>
+          </div>
+          <div class="card">
+            <strong>Preserve useful spatial detail</strong>
+            <p>Where per-wheel or directional information exists, it can remain spatial rather than being flattened into one chassis-level number.</p>
+          </div>
+          <div class="card">
+            <strong>Degrade honestly</strong>
+            <p>Where a title exposes less, MCP4SH should communicate less precision rather than inventing detail that is not there.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">03 · Orchestration</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">The vehicle is one system. The haptics should behave like one too.</h2>
+        <p class="copy mt-5">
+          Braking changes load. Load changes available grip. Suspension movement affects chassis behaviour. Engine, drivetrain,
+          road, impact and tyre information all coexist. Simply making every lane louder at once does not necessarily communicate more.
+        </p>
+        <p class="copy mt-4">
+          MCP4SH therefore treats effects as parts of a coordinated tactile scene. Interpretation determines what the signals mean;
+          orchestration decides how useful information should coexist when several things are happening at the same time.
+        </p>
+        <div class="three-grid">
+          <div class="card"><strong>Interpret</strong><p>Work out what the available telemetry says about the current physical state.</p></div>
+          <div class="card"><strong>Prioritise</strong><p>Keep important transient or state information from being buried by continuous activity.</p></div>
+          <div class="card"><strong>Express</strong><p>Render the resulting semantic information through the capabilities of the target hardware.</p></div>
+        </div>
+        <div class="principle">More output is not automatically more information.</div>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">04 · Setup and tuning</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Tune the rig. Not every game.</h2>
+        <p class="copy mt-5">
+          Transducers, mounting, resonant range, amplifiers, placement and personal preference still matter. No software removes
+          the physical differences between rigs.
+        </p>
+        <p class="copy mt-4">
+          What MCP4SH is designed to remove is unnecessary repetition. Once hardware is mapped and calibrated, changing simulator
+          should not mean rebuilding tyre, brake, suspension, drivetrain, road and load behaviour from scratch.
+        </p>
+        <div class="compare">
+          <div class="compare-col">
+            <h3>What should remain user-specific</h3>
+            <div class="stack">
+              <span>Hardware placement</span>
+              <span>Useful frequency range</span>
+              <span>Gain / comfort</span>
+              <span>Personal emphasis</span>
+            </div>
+          </div>
+          <div class="compare-col">
+            <h3>What the system should solve first</h3>
+            <div class="stack">
+              <span class="shared">Telemetry conditioning</span>
+              <span class="shared">Physical interpretation</span>
+              <span class="shared">Effect relationships</span>
+              <span class="shared">Cross-title baseline behaviour</span>
+            </div>
+          </div>
+        </div>
+        <div class="principle">
+          The user should primarily tune hardware and preference — not compensate for an unfinished interpretation layer.
+        </div>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">05 · Latency</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Fast matters. Latency is not the whole haptic system.</h2>
+        <p class="copy mt-5">
+          Lower transport latency is desirable. Discrete events such as impacts, kerbs and sudden interventions benefit directly
+          from the fastest practical signal path.
+        </p>
+        <p class="copy mt-4">
+          But useful tactile response also depends on what was detected, when the underlying state became meaningful, how it was
+          interpreted, what else was happening at the same time, and whether the output communicates the correct thing.
+        </p>
+        <p class="copy mt-4">
+          Some cues are events. Others are states developing over time: load builds, brake pressure changes, grip evolves,
+          suspension settles and drivetrain tension rises and falls. A state-aware system can begin changing the tactile
+          representation while that condition develops instead of waiting for one final binary threshold.
+        </p>
+        <div class="state-track" aria-label="Illustration of state-aware semantic onset versus later threshold event">
+          <div class="state-line"></div>
+          <div class="state-marker semantic"></div>
+          <div class="state-marker event"></div>
+          <div class="state-label semantic">useful state becomes detectable</div>
+          <div class="state-label event">later threshold / discrete event</div>
+        </div>
+        <div class="principle"><strong>Fast reaction is useful. Earlier understanding can be better.</strong></div>
+        <p class="fine mt-5">
+          This does not make transport latency irrelevant and MCP4SH does not claim to predict events that the simulator has not exposed.
+          It means that an evolving physical state can carry useful information before a later event threshold is crossed.
+        </p>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">06 · Scalability</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">What happens when there are more sims, more devices and more modalities?</h2>
+        <p class="copy mt-5">
+          A strong solution for one simulator and one output is a tractable problem. Maintaining coherent behaviour across an expanding
+          ecosystem is a different one.
+        </p>
+        <p class="copy mt-4">
+          MCP4SH is designed so a new simulator primarily needs an input path capable of translating its available telemetry into
+          established semantics, while a new hardware platform primarily needs a projection layer capable of expressing those semantics
+          through what the device can physically do.
+        </p>
+        <div class="compare">
+          <div class="compare-col">
+            <h3>Repeated bespoke combinations</h3>
+            <div class="stack">
+              <span>Game A → Device 1</span>
+              <span>Game A → Device 2</span>
+              <span>Game B → Device 1</span>
+              <span>Game B → Device 2</span>
+              <span>Repeat as both sides grow</span>
+            </div>
+          </div>
+          <div class="compare-col">
+            <h3>Semantic layer</h3>
+            <div class="stack">
+              <span>Games → specialised input adapters</span>
+              <span class="shared">Shared interpretation + orchestration</span>
+              <span>Outputs → specialised renderers</span>
+              <span>Add capability at the edge</span>
+            </div>
+          </div>
+        </div>
+        <div class="principle"><strong>Add an input once. Add an output once. Connect through meaning.</strong></div>
+        <p class="fine mt-5">
+          Real integrations are never literally free. Individual simulators and devices still have unique capabilities and constraints.
+          The architectural goal is to keep those differences at the edges instead of multiplying bespoke interpretation throughout the whole stack.
+        </p>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">07 · Built for integration</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">The current SimHub plugin is an implementation, not the intended boundary.</h2>
+        <p class="copy mt-5">
+          Today, SimHub provides an excellent host for telemetry access, configuration and tactile output. MCP4SH.Core already separates
+          most haptic interpretation and stateful effect logic from the host-specific plugin layer.
+        </p>
+        <p class="copy mt-4">
+          That boundary is deliberate. The longer-term direction is to let the same semantic and orchestration logic feed different hosts,
+          SDKs and physical outputs without requiring the interpretation model to be rewritten around each one.
+        </p>
+        <div class="principle">
+          MCP4SH is not being designed around owning every input, every device or every transport. It is being designed to connect them.
+        </div>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">08 · For hardware makers</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Build the hardware. Do not rebuild the physics interpretation stack.</h2>
+        <p class="copy mt-5">
+          A transducer manufacturer should not need to become a specialist in every racing simulator. A pedal manufacturer should not
+          need to reinvent braking, lock, traction and load interpretation title by title. A new output modality should be able to
+          concentrate on how it expresses information rather than first recreating the meaning of that information.
+        </p>
+        <p class="copy mt-4">
+          The intended integration model is hardware-neutral: different devices should remain different. Their language does not have to be.
+        </p>
+        <div class="mt-7">
+          <a href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Integration / OEM enquiry
+          </a>
+        </div>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">09 · Proof, not promises</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Measure the experience, not just the number of effects.</h2>
+        <p class="copy mt-5">
+          The architecture should be testable. The following measurements are being prepared so future claims can be published with the
+          method used to obtain them.
+        </p>
+        <div class="metrics">
+          <div class="metric">
+            <small>Time to first drive</small>
+            <strong>Install → mapped rig → usable baseline</strong>
+            <span>Measurement planned</span>
+          </div>
+          <div class="metric">
+            <small>Cross-title retuning</small>
+            <strong>Same rig, same calibration, multiple sims</strong>
+            <span>Measurement planned</span>
+          </div>
+          <div class="metric">
+            <small>End-to-end latency</small>
+            <strong>Telemetry → processing → output → response</strong>
+            <span>Instrumentation in development</span>
+          </div>
+          <div class="metric">
+            <small>Semantic onset</small>
+            <strong>When useful state information becomes available</strong>
+            <span>Test method in development</span>
+          </div>
+        </div>
+        <p class="fine mt-5">
+          Published results will distinguish codec processing time, host/output-path delay and physical response where the measurement
+          setup allows it. No unexplained best-case number.
+        </p>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">10 · Domain portability</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">A useful abstraction should survive beyond the first domain it was built around.</h2>
+        <p class="copy mt-5">
+          MCP4SH began with automotive simulation. The v1.2 development track is now testing how much of the same architecture can carry
+          into flight: shared physical ideas such as powerplant behaviour, body load and transients, alongside airframe-specific semantics
+          where the domain genuinely differs.
+        </p>
+        <p class="copy mt-4">
+          The goal is not to relabel automotive effects as aircraft effects. It is to reuse the parts of the interpretation model that
+          represent transferable physical meaning and add new domain semantics where needed.
+        </p>
+        <div class="principle">New domain. Same language where the physics overlaps.</div>
+      </section>
+
+      <section class="panel page-hero mt-4">
+        <p class="eyebrow">Design principle</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">
+          Specialise at the edges. <span class="accent">Standardise the meaning.</span>
+        </h2>
+        <p class="lead mt-5">
+          Different simulators deserve access to their unique telemetry. Different hardware deserves to use its unique capabilities.
+          Neither requires rebuilding the entire interpretation stack between them.
+        </p>
+        <p class="copy mt-4">That is the problem MCP4SH is designed to solve.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="mcp4sh.html" class="btn btn-primary">Try MCP4SH</a>
+          <a href="mcp4sh-research.html" class="btn btn-secondary">Read the research basis</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="Resources/site-nav.js"></script>
+  <script src="Resources/site-footer.js"></script>
+</body>
+</html>
