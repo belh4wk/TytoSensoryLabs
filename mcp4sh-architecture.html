@@ -4,16 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Designed to Scale | MCP4SH™ | Tyto Sensory Labs</title>
-  <meta name="description" content="Why MCP4SH uses a semantic telemetry-to-haptics architecture: specialised input, shared physical meaning, coordinated orchestration and adaptable output across sims and hardware." />
+  <link rel="icon" href="Resources/MCP4SHLogo.png" />
+  <meta name="description" content="How MCP4SH uses specialised inputs, shared physical meaning, coordinated orchestration and adaptable outputs to scale across simulators and haptic hardware." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root{
       --bg:#000;
       --border:rgba(255,255,255,.08);
+      --border-strong:rgba(255,255,255,.14);
       --text:#d6d6d6;
       --muted:#8d8d8d;
       --accent:#6e603f;
       --accent-2:#d7c69f;
+      --accent-soft:rgba(110,96,63,.12);
+      --silver:#bfc4ca;
       --shadow:0 20px 50px rgba(0,0,0,.35)
     }
     *{box-sizing:border-box}
@@ -26,13 +30,18 @@
       overflow-x:hidden
     }
     .topbar{
-      position:fixed;top:0;left:0;right:0;z-index:50;
-      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:50;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
       background:rgba(0,0,0,.76);
       border-bottom:1px solid var(--border)
     }
     .content{position:relative;z-index:5;padding:100px 0 5rem}
-    .page-wrap{width:min(1120px,calc(100% - 2rem));margin:0 auto}
+    .page-wrap{width:min(1160px,calc(100% - 2rem));margin:0 auto}
     .panel{
       border:1px solid var(--border);
       background:linear-gradient(180deg,rgba(12,12,12,.38),rgba(2,2,2,.28));
@@ -55,10 +64,13 @@
       letter-spacing:-.03em
     }
     .accent{color:var(--accent-2)}
-    .copy{color:#bfbfbf;line-height:1.85;max-width:78ch}
-    .lead{color:#d5d5d5;line-height:1.85;max-width:78ch;font-size:1.06rem}
+    .copy{color:#bfbfbf;line-height:1.85;max-width:80ch}
+    .lead{color:#d5d5d5;line-height:1.85;max-width:80ch;font-size:1.06rem}
+    .fine{color:#7f8387;font-size:.82rem;line-height:1.7;max-width:84ch}
     .section-tag{
-      display:inline-flex;align-items:center;gap:.55rem;
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
       border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.03);
       color:rgba(255,255,255,.72);
@@ -67,115 +79,618 @@
       font-size:.78rem
     }
     .dot{
-      width:8px;height:8px;border-radius:999px;
+      width:8px;
+      height:8px;
+      border-radius:999px;
       background:var(--accent);
       box-shadow:0 0 12px rgba(110,96,63,.48)
     }
     .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
-      border-radius:999px;padding:.9rem 1.25rem;
-      font-weight:600;text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.55rem;
+      border-radius:999px;
+      padding:.9rem 1.25rem;
+      font-weight:600;
+      text-decoration:none;
       transition:transform 180ms ease,background 180ms ease,border-color 180ms ease,color 180ms ease
     }
     .btn:hover{transform:translateY(-1px)}
     .btn-primary{background:var(--accent);color:#111;border:1px solid var(--accent)}
     .btn-primary:hover{background:#857552}
-    .btn-secondary{
-      background:rgba(5,5,5,.44);color:var(--text);border:1px solid var(--border)
-    }
+    .btn-secondary{background:rgba(5,5,5,.44);color:var(--text);border:1px solid var(--border)}
     .btn-secondary:hover{border-color:rgba(110,96,63,.45);color:#f5f5f5}
     .reading-section{
       padding:clamp(2.8rem,7vw,5.4rem) clamp(.2rem,1.5vw,.8rem);
       border-top:1px solid rgba(255,255,255,.075)
     }
-    .reading-section h2{max-width:900px}
+    .reading-section h2{max-width:930px}
     .principle{
-      margin-top:1.5rem;padding:1.2rem 1.35rem;
+      margin-top:1.5rem;
+      padding:1.2rem 1.35rem;
       border-left:2px solid rgba(212,194,143,.58);
       background:linear-gradient(90deg,rgba(110,96,63,.12),transparent);
-      color:#e0d5b8;line-height:1.7;max-width:900px;font-size:1.06rem
+      color:#e0d5b8;
+      line-height:1.7;
+      max-width:930px;
+      font-size:1.06rem
     }
     .diagram{
-      margin-top:1.8rem;padding:1.2rem;
+      margin-top:1.8rem;
+      padding:1.2rem;
       border:1px solid rgba(255,255,255,.075);
-      border-radius:22px;background:rgba(0,0,0,.24);overflow:auto
+      border-radius:22px;
+      background:rgba(0,0,0,.24);
+      overflow:auto
     }
     .diagram-flow{
       display:grid;
-      grid-template-columns:minmax(160px,1fr) 42px minmax(200px,1.25fr) 42px minmax(160px,1fr);
-      gap:.55rem;align-items:center;min-width:720px
+      grid-template-columns:minmax(170px,1fr) 42px minmax(220px,1.25fr) 42px minmax(170px,1fr);
+      gap:.55rem;
+      align-items:center;
+      min-width:760px
     }
     .node{
-      display:flex;min-height:88px;align-items:center;justify-content:center;
-      text-align:center;padding:.9rem;
+      display:flex;
+      min-height:90px;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:.95rem;
       border:1px solid rgba(255,255,255,.085);
-      border-radius:16px;background:rgba(255,255,255,.018);
-      color:#d9d9d9;font-size:.86rem;line-height:1.5
+      border-radius:16px;
+      background:rgba(255,255,255,.018);
+      color:#d9d9d9;
+      font-size:.86rem;
+      line-height:1.5
     }
     .node.core{
       border-color:rgba(212,194,143,.34);
       background:linear-gradient(180deg,rgba(110,96,63,.16),rgba(0,0,0,.15));
       color:#f1e5c4
     }
-    .arrow{display:flex;align-items:center;justify-content:center;color:#746b55;font-size:1.25rem}
-    .three-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.8rem}
+    .arrow{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#746b55;
+      font-size:1.25rem
+    }
+    .three-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:1rem;
+      margin-top:1.8rem
+    }
+    .two-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:1rem;
+      margin-top:1.8rem
+    }
     .card{
-      padding:1.25rem;border:1px solid rgba(255,255,255,.075);
-      border-radius:20px;background:rgba(255,255,255,.015)
+      padding:1.25rem;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:20px;
+      background:rgba(255,255,255,.015)
     }
     .card strong{display:block;color:#f0f0f0;margin-bottom:.45rem}
     .card p{margin:0;color:#9ea1a4;line-height:1.65;font-size:.92rem}
-    .compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.8rem}
+    .example{
+      margin-top:1.9rem;
+      padding:1.35rem;
+      border:1px solid rgba(212,194,143,.18);
+      border-radius:22px;
+      background:linear-gradient(180deg,rgba(110,96,63,.075),rgba(0,0,0,.15))
+    }
+    .example-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      flex-wrap:wrap
+    }
+    .example-title{
+      margin:0;
+      color:#f0e4c3;
+      font-weight:700;
+      font-size:1rem
+    }
+    .example-note{
+      color:#74787c;
+      font-size:.74rem;
+      letter-spacing:.08em;
+      text-transform:uppercase
+    }
+    .flow-stack{
+      display:grid;
+      grid-template-columns:1fr 48px 1.12fr 48px 1fr;
+      gap:.55rem;
+      align-items:stretch;
+      margin-top:1.15rem
+    }
+    .flow-column{
+      display:grid;
+      gap:.5rem
+    }
+    .flow-box{
+      display:flex;
+      align-items:center;
+      min-height:54px;
+      padding:.72rem .8rem;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:13px;
+      background:rgba(0,0,0,.22);
+      color:#aeb2b5;
+      font-size:.82rem;
+      line-height:1.45
+    }
+    .flow-box.gold{
+      border-color:rgba(212,194,143,.32);
+      background:rgba(110,96,63,.10);
+      color:#e3d8b9
+    }
+    .flow-arrow{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#71684f;
+      font-size:1.15rem
+    }
+    .sim-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:.7rem;
+      margin-top:1.15rem
+    }
+    .sim-card{
+      padding:.9rem;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:15px;
+      background:rgba(0,0,0,.20)
+    }
+    .sim-card b{display:block;color:#e5e5e5;font-size:.86rem}
+    .sim-card span{display:block;margin-top:.35rem;color:#858a8e;font-size:.77rem;line-height:1.45}
+    .sequence{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:.65rem;
+      margin-top:1.15rem
+    }
+    .sequence-step{
+      position:relative;
+      padding:1rem;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:16px;
+      background:rgba(0,0,0,.20)
+    }
+    .sequence-step small{
+      display:block;
+      color:#72684e;
+      font-size:.65rem;
+      letter-spacing:.12em;
+      text-transform:uppercase
+    }
+    .sequence-step strong{
+      display:block;
+      margin-top:.42rem;
+      color:#ececec;
+      font-size:.88rem
+    }
+    .sequence-step p{
+      margin:.42rem 0 0;
+      color:#858a8e;
+      font-size:.78rem;
+      line-height:1.5
+    }
+    .compare{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+      margin-top:1.8rem
+    }
     .compare-col{
-      padding:1.25rem;border:1px solid rgba(255,255,255,.075);
-      border-radius:20px;background:rgba(255,255,255,.014)
+      padding:1.25rem;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:20px;
+      background:rgba(255,255,255,.014)
     }
     .compare-col h3{margin:0;color:#eee;font-size:1rem}
     .stack{display:grid;gap:.55rem;margin-top:1rem}
     .stack span{
-      padding:.7rem .8rem;border:1px solid rgba(255,255,255,.07);
-      border-radius:12px;color:#aeb0b2;background:rgba(0,0,0,.22);font-size:.84rem
+      padding:.7rem .8rem;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:12px;
+      color:#aeb0b2;
+      background:rgba(0,0,0,.22);
+      font-size:.84rem
     }
     .stack .shared{
       border-color:rgba(212,194,143,.30);
-      color:#e2d7b8;background:rgba(110,96,63,.09)
+      color:#e2d7b8;
+      background:rgba(110,96,63,.09)
     }
-    .state-track{position:relative;margin-top:1.8rem;padding:2rem 0 3rem}
+    .hardware-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:.85rem;
+      margin-top:1.8rem
+    }
+    .hardware-card{
+      padding:1.15rem;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:18px;
+      background:rgba(255,255,255,.014)
+    }
+    .hardware-card .status{
+      display:inline-flex;
+      padding:.3rem .55rem;
+      border:1px solid rgba(212,194,143,.20);
+      border-radius:999px;
+      color:#cbbc97;
+      font-size:.66rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase
+    }
+    .hardware-card strong{
+      display:block;
+      margin-top:.7rem;
+      color:#efefef;
+      font-size:.96rem
+    }
+    .hardware-card p{
+      margin:.55rem 0 0;
+      color:#8e9397;
+      font-size:.8rem;
+      line-height:1.55
+    }
+    .hardware-card a{
+      display:inline-block;
+      margin-top:.7rem;
+      color:#b9aa83;
+      font-size:.75rem;
+      text-decoration:none
+    }
+    .hardware-card a:hover{color:#e4d4ab}
+    .state-track{
+      position:relative;
+      margin-top:1.8rem;
+      padding:2rem 0 3rem
+    }
     .state-line{
-      height:10px;border-radius:999px;
+      height:10px;
+      border-radius:999px;
       background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(212,194,143,.5));
       border:1px solid rgba(255,255,255,.08)
     }
-    .state-marker{position:absolute;top:1.25rem;width:1px;height:42px;background:#d7c69f}
+    .state-marker{
+      position:absolute;
+      top:1.25rem;
+      width:1px;
+      height:42px;
+      background:#d7c69f
+    }
     .state-marker.event{left:82%}
     .state-marker.semantic{left:24%;background:#888}
     .state-label{
-      position:absolute;top:3.8rem;font-size:.74rem;color:#8f9296;white-space:nowrap
+      position:absolute;
+      top:3.8rem;
+      font-size:.74rem;
+      color:#8f9296;
+      white-space:nowrap
     }
     .state-label.semantic{left:24%;transform:translateX(-15%)}
     .state-label.event{left:82%;transform:translateX(-70%);color:#d7c69f}
-    .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.85rem;margin-top:1.8rem}
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:.85rem;
+      margin-top:1.8rem
+    }
     .metric{
-      padding:1.25rem;border:1px solid rgba(255,255,255,.075);
-      border-radius:20px;background:rgba(255,255,255,.014);min-height:145px
+      padding:1.25rem;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:20px;
+      background:rgba(255,255,255,.014);
+      min-height:145px
     }
     .metric small{
-      display:block;color:#777d82;text-transform:uppercase;
-      letter-spacing:.13em;font-size:.68rem
+      display:block;
+      color:#777d82;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      font-size:.68rem
     }
-    .metric strong{display:block;margin-top:.65rem;color:#efefef;font-size:1.05rem}
-    .metric span{display:block;margin-top:.8rem;color:#cdbf98;font-size:.82rem}
-    .fine{color:#7f8387;font-size:.82rem;line-height:1.7;max-width:82ch}
-    @media(max-width:900px){
-      .three-grid,.metrics{grid-template-columns:1fr 1fr}
-      .compare{grid-template-columns:1fr}
+    .metric strong{
+      display:block;
+      margin-top:.65rem;
+      color:#efefef;
+      font-size:1.05rem
+    }
+    .metric span{
+      display:block;
+      margin-top:.8rem;
+      color:#cdbf98;
+      font-size:.82rem
+    }
+
+
+    /* Calibration / reuse visual */
+    .calibration-visual{
+      margin-top:1.25rem;
+      padding:1.1rem 0 .2rem
+    }
+    .calibration-rail{
+      position:relative;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:1.2rem
+    }
+    .calibration-rail::before{
+      content:"";
+      position:absolute;
+      left:3%;
+      right:3%;
+      top:1.1rem;
+      height:1px;
+      background:linear-gradient(90deg,rgba(255,255,255,.10),rgba(212,194,143,.48),rgba(255,255,255,.10))
+    }
+    .cal-step{
+      position:relative;
+      padding-top:2.6rem
+    }
+    .cal-step::before{
+      content:"";
+      position:absolute;
+      top:.78rem;
+      left:0;
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:#090909;
+      border:2px solid rgba(212,194,143,.66);
+      box-shadow:0 0 0 4px rgba(212,194,143,.05)
+    }
+    .cal-index{
+      display:block;
+      color:#736950;
+      font-size:.62rem;
+      letter-spacing:.13em;
+      text-transform:uppercase
+    }
+    .cal-step strong{
+      display:block;
+      margin-top:.35rem;
+      color:#ececec;
+      font-size:.88rem
+    }
+    .cal-step p{
+      margin:.42rem 0 0;
+      color:#858a8e;
+      font-size:.77rem;
+      line-height:1.5
+    }
+    .baseline-spine{
+      position:relative;
+      margin:2rem 0 1rem;
+      text-align:center;
+      color:#d8caa6;
+      font-size:.68rem;
+      letter-spacing:.14em
+    }
+    .baseline-spine::before,
+    .baseline-spine::after{
+      content:"";
+      position:absolute;
+      top:50%;
+      width:28%;
+      height:1px;
+      background:rgba(212,194,143,.28)
+    }
+    .baseline-spine::before{left:0}
+    .baseline-spine::after{right:0}
+    .title-fanout{
+      display:grid;
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      border-top:1px solid rgba(255,255,255,.08)
+    }
+    .title-fanout span{
+      position:relative;
+      padding:.85rem .55rem .3rem;
+      color:#8e9397;
+      text-align:center;
+      font-size:.73rem;
+      line-height:1.35
+    }
+    .title-fanout span::before{
+      content:"";
+      position:absolute;
+      top:-1px;
+      left:50%;
+      width:1px;
+      height:.55rem;
+      background:rgba(212,194,143,.32)
+    }
+
+    /* Semantic cue → carrier matrix */
+    .carrier-matrix-wrap{
+      margin-top:1.15rem;
+      overflow-x:auto
+    }
+    .carrier-matrix{
+      width:100%;
+      min-width:720px;
+      border-collapse:collapse;
+      table-layout:fixed
+    }
+    .carrier-matrix th,
+    .carrier-matrix td{
+      padding:.82rem .7rem;
+      border-bottom:1px solid rgba(255,255,255,.065);
+      text-align:center
+    }
+    .carrier-matrix th{
+      color:#777d82;
+      font-size:.65rem;
+      font-weight:600;
+      letter-spacing:.09em;
+      text-transform:uppercase
+    }
+    .carrier-matrix th:first-child,
+    .carrier-matrix td:first-child{
+      width:28%;
+      text-align:left
+    }
+    .carrier-matrix td{
+      color:#9ca1a5;
+      font-size:.79rem
+    }
+    .carrier-matrix td:first-child{
+      color:#e0e0e0
+    }
+    .matrix-dot{
+      display:inline-block;
+      width:9px;
+      height:9px;
+      border-radius:50%
+    }
+    .matrix-dot.strong{
+      background:#cbbd95;
+      box-shadow:0 0 10px rgba(212,194,143,.16)
+    }
+    .matrix-dot.light{
+      border:1px solid rgba(212,194,143,.56);
+      background:rgba(212,194,143,.10)
+    }
+    .matrix-key{
+      display:flex;
+      flex-wrap:wrap;
+      gap:1.25rem;
+      margin-top:.9rem;
+      color:#73787d;
+      font-size:.7rem
+    }
+    .matrix-key span{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem
+    }
+
+    /* Diversified architecture visual language */
+    .signal-bus{margin-top:1.8rem;display:grid;grid-template-columns:minmax(180px,.85fr) minmax(300px,1.4fr) minmax(180px,.85fr);gap:1rem;align-items:stretch}
+    .bus-side,.bus-core{position:relative;min-height:270px;border:1px solid rgba(255,255,255,.075);background:rgba(0,0,0,.18)}
+    .bus-side{padding:1rem}
+    .bus-core{padding:1.2rem 1.25rem;border-color:rgba(212,194,143,.24);background:linear-gradient(180deg,rgba(110,96,63,.11),rgba(0,0,0,.12)),repeating-linear-gradient(90deg,transparent 0 38px,rgba(255,255,255,.018) 39px 40px)}
+    .bus-title{color:#777d82;text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;margin-bottom:.9rem}
+    .bus-item{padding:.58rem .7rem;margin:.45rem 0;border-left:2px solid rgba(255,255,255,.14);color:#b8bbbe;font-size:.82rem;line-height:1.45}
+    .bus-core .bus-item{border-left-color:rgba(212,194,143,.48);color:#e2d8bc}
+    .bus-rail{position:absolute;top:34px;bottom:34px;width:1px;background:linear-gradient(180deg,transparent,rgba(212,194,143,.52),transparent)}
+    .bus-core .bus-rail.left{left:18px}.bus-core .bus-rail.right{right:18px}
+
+    .fidelity-map{margin-top:1.15rem;display:grid;grid-template-columns:1fr 1.25fr;gap:1rem;align-items:stretch}
+    .source-traces{padding:1rem;border-left:1px solid rgba(255,255,255,.08)}
+    .trace{display:grid;grid-template-columns:110px 1fr;gap:.7rem;align-items:center;margin:.68rem 0}
+    .trace-label{color:#8e9397;font-size:.76rem}
+    .trace-line{position:relative;height:20px}
+    .trace-line::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.16),rgba(212,194,143,.52))}
+    .trace-line::after{content:"";position:absolute;right:0;top:50%;width:7px;height:7px;border-radius:50%;transform:translate(50%,-50%);background:#b9aa83;box-shadow:0 0 12px rgba(212,194,143,.20)}
+    .semantic-lanes{position:relative;padding:1rem 1rem 1rem 1.3rem;border-left:2px solid rgba(212,194,143,.34);background:linear-gradient(90deg,rgba(110,96,63,.08),transparent)}
+    .semantic-lane{display:grid;grid-template-columns:120px 1fr;gap:.7rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.055)}
+    .semantic-lane:last-child{border-bottom:0}.semantic-lane strong{color:#e8dec4;font-size:.82rem}.semantic-lane span{color:#858a8e;font-size:.76rem;line-height:1.45}
+
+    .tactile-timeline{position:relative;margin-top:1.25rem;padding:2.8rem .5rem .5rem}
+    .tactile-line{position:absolute;left:4%;right:4%;top:2.05rem;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.12),rgba(212,194,143,.58),rgba(255,255,255,.12))}
+    .tactile-stops{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    .tactile-stop{position:relative;padding-top:1rem}
+    .tactile-stop::before{content:"";position:absolute;top:-1.48rem;left:0;width:12px;height:12px;border-radius:50%;background:#111;border:2px solid #b9aa83;box-shadow:0 0 0 4px rgba(212,194,143,.06)}
+    .tactile-stop small{color:#746b55;text-transform:uppercase;letter-spacing:.11em;font-size:.64rem}
+    .tactile-stop strong{display:block;margin-top:.4rem;color:#ececec;font-size:.86rem}
+    .tactile-stop p{margin:.42rem 0 0;color:#858a8e;font-size:.77rem;line-height:1.5}
+    .activity-bars{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;height:38px;margin-top:.85rem;align-items:end}
+    .activity-bars i{display:block;background:rgba(212,194,143,.30);border-top:1px solid rgba(212,194,143,.58)}
+
+    .rig-schematic{position:relative;margin-top:1.2rem;min-height:320px;border:1px solid rgba(255,255,255,.07);background:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:28px 28px;overflow:hidden}
+    .rig-frame{position:absolute;left:50%;top:50%;width:230px;height:180px;transform:translate(-50%,-50%);border:2px solid rgba(255,255,255,.17);border-top:0;clip-path:polygon(10% 18%,85% 18%,100% 100%,0 100%)}
+    .rig-seat{position:absolute;left:50%;top:46%;width:74px;height:108px;transform:translate(-50%,-50%) rotate(-6deg);border:1px solid rgba(212,194,143,.42);background:rgba(110,96,63,.07)}
+    .rig-pedals{position:absolute;left:calc(50% + 92px);top:62%;width:64px;height:22px;border-top:2px solid rgba(255,255,255,.20);transform:rotate(-12deg)}
+    .rig-node{position:absolute;width:12px;height:12px;border-radius:50%;background:#b9aa83;border:2px solid #080808;box-shadow:0 0 0 4px rgba(212,194,143,.08)}
+    .rig-node.front{left:calc(50% + 94px);top:61%}.rig-node.seat{left:calc(50% - 4px);top:68%}.rig-node.back{left:calc(50% - 10px);top:35%}.rig-node.brake{left:calc(50% + 118px);top:54%}
+    .rig-label{position:absolute;color:#9da1a5;font-size:.76rem;line-height:1.4;max-width:180px}
+    .rig-label.front{left:calc(50% + 128px);top:58%}.rig-label.seat{right:calc(50% + 28px);top:72%;text-align:right}.rig-label.back{right:calc(50% + 34px);top:30%;text-align:right}.rig-label.brake{left:calc(50% + 150px);top:48%}
+
+    .latency-scope{margin-top:1.8rem;padding:1.2rem;border:1px solid rgba(255,255,255,.075);background:#030303}
+    .scope-grid{display:grid;grid-template-columns:140px 1fr;gap:.7rem 1rem}
+    .scope-label{color:#7d8286;font-size:.75rem}
+    .scope-lane{position:relative;height:28px;background:linear-gradient(90deg,rgba(255,255,255,.018),rgba(255,255,255,.006));border-bottom:1px solid rgba(255,255,255,.04)}
+    .scope-lane::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.08)}
+    .scope-pulse{position:absolute;top:5px;height:18px;width:2px;background:#b9aa83;z-index:2}
+    .scope-pulse.telemetry{left:14%}.scope-pulse.semantic{left:31%}.scope-pulse.output{left:52%}.scope-pulse.response{left:74%}
+    .scope-caption{margin-top:1rem;display:flex;justify-content:space-between;gap:1rem;color:#666c71;font-size:.69rem}
+
+    .scale-matrix{margin-top:1.2rem;display:grid;grid-template-columns:130px repeat(4,minmax(90px,1fr));border-top:1px solid rgba(255,255,255,.08);border-left:1px solid rgba(255,255,255,.08)}
+    .matrix-cell{min-height:58px;display:flex;align-items:center;justify-content:center;padding:.5rem;border-right:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);color:#767c81;font-size:.72rem;text-align:center}
+    .matrix-cell.head{color:#c7c7c7;background:rgba(255,255,255,.018)}.matrix-cell.axis{justify-content:flex-start;color:#969b9f}.matrix-cell.hit::after{content:"";width:8px;height:8px;border-radius:50%;background:rgba(212,194,143,.58)}
+    .semantic-spine{margin-top:1rem;display:grid;grid-template-columns:1fr auto 1fr;gap:.8rem;align-items:center}
+    .spine-side{color:#80858a;font-size:.77rem;line-height:1.5}.spine-core{padding:.72rem 1rem;border-top:1px solid rgba(212,194,143,.40);border-bottom:1px solid rgba(212,194,143,.40);color:#e0d5b8;font-size:.8rem;text-align:center}
+
+    .layer-stack-visual{margin-top:1.2rem;display:grid;gap:.55rem;perspective:900px}
+    .layer-slab{padding:1rem 1.2rem;border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.015);transform:skewX(-5deg);box-shadow:0 12px 28px rgba(0,0,0,.18)}
+    .layer-slab:nth-child(2){margin-left:3%}.layer-slab:nth-child(3){margin-left:6%;border-color:rgba(212,194,143,.24);background:rgba(110,96,63,.08)}.layer-slab:nth-child(4){margin-left:9%}.layer-slab:nth-child(5){margin-left:12%}
+    .layer-slab span{display:block;transform:skewX(5deg);color:#9ca1a5;font-size:.8rem}.layer-slab.core span{color:#e2d7ba}
+
+    .compat-table{width:100%;margin-top:1.2rem;border-collapse:collapse;font-size:.8rem}
+    .compat-table th,.compat-table td{padding:.8rem .7rem;border-bottom:1px solid rgba(255,255,255,.07);text-align:left}
+    .compat-table th{color:#777d82;text-transform:uppercase;letter-spacing:.09em;font-size:.66rem}
+    .compat-table td{color:#9ba0a4}.compat-table td:first-child{color:#e4e4e4}.compat-status{color:#cbbb94}.compat-note{color:#73787d}
+
+    .domain-map{margin-top:1.8rem;position:relative;min-height:320px}
+    .domain-circle{position:absolute;top:50%;width:290px;height:290px;border-radius:50%;transform:translateY(-50%);border:1px solid rgba(255,255,255,.10);display:flex;align-items:center;justify-content:center;padding:3rem;text-align:center}
+    .domain-circle.auto{left:16%;background:radial-gradient(circle at 40% 50%,rgba(255,255,255,.035),transparent 65%)}
+    .domain-circle.flight{right:16%;background:radial-gradient(circle at 60% 50%,rgba(110,96,63,.10),transparent 65%);border-color:rgba(212,194,143,.18)}
+    .domain-circle strong{color:#dedede;font-size:.92rem}.domain-circle span{display:block;margin-top:.6rem;color:#7f8589;font-size:.76rem;line-height:1.5}
+    .domain-overlap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:170px;padding:1rem;border-top:1px solid rgba(212,194,143,.38);border-bottom:1px solid rgba(212,194,143,.38);text-align:center;color:#dccfae;font-size:.78rem;line-height:1.55;z-index:3;background:rgba(3,3,3,.72)}
+    @media(max-width:940px){
+      .three-grid,.hardware-grid,.sim-grid,.metrics{grid-template-columns:1fr 1fr}
+      .sequence{grid-template-columns:1fr 1fr}
+      .compare,.two-grid{grid-template-columns:1fr}
+      .flow-stack{grid-template-columns:1fr}
+      .flow-arrow{min-height:28px;transform:rotate(90deg)}
+      .signal-bus,.fidelity-map{grid-template-columns:1fr}
+      .tactile-stops{grid-template-columns:1fr 1fr}
+      .tactile-line{display:none}
+      .tactile-stop::before{top:.15rem}
+      .scope-grid{grid-template-columns:110px 1fr}
+      .semantic-spine{grid-template-columns:1fr}
+      .domain-circle.auto{left:5%}
+      .domain-circle.flight{right:5%}
     }
     @media(max-width:620px){
       .content{padding-top:88px}
       .panel{border-radius:24px}
-      .three-grid,.metrics{grid-template-columns:1fr}
+      .three-grid,.hardware-grid,.sim-grid,.metrics,.sequence{grid-template-columns:1fr}
       .reading-section{padding-top:2.8rem;padding-bottom:2.8rem}
       .state-label{white-space:normal;width:140px}
+      .example{padding:1.05rem}
+      .tactile-stops{grid-template-columns:1fr}
+      .scope-grid{grid-template-columns:1fr}
+      .rig-schematic{min-height:380px}
+      .rig-label{max-width:120px;font-size:.69rem}
+      .domain-map{min-height:520px}
+      .domain-circle{width:230px;height:230px;padding:2rem}
+      .domain-circle.auto{left:50%;top:32%;transform:translate(-50%,-50%)}
+      .domain-circle.flight{right:auto;left:50%;top:68%;transform:translate(-50%,-50%)}
+      .domain-overlap{top:50%}
+
+      .calibration-rail{grid-template-columns:1fr 1fr}
+      .calibration-rail::before{display:none}
+      .cal-step{padding-top:1.3rem}
+      .cal-step::before{top:.25rem}
+      .title-fanout{grid-template-columns:1fr 1fr 1fr}
+      .calibration-rail{grid-template-columns:1fr}
+      .title-fanout{grid-template-columns:1fr 1fr}
+      .baseline-spine::before,.baseline-spine::after{width:18%}
     }
   </style>
   <link rel="stylesheet" href="Resources/site-theme.css" />
@@ -190,6 +705,7 @@
 
   <main class="content">
     <div class="page-wrap">
+
       <section class="panel page-hero">
         <div class="section-tag"><span class="dot"></span><span>MCP4SH™ architecture</span></div>
         <p class="eyebrow mt-6">Designed to scale</p>
@@ -201,15 +717,14 @@
           The physical meaning in between does not need to start from zero every time.
         </p>
         <p class="copy mt-4">
-          MCP4SH is built as a semantic telemetry-to-haptics layer: specialised where the source or hardware requires it,
-          consistent where the physics means the same thing. The current product is delivered through SimHub, but the
-          architecture is deliberately separated so the interpretation and orchestration logic is not defined by one renderer
-          or one device class.
+          MCP4SH is built as a semantic telemetry to haptics layer. It stays specialised where the source or hardware requires it
+          and stays consistent where the physics means the same thing. The current product is delivered through SimHub.
+          The interpretation and orchestration logic is deliberately separated from one renderer or one device class.
         </p>
         <div class="principle"><strong>Preserve meaning. Adapt the carrier.</strong></div>
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="mcp4sh.html" class="btn btn-primary">MCP4SH product page</a>
-          <a href="mcp4sh-research.html" class="btn btn-secondary">Research &amp; engineering basis</a>
+          <a href="mcp4sh-research.html" class="btn btn-secondary">Research and engineering basis</a>
         </div>
       </section>
 
@@ -217,25 +732,43 @@
         <p class="eyebrow">01 · The architecture</p>
         <h2 class="headline mt-3 text-3xl md:text-5xl">Different sims. Same physical world.</h2>
         <p class="copy mt-5">
-          One simulator may expose a direct signal. Another may provide richer tyre data. Another may require the same physical
-          state to be derived from several related inputs. MCP4SH does not pretend those sources are identical.
+          One simulator may expose a useful signal directly. Another may describe the same vehicle state through a different set of telemetry.
+          MCP4SH does not require those sources to look identical.
         </p>
         <p class="copy mt-4">
-          The design goal is to understand those differences at the input, translate them into a consistent description of what
-          the vehicle is doing, coordinate that information, and only then express it through the available hardware.
+          The goal is to understand each source at the input, translate it into a consistent description of what the vehicle is doing,
+          coordinate that information, then express it through the available hardware.
         </p>
-        <div class="diagram">
-          <div class="diagram-flow">
-            <div class="node">Specialised input<br/>game / host telemetry</div>
-            <div class="arrow">→</div>
-            <div class="node core">Physical / semantic interpretation<br/>+ orchestration</div>
-            <div class="arrow">→</div>
-            <div class="node">Specialised projection<br/>shakers · pedals · wheels · seats</div>
+
+        <div class="signal-bus" aria-label="MCP4SH input, semantic core and output architecture">
+          <div class="bus-side">
+            <div class="bus-title">Specialised inputs</div>
+            <div class="bus-item">Game telemetry</div>
+            <div class="bus-item">Host telemetry</div>
+            <div class="bus-item">Native SDK or API feeds</div>
+            <div class="bus-item">Domain-specific adapters</div>
+          </div>
+          <div class="bus-core">
+            <div class="bus-rail left"></div>
+            <div class="bus-rail right"></div>
+            <div class="bus-title">Shared semantic core</div>
+            <div class="bus-item">Telemetry conditioning</div>
+            <div class="bus-item">Physical interpretation</div>
+            <div class="bus-item">State and relationship modelling</div>
+            <div class="bus-item">Orchestration and prioritisation</div>
+          </div>
+          <div class="bus-side">
+            <div class="bus-title">Specialised outputs</div>
+            <div class="bus-item">Bass transducers</div>
+            <div class="bus-item">Haptic pads</div>
+            <div class="bus-item">Pedal motors</div>
+            <div class="bus-item">Wheels, seats and future active devices</div>
           </div>
         </div>
+
         <div class="principle">
           <strong>Normalize meaning, not information.</strong>
-          Richer telemetry should stay richer. What becomes consistent is the semantic contract downstream.
+          Richer telemetry should stay richer. What becomes consistent is the meaning available downstream.
         </div>
       </section>
 
@@ -243,22 +776,51 @@
         <p class="eyebrow">02 · Fidelity without fragmentation</p>
         <h2 class="headline mt-3 text-3xl md:text-5xl">Specialise at the edges. Standardise the meaning.</h2>
         <p class="copy mt-5">
-          A title-specific adapter can remain as specialised as necessary. The mistake is assuming that every downstream effect
-          and every output device must then become title-specific too.
+          A simulator specific input path can remain as specialised as necessary.
+          That does not mean every downstream effect and every output device must also become simulator specific.
         </p>
+
         <div class="three-grid">
           <div class="card">
             <strong>Use the best source available</strong>
-            <p>Native signals, derived relationships and graceful fallbacks can all contribute without pretending they have identical fidelity.</p>
+            <p>Native signals, related signals and graceful fallbacks can all contribute without pretending they have identical fidelity.</p>
           </div>
           <div class="card">
             <strong>Preserve useful spatial detail</strong>
-            <p>Where per-wheel or directional information exists, it can remain spatial rather than being flattened into one chassis-level number.</p>
+            <p>When wheel level or directional information exists, it can remain spatial rather than being flattened into one chassis value.</p>
           </div>
           <div class="card">
             <strong>Degrade honestly</strong>
-            <p>Where a title exposes less, MCP4SH should communicate less precision rather than inventing detail that is not there.</p>
+            <p>When a title exposes less, MCP4SH should communicate less precision rather than inventing detail that is not there.</p>
           </div>
+        </div>
+
+        <div class="example">
+          <div class="example-head">
+            <h3 class="example-title">Concrete software example · braking and grip state</h3>
+            <span class="example-note">Different sources · preserved meaning</span>
+          </div>
+          <div class="fidelity-map">
+            <div class="source-traces">
+              <div class="trace"><span class="trace-label">Assetto Corsa</span><div class="trace-line"></div></div>
+              <div class="trace"><span class="trace-label">Le Mans Ultimate</span><div class="trace-line"></div></div>
+              <div class="trace"><span class="trace-label">F1 25</span><div class="trace-line"></div></div>
+              <div class="trace"><span class="trace-label">AC Rally</span><div class="trace-line"></div></div>
+              <div class="trace"><span class="trace-label">AC EVO</span><div class="trace-line"></div></div>
+              <div class="trace"><span class="trace-label">Automobilista 2</span><div class="trace-line"></div></div>
+            </div>
+            <div class="semantic-lanes">
+              <div class="semantic-lane"><strong>Braking state</strong><span>Shared concept, source quality remains visible</span></div>
+              <div class="semantic-lane"><strong>Grip state</strong><span>Normalized meaning without pretending every source is equally rich</span></div>
+              <div class="semantic-lane"><strong>Wheel / axle context</strong><span>Retained where the title exposes it cleanly</span></div>
+              <div class="semantic-lane"><strong>Confidence / fallback</strong><span>Graceful degradation instead of invented precision</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="principle">
+          Teach MCP4SH how a simulator describes the state.
+          Do not rebuild the whole haptic system for every simulator.
         </div>
       </section>
 
@@ -266,18 +828,54 @@
         <p class="eyebrow">03 · Orchestration</p>
         <h2 class="headline mt-3 text-3xl md:text-5xl">The vehicle is one system. The haptics should behave like one too.</h2>
         <p class="copy mt-5">
-          Braking changes load. Load changes available grip. Suspension movement affects chassis behaviour. Engine, drivetrain,
-          road, impact and tyre information all coexist. Simply making every lane louder at once does not necessarily communicate more.
+          Braking changes load. Load changes available grip. Suspension movement affects chassis behaviour.
+          Engine, drivetrain, road, impact and tyre information all coexist.
+          Making every lane louder at once does not necessarily communicate more.
         </p>
         <p class="copy mt-4">
-          MCP4SH therefore treats effects as parts of a coordinated tactile scene. Interpretation determines what the signals mean;
-          orchestration decides how useful information should coexist when several things are happening at the same time.
+          MCP4SH treats effects as parts of one tactile scene.
+          Interpretation determines what the signals mean.
+          Orchestration decides how useful information should coexist when several things happen at the same time.
         </p>
+
+        <div class="example">
+          <div class="example-head">
+            <h3 class="example-title">Concrete driving example · one Spa lap contains a whole tactile sequence</h3>
+            <span class="example-note">State changes over time</span>
+          </div>
+          <div class="tactile-timeline">
+            <div class="tactile-line"></div>
+            <div class="tactile-stops">
+              <div class="tactile-stop">
+                <small>La Source</small><strong>Heavy braking and rotation</strong>
+                <p>Brake feel, forward load, tyre state and exit traction all overlap.</p>
+                <div class="activity-bars"><i style="height:80%"></i><i style="height:55%"></i><i style="height:70%"></i><i style="height:35%"></i><i style="height:30%"></i><i style="height:45%"></i></div>
+              </div>
+              <div class="tactile-stop">
+                <small>Eau Rouge / Raidillon</small><strong>Compression and crest</strong>
+                <p>Heave and chassis load become the dominant information.</p>
+                <div class="activity-bars"><i style="height:35%"></i><i style="height:90%"></i><i style="height:82%"></i><i style="height:62%"></i><i style="height:38%"></i><i style="height:28%"></i></div>
+              </div>
+              <div class="tactile-stop">
+                <small>Pouhon</small><strong>Sustained lateral load</strong>
+                <p>Long-duration chassis and tyre state matter more than impacts.</p>
+                <div class="activity-bars"><i style="height:40%"></i><i style="height:48%"></i><i style="height:86%"></i><i style="height:72%"></i><i style="height:55%"></i><i style="height:32%"></i></div>
+              </div>
+              <div class="tactile-stop">
+                <small>Bus Stop</small><strong>Braking, kerb and transition</strong>
+                <p>Several useful cues arrive together and need space rather than simple stacking.</p>
+                <div class="activity-bars"><i style="height:84%"></i><i style="height:68%"></i><i style="height:64%"></i><i style="height:92%"></i><i style="height:45%"></i><i style="height:58%"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="three-grid">
           <div class="card"><strong>Interpret</strong><p>Work out what the available telemetry says about the current physical state.</p></div>
-          <div class="card"><strong>Prioritise</strong><p>Keep important transient or state information from being buried by continuous activity.</p></div>
-          <div class="card"><strong>Express</strong><p>Render the resulting semantic information through the capabilities of the target hardware.</p></div>
+          <div class="card"><strong>Prioritise</strong><p>Keep useful transient or state information from being buried by continuous activity.</p></div>
+          <div class="card"><strong>Express</strong><p>Render the resulting meaning through the capabilities of the target hardware.</p></div>
         </div>
+
         <div class="principle">More output is not automatically more information.</div>
       </section>
 
@@ -285,20 +883,21 @@
         <p class="eyebrow">04 · Setup and tuning</p>
         <h2 class="headline mt-3 text-3xl md:text-5xl">Tune the rig. Not every game.</h2>
         <p class="copy mt-5">
-          Transducers, mounting, resonant range, amplifiers, placement and personal preference still matter. No software removes
-          the physical differences between rigs.
+          Transducers, mounting, useful frequency range, amplifiers, placement and personal preference still matter.
+          No software removes the physical differences between rigs.
         </p>
         <p class="copy mt-4">
-          What MCP4SH is designed to remove is unnecessary repetition. Once hardware is mapped and calibrated, changing simulator
-          should not mean rebuilding tyre, brake, suspension, drivetrain, road and load behaviour from scratch.
+          What MCP4SH is designed to remove is unnecessary repetition.
+          Once hardware is mapped and calibrated, changing simulator should not mean rebuilding tyre, brake, suspension, drivetrain, road and load behaviour from zero.
         </p>
+
         <div class="compare">
           <div class="compare-col">
-            <h3>What should remain user-specific</h3>
+            <h3>What should remain user specific</h3>
             <div class="stack">
               <span>Hardware placement</span>
               <span>Useful frequency range</span>
-              <span>Gain / comfort</span>
+              <span>Gain and comfort</span>
               <span>Personal emphasis</span>
             </div>
           </div>
@@ -308,12 +907,59 @@
               <span class="shared">Telemetry conditioning</span>
               <span class="shared">Physical interpretation</span>
               <span class="shared">Effect relationships</span>
-              <span class="shared">Cross-title baseline behaviour</span>
+              <span class="shared">Cross title baseline behaviour</span>
             </div>
           </div>
         </div>
+
+        <div class="example">
+          <div class="example-head">
+            <h3 class="example-title">Concrete setup example · calibrate the rig, then keep the baseline</h3>
+            <span class="example-note">One hardware pass · many titles</span>
+          </div>
+
+          <div class="calibration-visual" aria-label="Rig calibration workflow and cross-title reuse">
+            <div class="calibration-rail">
+              <div class="cal-step">
+                <span class="cal-index">01</span>
+                <strong>Map hardware</strong>
+                <p>Assign the physical transducers and channels once.</p>
+              </div>
+              <div class="cal-step">
+                <span class="cal-index">02</span>
+                <strong>Sweep response</strong>
+                <p>Find the useful tactile range of the actual rig.</p>
+              </div>
+              <div class="cal-step">
+                <span class="cal-index">03</span>
+                <strong>Set balance</strong>
+                <p>Choose gain, comfort and personal emphasis.</p>
+              </div>
+              <div class="cal-step">
+                <span class="cal-index">04</span>
+                <strong>Keep the baseline</strong>
+                <p>The hardware setup remains stable when the title changes.</p>
+              </div>
+            </div>
+
+            <div class="baseline-spine">
+              <span>ONE CALIBRATED RIG BASELINE</span>
+            </div>
+
+            <div class="title-fanout">
+              <span>Assetto Corsa</span>
+              <span>Le Mans Ultimate</span>
+              <span>F1</span>
+              <span>AC Rally</span>
+              <span>AC EVO</span>
+              <span>Automobilista 2</span>
+            </div>
+          </div>
+        </div>
+
         <div class="principle">
-          The user should primarily tune hardware and preference — not compensate for an unfinished interpretation layer.
+          The user should mainly tune hardware and preference.
+          The user should not have to compensate for an unfinished interpretation layer.
         </div>
       </section>
 
@@ -321,113 +967,228 @@
         <p class="eyebrow">05 · Latency</p>
         <h2 class="headline mt-3 text-3xl md:text-5xl">Fast matters. Latency is not the whole haptic system.</h2>
         <p class="copy mt-5">
-          Lower transport latency is desirable. Discrete events such as impacts, kerbs and sudden interventions benefit directly
-          from the fastest practical signal path.
+          Lower transport latency is desirable.
+          Discrete events such as impacts, kerbs and sudden interventions benefit directly from the fastest practical path.
         </p>
         <p class="copy mt-4">
-          But useful tactile response also depends on what was detected, when the underlying state became meaningful, how it was
-          interpreted, what else was happening at the same time, and whether the output communicates the correct thing.
+          Useful tactile response also depends on what was detected, when the underlying state became meaningful, how it was interpreted,
+          what else was happening at the same time and whether the output communicates the correct thing.
         </p>
-        <p class="copy mt-4">
-          Some cues are events. Others are states developing over time: load builds, brake pressure changes, grip evolves,
-          suspension settles and drivetrain tension rises and falls. A state-aware system can begin changing the tactile
-          representation while that condition develops instead of waiting for one final binary threshold.
-        </p>
-        <div class="state-track" aria-label="Illustration of state-aware semantic onset versus later threshold event">
-          <div class="state-line"></div>
-          <div class="state-marker semantic"></div>
-          <div class="state-marker event"></div>
-          <div class="state-label semantic">useful state becomes detectable</div>
-          <div class="state-label event">later threshold / discrete event</div>
+
+        <div class="latency-scope" aria-label="Illustrative latency and semantic onset trace">
+          <div class="scope-grid">
+            <div class="scope-label">Telemetry state</div><div class="scope-lane"><span class="scope-pulse telemetry"></span></div>
+            <div class="scope-label">Semantic onset</div><div class="scope-lane"><span class="scope-pulse semantic"></span></div>
+            <div class="scope-label">Output submitted</div><div class="scope-lane"><span class="scope-pulse output"></span></div>
+            <div class="scope-label">Physical response</div><div class="scope-lane"><span class="scope-pulse response"></span></div>
+          </div>
+          <div class="scope-caption"><span>State can become useful before a later threshold event.</span><span>Transport still matters between semantic onset and physical response.</span></div>
         </div>
+
         <div class="principle"><strong>Fast reaction is useful. Earlier understanding can be better.</strong></div>
         <p class="fine mt-5">
-          This does not make transport latency irrelevant and MCP4SH does not claim to predict events that the simulator has not exposed.
-          It means that an evolving physical state can carry useful information before a later event threshold is crossed.
+          This does not make transport latency irrelevant.
+          MCP4SH does not claim to predict information that the simulator has not exposed.
+          It means an evolving physical state can carry useful information before a later event threshold is crossed.
         </p>
       </section>
 
       <section class="reading-section">
         <p class="eyebrow">06 · Scalability</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">What happens when there are more sims, more devices and more modalities?</h2>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Same meaning. Different edges.</h2>
         <p class="copy mt-5">
-          A strong solution for one simulator and one output is a tractable problem. Maintaining coherent behaviour across an expanding
-          ecosystem is a different one.
+          A simulator and a haptic device do not need to understand each other directly.
+          The simulator needs an input path that can describe useful physical state.
+          The output device needs a projection path that can express that state.
+          The shared meaning sits between them.
         </p>
-        <p class="copy mt-4">
-          MCP4SH is designed so a new simulator primarily needs an input path capable of translating its available telemetry into
-          established semantics, while a new hardware platform primarily needs a projection layer capable of expressing those semantics
-          through what the device can physically do.
-        </p>
-        <div class="compare">
-          <div class="compare-col">
-            <h3>Repeated bespoke combinations</h3>
-            <div class="stack">
-              <span>Game A → Device 1</span>
-              <span>Game A → Device 2</span>
-              <span>Game B → Device 1</span>
-              <span>Game B → Device 2</span>
-              <span>Repeat as both sides grow</span>
-            </div>
+
+        <div class="example">
+          <div class="example-head">
+            <h3 class="example-title">Scaling problem · bespoke links grow in both directions</h3>
+            <span class="example-note">N inputs × M outputs</span>
           </div>
-          <div class="compare-col">
-            <h3>Semantic layer</h3>
-            <div class="stack">
-              <span>Games → specialised input adapters</span>
-              <span class="shared">Shared interpretation + orchestration</span>
-              <span>Outputs → specialised renderers</span>
-              <span>Add capability at the edge</span>
-            </div>
+          <div class="scale-matrix" aria-label="Many to many integration matrix">
+            <div class="matrix-cell head">Input \ Output</div><div class="matrix-cell head">Shakers</div><div class="matrix-cell head">Haptic pad</div><div class="matrix-cell head">Pedal motor</div><div class="matrix-cell head">Future device</div>
+            <div class="matrix-cell axis">Assetto Corsa</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+            <div class="matrix-cell axis">Le Mans Ultimate</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+            <div class="matrix-cell axis">F1 25</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+            <div class="matrix-cell axis">Flight input</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+          </div>
+          <div class="semantic-spine">
+            <div class="spine-side">Specialised input adapters preserve source-specific richness.</div>
+            <div class="spine-core">Shared semantic interpretation + orchestration</div>
+            <div class="spine-side">Specialised renderers adapt the same meaning to device capability.</div>
           </div>
         </div>
+
         <div class="principle"><strong>Add an input once. Add an output once. Connect through meaning.</strong></div>
         <p class="fine mt-5">
-          Real integrations are never literally free. Individual simulators and devices still have unique capabilities and constraints.
-          The architectural goal is to keep those differences at the edges instead of multiplying bespoke interpretation throughout the whole stack.
+          Real integrations still have unique capabilities and constraints.
+          The goal is to keep those differences at the edges instead of multiplying bespoke interpretation throughout the whole stack.
         </p>
       </section>
 
       <section class="reading-section">
-        <p class="eyebrow">07 · Built for integration</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">The current SimHub plugin is an implementation, not the intended boundary.</h2>
+        <p class="eyebrow">07 · Mixed hardware</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Different devices can carry different parts of the same vehicle state.</h2>
         <p class="copy mt-5">
-          Today, SimHub provides an excellent host for telemetry access, configuration and tactile output. MCP4SH.Core already separates
-          most haptic interpretation and stateful effect logic from the host-specific plugin layer.
+          A mixed rig does not need every device to reproduce every effect.
+          Each output can concentrate on the information it is physically suited to express.
         </p>
-        <p class="copy mt-4">
-          That boundary is deliberate. The longer-term direction is to let the same semantic and orchestration logic feed different hosts,
-          SDKs and physical outputs without requiring the interpretation model to be rewritten around each one.
-        </p>
+
+        <div class="example">
+          <div class="example-head">
+            <h3 class="example-title">Concrete rig example · divide the sensory work</h3>
+            <span class="example-note">Different carriers · one interpreted vehicle state</span>
+          </div>
+
+          <div class="carrier-matrix-wrap">
+            <table class="carrier-matrix" aria-label="Suggested semantic cue assignment across mixed haptic hardware">
+              <thead>
+                <tr>
+                  <th>Semantic cue</th>
+                  <th>Pedal plate</th>
+                  <th>Seat / chassis</th>
+                  <th>Backrest / pad</th>
+                  <th>Pedal motor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Brake state</td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td><span class="matrix-dot light"></span></td>
+                  <td></td>
+                  <td><span class="matrix-dot strong"></span></td>
+                </tr>
+                <tr>
+                  <td>ABS / lock</td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td></td>
+                  <td></td>
+                  <td><span class="matrix-dot strong"></span></td>
+                </tr>
+                <tr>
+                  <td>Road / impacts</td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td><span class="matrix-dot light"></span></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Rear traction</td>
+                  <td></td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td><span class="matrix-dot light"></span></td>
+                  <td><span class="matrix-dot light"></span></td>
+                </tr>
+                <tr>
+                  <td>Drivetrain</td>
+                  <td><span class="matrix-dot light"></span></td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td><span class="matrix-dot light"></span></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Chassis load / direction</td>
+                  <td><span class="matrix-dot light"></span></td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td><span class="matrix-dot strong"></span></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="matrix-key">
+              <span><i class="matrix-dot strong"></i> Primary carrier</span>
+              <span><i class="matrix-dot light"></i> Useful secondary carrier</span>
+            </div>
+          </div>
+        </div>
+
         <div class="principle">
-          MCP4SH is not being designed around owning every input, every device or every transport. It is being designed to connect them.
+          More devices do not have to mean more duplicated logic.
+          They can mean a better division of sensory work.
         </div>
       </section>
 
       <section class="reading-section">
-        <p class="eyebrow">08 · For hardware makers</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">Build the hardware. Do not rebuild the physics interpretation stack.</h2>
+        <p class="eyebrow">08 · Built for integration</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">The current SimHub plugin is an implementation. It is not the intended boundary.</h2>
         <p class="copy mt-5">
-          A transducer manufacturer should not need to become a specialist in every racing simulator. A pedal manufacturer should not
-          need to reinvent braking, lock, traction and load interpretation title by title. A new output modality should be able to
-          concentrate on how it expresses information rather than first recreating the meaning of that information.
+          Today SimHub provides the public host for telemetry access, configuration and tactile output.
+          MCP4SH.Core already separates most haptic interpretation and stateful effect logic from the host specific plugin layer.
         </p>
         <p class="copy mt-4">
-          The intended integration model is hardware-neutral: different devices should remain different. Their language does not have to be.
+          That boundary is deliberate.
+          The longer term direction is to let the same semantic and orchestration logic feed different hosts, SDKs and physical outputs
+          without rewriting the interpretation model around each target.
         </p>
-        <div class="mt-7">
-          <a href="https://github.com/belh4wk/TytoSensoryLabs/issues/new/choose" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-            Integration / OEM enquiry
-          </a>
+
+        <div class="example">
+          <div class="example-head">
+            <h3 class="example-title">Concrete OEM example · a new active pedal</h3>
+            <span class="example-note">Focus engineering on the device</span>
+          </div>
+
+          <div class="layer-stack-visual" aria-label="Integration stack">
+            <div class="layer-slab"><span>Title / telemetry adapter</span></div>
+            <div class="layer-slab"><span>Conditioning and source interpretation</span></div>
+            <div class="layer-slab core"><span>Shared braking · traction · grip · load semantics</span></div>
+            <div class="layer-slab"><span>Device renderer / capability adapter</span></div>
+            <div class="layer-slab"><span>OEM hardware tuning and physical expression</span></div>
+          </div>
+        </div>
+
+        <div class="principle">
+          Build the hardware.
+          Do not rebuild the physics interpretation stack.
         </div>
       </section>
 
       <section class="reading-section">
-        <p class="eyebrow">09 · Proof, not promises</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">Measure the experience, not just the number of effects.</h2>
+        <p class="eyebrow">09 · Output paths already exercised</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">The architecture is already reaching beyond one shaker topology.</h2>
         <p class="copy mt-5">
-          The architecture should be testable. The following measurements are being prepared so future claims can be published with the
-          method used to obtain them.
+          MCP4SH is primarily developed and validated through tactile hardware driven by SimHub.
+          Real user testing has also exercised other output classes.
+          Compatibility and first class Setup Assistant integration are not the same thing, so the status is shown plainly below.
         </p>
+
+        <div class="example">
+          <div class="example-head">
+            <h3 class="example-title">Current output-path evidence</h3>
+            <span class="example-note">Compatibility is not the same as first-class setup support</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="compat-table">
+              <thead><tr><th>Output class</th><th>Example</th><th>Status</th><th>Setup Assistant</th></tr></thead>
+              <tbody>
+                <tr><td>Bass transducer</td><td>Dayton BST-1 / TT25 class</td><td class="compat-status">Reference path</td><td>First-class</td></tr>
+                <tr><td>Haptic pad</td><td>Next Level Racing HF8 / HF8 Pro</td><td class="compat-status">Public user report</td><td class="compat-note">Via SimHub</td></tr>
+                <tr><td>Haptic pad</td><td>SRS U-Shake</td><td class="compat-status">Reported compatible</td><td class="compat-note">Via SimHub</td></tr>
+                <tr><td>Motor haptics</td><td>Pedal motors / ShakeIt Motors</td><td class="compat-status">Documented route</td><td class="compat-note">Manual mapping</td></tr>
+                <tr><td>Multichannel audio</td><td>Creative X4 8-channel</td><td class="compat-status">User validated</td><td>Supported</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="fine mt-5">
+          A device being reachable through SimHub does not automatically mean every MCP4SH Setup Assistant feature supports it directly.
+          The distinction matters because architectural compatibility can arrive before guided setup and profile generation.
+        </p>
+      </section>
+
+      <section class="reading-section">
+        <p class="eyebrow">10 · Proof, not promises</p>
+        <h2 class="headline mt-3 text-3xl md:text-5xl">Measure the experience. Do not rely on the number of effects.</h2>
+        <p class="copy mt-5">
+          The architecture should be testable.
+          MCP4SH is preparing measurements that can show where time is spent, how consistently the system behaves and how much repeated setup is actually required.
+        </p>
+
         <div class="metrics">
           <div class="metric">
             <small>Time to first drive</small>
@@ -435,39 +1196,47 @@
             <span>Measurement planned</span>
           </div>
           <div class="metric">
-            <small>Cross-title retuning</small>
-            <strong>Same rig, same calibration, multiple sims</strong>
+            <small>Cross title retuning</small>
+            <strong>Same rig · same calibration · multiple sims</strong>
             <span>Measurement planned</span>
           </div>
           <div class="metric">
-            <small>End-to-end latency</small>
+            <small>End to end latency</small>
             <strong>Telemetry → processing → output → response</strong>
-            <span>Instrumentation in development</span>
+            <span>Instrumentation under validation</span>
           </div>
           <div class="metric">
             <small>Semantic onset</small>
             <strong>When useful state information becomes available</strong>
-            <span>Test method in development</span>
+            <span>Capture method under validation</span>
           </div>
         </div>
+
         <p class="fine mt-5">
-          Published results will distinguish codec processing time, host/output-path delay and physical response where the measurement
-          setup allows it. No unexplained best-case number.
+          Future published results should distinguish telemetry cadence, MCP4SH processing time, output path delay and physical response where the measurement setup allows it.
+          The method should travel with the number.
         </p>
       </section>
 
       <section class="reading-section">
-        <p class="eyebrow">10 · Domain portability</p>
+        <p class="eyebrow">11 · Domain portability</p>
         <h2 class="headline mt-3 text-3xl md:text-5xl">A useful abstraction should survive beyond the first domain it was built around.</h2>
         <p class="copy mt-5">
-          MCP4SH began with automotive simulation. The v1.2 development track is now testing how much of the same architecture can carry
-          into flight: shared physical ideas such as powerplant behaviour, body load and transients, alongside airframe-specific semantics
-          where the domain genuinely differs.
+          MCP4SH began with automotive simulation.
+          The v1.2 development track is testing how much of the same architecture can carry into flight.
+          Shared physical ideas such as powerplant behaviour, body load and transients can remain reusable where they genuinely overlap.
+          Airframe specific meaning can be added where the domain is different.
         </p>
         <p class="copy mt-4">
-          The goal is not to relabel automotive effects as aircraft effects. It is to reuse the parts of the interpretation model that
-          represent transferable physical meaning and add new domain semantics where needed.
+          The goal is not to rename automotive effects as aircraft effects.
+          The goal is to reuse physical meaning where it transfers and introduce new domain semantics where it does not.
         </p>
+        <div class="domain-map" aria-label="Automotive and flight semantic overlap">
+          <div class="domain-circle auto"><div><strong>Automotive semantics</strong><span>Tyre grip · slip · braking · traction · suspension · road</span></div></div>
+          <div class="domain-circle flight"><div><strong>Flight semantics</strong><span>Airframe load · AoA · aerodynamic state · powerplant · landing / ground interaction</span></div></div>
+          <div class="domain-overlap">Shared physical meaning<br>load · acceleration · vibration · transients · powerplant behaviour</div>
+        </div>
+
         <div class="principle">New domain. Same language where the physics overlaps.</div>
       </section>
 
@@ -477,8 +1246,9 @@
           Specialise at the edges. <span class="accent">Standardise the meaning.</span>
         </h2>
         <p class="lead mt-5">
-          Different simulators deserve access to their unique telemetry. Different hardware deserves to use its unique capabilities.
-          Neither requires rebuilding the entire interpretation stack between them.
+          Different simulators deserve access to their unique telemetry.
+          Different hardware deserves to use its unique capabilities.
+          Neither requires rebuilding the whole interpretation stack between them.
         </p>
         <p class="copy mt-4">That is the problem MCP4SH is designed to solve.</p>
         <div class="mt-8 flex flex-wrap gap-3">
@@ -486,6 +1256,7 @@
           <a href="mcp4sh-research.html" class="btn btn-secondary">Read the research basis</a>
         </div>
       </section>
+
     </div>
   </main>
 

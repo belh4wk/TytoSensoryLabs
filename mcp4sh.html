@@ -739,6 +739,7 @@
           <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
           <a id="hero-license" href="#" class="btn btn-secondary">Buy / activate license</a>
           <a href="mcp4sh-research.html" class="btn btn-secondary">Research &amp; engineering basis</a>
+          <a href="mcp4sh-architecture.html" class="btn btn-secondary">Architecture &amp; scaling</a>
           <a href="#faq" class="btn btn-secondary">Read the FAQ</a>
           <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
         </div>
@@ -825,6 +826,104 @@
         <h2 class="mt-3 text-2xl font-semibold text-white">Seat. Of. Pants.</h2>
         <p class="copy mt-4 text-sm md:text-base">Reliable, consistent haptics helps you trust what you are feeling faster, with less second-guessing and less re-tuning each time you wanna switch games because you're not sure anymore. It helps you drive intuitively.</p>
       </div>
+    </section>
+
+
+    <section id="supported-titles" class="mt-12 panel p-8">
+      <p class="eyebrow">Supported titles</p>
+      <div class="mt-3 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <div>
+          <h2 class="headline text-3xl md:text-5xl">One haptic baseline. <span class="accent">A lot of sims.</span></h2>
+          <p class="copy mt-5 text-sm md:text-base">
+            MCP4SH is built around shared telemetry semantics rather than a separate hand-tuned haptic stack for every game.
+            The source telemetry still differs between titles, but the aim is to keep the interpreted feel and effect relationships recognisable when you switch sim.
+          </p>
+          <p class="copy mt-4 text-sm md:text-base">
+            These are the titles and series currently covered by the MCP4SH land-chassis path.
+          </p>
+        </div>
+
+        <div class="grid gap-x-8 gap-y-0 sm:grid-cols-2">
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">Assetto Corsa series</strong>
+            <p class="copy mt-1 text-sm">Assetto Corsa · Competizione · EVO · Rally</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">Automobilista</strong>
+            <p class="copy mt-1 text-sm">Automobilista · Automobilista 2</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">DiRT Rally 2.0</strong>
+            <p class="copy mt-1 text-sm">Codemasters rally telemetry path</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">EA SPORTS WRC</strong>
+            <p class="copy mt-1 text-sm">Current EA / Codemasters WRC title</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">WRC series</strong>
+            <p class="copy mt-1 text-sm">WRC 7 · 8 · 9 · 10 · Generations</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">F1 series</strong>
+            <p class="copy mt-1 text-sm">Supported Codemasters / EA F1 titles</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">Forza series</strong>
+            <p class="copy mt-1 text-sm">Forza Motorsport · Forza Horizon</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">GRID series</strong>
+            <p class="copy mt-1 text-sm">GRID titles exposed through SimHub telemetry</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">Le Mans Ultimate</strong>
+            <p class="copy mt-1 text-sm">LMU</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">Project CARS 2</strong>
+            <p class="copy mt-1 text-sm">PC2</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">Project Motor Racing</strong>
+            <p class="copy mt-1 text-sm">PMR</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">RaceRoom Racing Experience</strong>
+            <p class="copy mt-1 text-sm">RaceRoom · R3E</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">rFactor</strong>
+            <p class="copy mt-1 text-sm">rFactor · rFactor 2</p>
+          </div>
+          <div class="border-b border-white/10 py-4">
+            <strong class="text-white">Wreckfest</strong>
+            <p class="copy mt-1 text-sm">Wreckfest · Wreckfest 2</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-7 grid gap-5 md:grid-cols-2">
+        <div class="border-l-2 border-[#6e603f] pl-5">
+          <p class="eyebrow">Validation in progress</p>
+          <p class="copy mt-2 text-sm">
+            American Truck Simulator and Euro Truck Simulator 2 appear to expose enough useful telemetry through SimHub to be promising MCP4SH candidates.
+            They are not being advertised as fully supported until the live property mapping has been validated.
+          </p>
+        </div>
+        <div class="border-l-2 border-[#6e603f] pl-5">
+          <p class="eyebrow">Flight · v1.2</p>
+          <p class="copy mt-2 text-sm">
+            DCS and Microsoft Flight Simulator 2024 are already part of the v1.2 development and validation path.
+            Dedicated flight semantics are being added rather than simply re-labelling the automotive effect model.
+          </p>
+        </div>
+      </div>
+
+      <p class="copy mt-6 text-xs md:text-sm">
+        Telemetry completeness and signal quality differ by title, so not every effect has identical source data in every sim.
+        MCP4SH is designed to preserve those differences where they matter instead of inventing detail that is not present.
+      </p>
     </section>
 
 
