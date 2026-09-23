@@ -863,18 +863,16 @@
     <section class="mcp-hero grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
       <div class="space-y-6">
         <div class="badge"><span class="dot"></span><span>MCP4SH™ · String Theory Haptics for SimHub</span></div>
-        <p class="eyebrow">High-level plugin overview</p>
-        <h1 class="headline text-4xl md:text-6xl">Haptics that aim to feel more like a <span class="accent">weighted, connected chassis</span>. Across games.</h1>
+        <p class="eyebrow">Cross sim haptics for SimHub</p>
+        <h1 class="headline text-4xl md:text-6xl">Feel the car. <span class="accent">Not the profile.</span></h1>
         <p class="copy text-base md:text-lg">
-          MCP4SH™ is a telemetry-first SimHub plugin built to make sim-racing haptics feel more connected, reduce masking, and make the information easier to interpret. The goal is clearer tyre scrub, road and suspension detail, drivetrain information, chassis/load cues, and less time spent rebuilding the feel every time you switch sim.<br><br>
-          It is also the first commercial reference implementation of the wider MCP4H approach: preserve useful machine-state meaning, then adapt how that meaning is rendered to the receiver and hardware.<br><br>
-		  Yes, AI was used for drafting and faster iteration. The plugin's codec architecture was however entirely ideated, designed and constructed by me.
+          MCP4SH turns the live data from supported sims into haptic feedback that is easier to read and more consistent from one title to the next. Braking, tyres, road, suspension, drivetrain and chassis cues are shaped to work together, so changing sim should mean driving rather than rebuilding the feel of your rig.<br><br>
+          Under the hood, MCP4SH interprets what the car is doing before the supplied haptic effects render it. That is the practical idea behind the wider MCP4H approach: preserve useful meaning, then adapt how it reaches the driver and the hardware.
         </p>
-		<p class="copy text-base md:text-lg">
-		  This project started as a thing I wanted to do because after getting new hardware and failing to back up my SimHub profiles, I didn't feel like searching for, or creating, a profile that felt right or believable for every game I play.<br><br>
-		  Ironically, a few hours of doing exactly that would've fixed my issue... but I digress; I figured, what if I take a different approach that allows me to just switch games whenever I like without having to second-guess if i'm feeling everything i'm expecting (or not)?<br><br>
-		  So I started building this, and as I progressed, I assumed others might have or find use for it, so I added some more useful features and decided to share.
-		</p>
+        <p class="copy text-base md:text-lg">
+          I built MCP4SH after losing my own SimHub profiles and realising I did not want to rebuild a believable shaker setup for every sim I played. The question became simple: could the software do more of the interpretation work, so I could switch games without second guessing the rig? That became MCP4SH.
+        </p>
+        <p class="purchase-note">Development note: AI has been used for drafting and faster iteration. The MCP4SH codec architecture itself was ideated, designed and constructed by me.</p>
         <div class="flex flex-wrap gap-3">
           <a id="hero-license" href="#" class="btn btn-primary">Get MCP4SH Premium</a>
           <a id="hero-download" href="#" class="btn btn-secondary">Start free</a>
@@ -884,7 +882,7 @@
           <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
         </div>
         <p class="purchase-note">The core haptics experience stays free. Premium adds the deeper control layer and directly supports continued development.</p>
-        <div class="purchase-price-line" aria-label="MCP4SH pricing"><strong>Premium €10.99</strong><span class="purchase-price-sep">·</span><span>Free €0</span></div>
+        <div class="purchase-price-line" aria-label="MCP4SH pricing"><strong>Premium €12.99 once</strong><span class="purchase-price-sep">·</span><span>Perpetual personal licence</span><span class="purchase-price-sep">·</span><span>1 machine</span><span class="purchase-price-sep">·</span><span>No subscription</span></div>
       </div>
       <div class="video-shell p-3 md:p-4">
         <video class="w-full rounded-2xl bg-black" controls preload="metadata" playsinline poster="Resources/MCP4SHLogo.png">
@@ -955,18 +953,18 @@
     <section id="what-it-does" class="mt-12 grid gap-6 md:grid-cols-3">
       <div class="panel p-6">
         <p class="eyebrow">Wut?</p>
-        <h2 class="mt-3 text-2xl font-semibold text-white">Sanitized telemetry feed</h2>
-        <p class="copy mt-4 text-sm md:text-base">MCP4SH tries to make grip, scrub, suspension, road texture, drivetrain, and weight-transfer style cues easier to separate and interpret. It will not make you faster, but it might help you be more consistent.</p>
+        <h2 class="mt-3 text-2xl font-semibold text-white">Useful signal, less noise</h2>
+        <p class="copy mt-4 text-sm md:text-base">Telemetry is simply the live data coming from the sim. MCP4SH turns that data into clearer tactile cues for grip, tyres, suspension, road, drivetrain, braking and chassis load.</p>
       </div>
       <div class="panel p-6">
         <p class="eyebrow">How?</p>
         <h2 class="mt-3 text-2xl font-semibold text-white">Less #brrrzt</h2>
-        <p class="copy mt-4 text-sm md:text-base">The goal is to reduce noise in the vibration signals so the feedback feels more coherent and, more like a moving chassis. Near-constant buzzing and not really knowing where it's coming from or trying to tame it, almost gone.</p>
+        <p class="copy mt-4 text-sm md:text-base">Instead of letting every effect buzz on top of every other effect, MCP4SH tries to keep the useful parts readable as one moving car. You should spend less time wondering what the vibration is and less time trying to tame it.</p>
       </div>
       <div class="panel p-6">
         <p class="eyebrow">And why should i care?</p>
         <h2 class="mt-3 text-2xl font-semibold text-white">Seat. Of. Pants.</h2>
-        <p class="copy mt-4 text-sm md:text-base">Reliable, consistent haptics helps you trust what you are feeling faster, with less second-guessing and less re-tuning each time you wanna switch games because you're not sure anymore. It helps you drive intuitively.</p>
+        <p class="copy mt-4 text-sm md:text-base">When the tactile language stays consistent, you spend less time asking what an effect means and more time reacting to the car intuitively. MCP4SH is not a pace cheat. It is better information through the rig.</p>
       </div>
     </section>
 
@@ -974,9 +972,9 @@
       <div class="conversion-strip-inner">
         <div>
           <p class="eyebrow">Ready to put it on your rig?</p>
-          <h2 class="mt-3 text-2xl md:text-3xl font-semibold text-white">Go Premium, or start with the core experience free.</h2>
-          <p class="copy mt-3 text-sm md:text-base">Premium is the direct route to the deeper control layer and continued development. The free version keeps the core MCP4SH experience available if you want to feel it first.</p>
-          <div class="purchase-price-line"><strong>Premium €10.99</strong><span class="purchase-price-sep">·</span><span>Free €0</span></div>
+          <h2 class="mt-3 text-2xl md:text-3xl font-semibold text-white">Start with the baseline. Shape it further with Premium.</h2>
+          <p class="copy mt-3 text-sm md:text-base">Free gets the intended MCP4SH experience onto your rig. Premium keeps that curated baseline and adds deeper control over how it is expressed on your hardware.</p>
+          <div class="purchase-price-line"><strong>Premium €12.99 once</strong><span class="purchase-price-sep">·</span><span>Perpetual</span><span class="purchase-price-sep">·</span><span>No subscription</span><span class="purchase-price-sep">·</span><span>Free €0</span></div>
         </div>
         <div class="flex flex-wrap gap-3">
           <a class="btn btn-primary js-premium-link" href="#">Get Premium</a>
@@ -1101,15 +1099,17 @@
 
     <section id="paid" class="mt-12 panel p-8">
       <p class="eyebrow">MCP4SH Premium</p>
-      <h2 class="headline mt-3 text-3xl md:text-5xl"><span class="accent">Go Premium</span> for deeper control. Core haptics stay free.</h2>
-      <p class="copy mt-5 max-w-4xl text-sm md:text-base">Premium is the paid path for people who want more control over the supplied baseline and want to directly support the compatibility, testing and engineering work behind it. The free version remains a complete way to experience the intended MCP4SH baseline before deciding.</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl"><span class="accent">Free gets you driving.</span> Premium gives you control.</h2>
+      <p class="copy mt-5 max-w-4xl text-sm md:text-base">The free version gives you the core MCP4SH experience and guided setup. Premium keeps the same curated baseline, then adds deeper control for shaping how that feedback is expressed on your own rig. Buying Premium also directly supports the compatibility, testing and engineering work behind MCP4SH.</p>
 
       <div class="tier-grid">
         <article class="tier-card premium">
           <span class="tier-label">Premium</span>
           <h3>MCP4SH with deeper control</h3>
-          <div class="tier-price"><strong>€10.99</strong><span>current Premium price</span></div>
+          <div class="tier-price"><strong>€12.99</strong><span>one time purchase</span></div>
           <ul>
+            <li>Perpetual personal licence for 1 machine</li>
+            <li>No subscription and no renewal fee</li>
             <li>Everything included in the free core experience</li>
             <li>Advanced controls for shaping emphasis without dismantling the supported signal chain</li>
             <li>Premium presentation and control features including ST Tensioner</li>
@@ -1121,7 +1121,7 @@
         <article class="tier-card">
           <span class="tier-label">Free</span>
           <h3>MCP4SH core</h3>
-          <div class="tier-price"><strong>€0</strong><span>no purchase required</span></div>
+          <div class="tier-price"><strong>€0</strong><span>no paid licence required</span></div>
           <ul>
             <li>Core String Theory Haptics codec and supplied profile</li>
             <li>Setup Assistant for mapping, proof pulses and generated sound output profiles</li>
@@ -1132,7 +1132,7 @@
         </article>
       </div>
 
-      <p class="purchase-footnote">Premium is currently listed at €10.99 and the core version remains free. The earlier Pioneer tier is retired and existing Pioneer users remain grandfathered. Checkout remains the source of truth for promotions, location dependent taxes and the exact Premium feature set.</p>
+      <p class="purchase-footnote">Premium is €12.99 as a one time purchase. The current Premium entitlement is a perpetual personal licence for 1 machine. There is no subscription and no renewal fee. The core version remains free. The earlier Pioneer tier is retired and existing Pioneer users retain their original grandfathered entitlement. Checkout remains the source of truth for promotions, location dependent taxes and the exact Premium feature set.</p>
     </section>
 
     <section id="features-roadmap" class="mt-12">
@@ -1288,6 +1288,13 @@
             Free gets the core codec, supplied profile and Setup Assistant working. Premium adds the deeper Advanced control layer, including the ST Tensioner presentation, and directly supports compatibility work, testing and continued development. The store listing is the source of truth for the exact current feature split and price.
           </div>
         </details>
+
+        <details class="faq-item">
+          <summary>Does Premium expire or renew?</summary>
+          <div class="faq-body">
+            No. MCP4SH Premium is currently sold as a €12.99 one time purchase for a perpetual personal licence on 1 machine. There is no subscription and no recurring renewal fee. Existing Pioneer licences remain grandfathered under their original entitlement.
+          </div>
+        </details>
 		<!-- details class="faq-item">
 		  <summary>How do I install exactly?</summary>
 		  <div class="faq-body">
@@ -1301,20 +1308,20 @@
     </section>
 
     <section class="mt-12 panel p-8">
-      <p class="eyebrow">Sanity/Reality check</p>
-      <h2 class="mt-3 text-2xl font-semibold text-white">Some disclaimers</h2>
+      <p class="eyebrow">Reality check</p>
+      <h2 class="mt-3 text-2xl font-semibold text-white">Good software cannot fix bad mounting.</h2>
       <p class="copy mt-4 text-sm md:text-base">
-        This is not magic, instant pace, or one-click perfection (almost, but not quite). It is however a serious attempt to make haptics more coherent and useful, and plug and play (ish). Your rig, transducer layout, amp chain, gain staging, and sims still matter. The goal is to start from a stronger place and give you something more ready-to-use. It removes complexity in tuning without losing fidelity. Do not treat this as an "automagically fix my haptics" solution. If mounting discipline (see FAQ re. hardware) is meh, this will not fix that.
+        MCP4SH handles interpretation, consistency and setup guidance. Your transducers, mounting, amplifier chain, gain staging and simulator data still define what the hardware can physically reproduce. The goal is not magic. It is a stronger starting point with much less unnecessary tuning.
       </p>
     </section>
 
     <section class="mt-12 conversion-strip" aria-label="MCP4SH Premium purchase">
       <div class="conversion-strip-inner">
         <div>
-          <p class="eyebrow">If MCP4SH has earned a place on your rig</p>
-          <h2 class="mt-3 text-2xl md:text-4xl font-semibold text-white">Premium unlocks the deeper control layer and helps keep the project moving.</h2>
-          <div class="purchase-price-line"><strong>Premium €10.99</strong><span class="purchase-price-sep">·</span><span>Free €0</span></div>
-          <p class="copy mt-3 text-sm md:text-base">Still deciding? The core experience remains free. Already using it? An honest review is useful too, whether the experience has been good, bad or weird.</p>
+          <p class="eyebrow">No subscription. No renewal fee.</p>
+          <h2 class="mt-3 text-2xl md:text-4xl font-semibold text-white">Buy it once. Keep using it.</h2>
+          <div class="purchase-price-line"><strong>Premium €12.99 once</strong><span class="purchase-price-sep">·</span><span>Perpetual</span><span class="purchase-price-sep">·</span><span>No subscription</span><span class="purchase-price-sep">·</span><span>Free €0</span></div>
+          <p class="copy mt-3 text-sm md:text-base">Premium is a perpetual personal licence for 1 machine and it also directly supports continued development. Still deciding? The core experience remains free. Already using it? An honest review is useful too, whether the experience has been good, bad or weird.</p>
         </div>
         <div class="flex flex-wrap gap-3">
           <a class="btn btn-primary js-premium-link" href="#">Get MCP4SH Premium</a>
