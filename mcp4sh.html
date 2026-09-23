@@ -684,6 +684,146 @@
         border-radius: 14px;
       }
     }
+
+
+    /* MCP4SH commercial path */
+    .purchase-note {
+      max-width: 760px;
+      color: #979b9f;
+      font-size: .82rem;
+      line-height: 1.65;
+    }
+    .purchase-price-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .55rem .8rem;
+      margin-top: .9rem;
+      color: #bfc2c5;
+      font-size: .84rem;
+      line-height: 1.5;
+    }
+    .purchase-price-line strong {
+      color: #f0e3bc;
+      font-size: .98rem;
+    }
+    .purchase-price-sep { color: #5f6468; }
+    .conversion-strip {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212,194,143,.20);
+      border-radius: 24px;
+      padding: clamp(1.35rem, 3.2vw, 2.2rem);
+      background: linear-gradient(120deg, rgba(110,96,63,.13), rgba(4,4,4,.25) 55%, rgba(0,0,0,.18));
+      box-shadow: 0 20px 48px rgba(0,0,0,.24);
+    }
+    .conversion-strip::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -100px;
+      top: -130px;
+      border-radius: 50%;
+      border: 1px solid rgba(212,194,143,.13);
+      box-shadow: 0 0 0 36px rgba(212,194,143,.018), 0 0 0 72px rgba(212,194,143,.012);
+      pointer-events: none;
+    }
+    .conversion-strip-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0,1.25fr) auto;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+    .tier-card {
+      position: relative;
+      padding: 1.4rem;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      background: rgba(2,2,2,.22);
+    }
+    .tier-card.premium {
+      border-color: rgba(212,194,143,.34);
+      background: linear-gradient(180deg, rgba(110,96,63,.12), rgba(2,2,2,.22));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.018);
+    }
+    .tier-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: .32rem .6rem;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 999px;
+      color: #a6aaae;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .tier-card.premium .tier-label {
+      border-color: rgba(212,194,143,.30);
+      color: #dacba8;
+    }
+    .tier-card h3 {
+      margin: .9rem 0 0;
+      color: #f2f2f2;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .tier-price {
+      display: flex;
+      align-items: baseline;
+      gap: .55rem;
+      margin-top: .72rem;
+    }
+    .tier-price strong {
+      color: #fff;
+      font-size: 1.85rem;
+      line-height: 1;
+      letter-spacing: -.03em;
+    }
+    .tier-card.premium .tier-price strong { color: #eadbb3; }
+    .tier-price span {
+      color: #767b7f;
+      font-size: .74rem;
+      line-height: 1.35;
+    }
+    .tier-card ul {
+      display: grid;
+      gap: .7rem;
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+      color: #aeb1b4;
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+    .tier-card li::before {
+      content: "•";
+      color: #9b8a61;
+      margin-right: .55rem;
+    }
+    .tier-card .tier-action { margin-top: 1.25rem; }
+    .purchase-footnote {
+      margin-top: 1rem;
+      color: #777c80;
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+    @media(max-width:760px) {
+      .conversion-strip-inner { grid-template-columns: 1fr; }
+      .conversion-strip .flex { justify-content: flex-start; }
+      .tier-grid { grid-template-columns: 1fr; }
+    }
+
   </style>
   <link rel="stylesheet" href="Resources/site-theme.css" />
   <link rel="stylesheet" href="Resources/tyto-showcase.css" />
@@ -711,7 +851,7 @@
         <a href="reviews.html">Reviews</a>
         <a href="labnotes.html">Lab Notes</a>
       </nav>
-      <a id="nav-download" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Download</a>
+      <a id="nav-premium" class="btn btn-primary !px-4 !py-2 text-sm" href="#">Get Premium</a>
     </div>
     <nav class="mobile-global-links md:hidden" aria-label="Mobile site navigation">
       <a href="reviews.html">Reviews</a>
@@ -736,13 +876,15 @@
 		  So I started building this, and as I progressed, I assumed others might have or find use for it, so I added some more useful features and decided to share.
 		</p>
         <div class="flex flex-wrap gap-3">
-          <a id="hero-download" href="#" class="btn btn-primary">Download MCP4SH</a>
-          <a id="hero-license" href="#" class="btn btn-secondary">Buy / activate license</a>
+          <a id="hero-license" href="#" class="btn btn-primary">Get MCP4SH Premium</a>
+          <a id="hero-download" href="#" class="btn btn-secondary">Start free</a>
           <a href="mcp4sh-research.html" class="btn btn-secondary">Research &amp; engineering basis</a>
           <a href="mcp4sh-architecture.html" class="btn btn-secondary">Architecture &amp; scaling</a>
           <a href="#faq" class="btn btn-secondary">Read the FAQ</a>
           <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
         </div>
+        <p class="purchase-note">The core haptics experience stays free. Premium adds the deeper control layer and directly supports continued development.</p>
+        <div class="purchase-price-line" aria-label="MCP4SH pricing"><strong>Premium €10.99</strong><span class="purchase-price-sep">·</span><span>Free €0</span></div>
       </div>
       <div class="video-shell p-3 md:p-4">
         <video class="w-full rounded-2xl bg-black" controls preload="metadata" playsinline poster="Resources/MCP4SHLogo.png">
@@ -828,6 +970,20 @@
       </div>
     </section>
 
+    <section class="mt-8 conversion-strip" aria-label="MCP4SH Premium or free choice">
+      <div class="conversion-strip-inner">
+        <div>
+          <p class="eyebrow">Ready to put it on your rig?</p>
+          <h2 class="mt-3 text-2xl md:text-3xl font-semibold text-white">Go Premium, or start with the core experience free.</h2>
+          <p class="copy mt-3 text-sm md:text-base">Premium is the direct route to the deeper control layer and continued development. The free version keeps the core MCP4SH experience available if you want to feel it first.</p>
+          <div class="purchase-price-line"><strong>Premium €10.99</strong><span class="purchase-price-sep">·</span><span>Free €0</span></div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a class="btn btn-primary js-premium-link" href="#">Get Premium</a>
+          <a class="btn btn-secondary js-free-link" href="#">Start free</a>
+        </div>
+      </div>
+    </section>
 
     <section id="supported-titles" class="mt-12 panel p-8">
       <p class="eyebrow">Supported titles</p>
@@ -943,28 +1099,40 @@
       </div>
     </section>
 
-    <section id="paid" class="mt-12 grid gap-6 lg:grid-cols-[1fr_0.95fr]">
-      <div class="panel p-8">
-        <p class="eyebrow">Free + Premium</p>
-        <h2 class="headline mt-3 text-3xl md:text-5xl">Core haptics free. <span class="accent">Premium</span> for deeper control.</h2>
-        <div class="copy mt-6 space-y-4 text-sm md:text-base">
-          <p>The free version is not a crippled demo. It includes the core MCP4SH String Theory Haptics experience and the Setup Assistant.</p>
-          <p>That means you can map the shakers on your rig, proof-pulse your sound outputs, create explicit shared-channel mappings where needed, generate the matching SimHub sound output profile, and get driving without first becoming a SimHub routing expert.</p>
-          <p><strong class="text-white">MCP4SH Premium</strong> is the current paid tier. The earlier Pioneer tier is retired; existing Pioneer users remain grandfathered.</p>
-          <p>Premium unlocks the extra control layer, including the Advanced controls and ST Tensioner presentation, for people who want to shape the balance and feel around their own rig rather than only use the supplied defaults.</p>
-          <p>The store listing remains the source of truth for current pricing, promotions and exactly what is included at the time you buy.</p>
-        </div>
+    <section id="paid" class="mt-12 panel p-8">
+      <p class="eyebrow">MCP4SH Premium</p>
+      <h2 class="headline mt-3 text-3xl md:text-5xl"><span class="accent">Go Premium</span> for deeper control. Core haptics stay free.</h2>
+      <p class="copy mt-5 max-w-4xl text-sm md:text-base">Premium is the paid path for people who want more control over the supplied baseline and want to directly support the compatibility, testing and engineering work behind it. The free version remains a complete way to experience the intended MCP4SH baseline before deciding.</p>
+
+      <div class="tier-grid">
+        <article class="tier-card premium">
+          <span class="tier-label">Premium</span>
+          <h3>MCP4SH with deeper control</h3>
+          <div class="tier-price"><strong>€10.99</strong><span>current Premium price</span></div>
+          <ul>
+            <li>Everything included in the free core experience</li>
+            <li>Advanced controls for shaping emphasis without dismantling the supported signal chain</li>
+            <li>Premium presentation and control features including ST Tensioner</li>
+            <li>Direct support for continued compatibility work, hardware testing and telemetry refinement</li>
+          </ul>
+          <div class="tier-action"><a class="btn btn-primary js-premium-link" href="#">Get MCP4SH Premium</a></div>
+        </article>
+
+        <article class="tier-card">
+          <span class="tier-label">Free</span>
+          <h3>MCP4SH core</h3>
+          <div class="tier-price"><strong>€0</strong><span>no purchase required</span></div>
+          <ul>
+            <li>Core String Theory Haptics codec and supplied profile</li>
+            <li>Setup Assistant for mapping, proof pulses and generated sound output profiles</li>
+            <li>Cross title baseline designed to reduce repeated profile hunting and retuning</li>
+            <li>A complete path to get the intended MCP4SH experience running on your rig</li>
+          </ul>
+          <div class="tier-action"><a class="btn btn-secondary js-free-link" href="#">Start free</a></div>
+        </article>
       </div>
-      <div class="panel p-8">
-        <p class="eyebrow">Why Premium?</p>
-        <h2 class="mt-3 text-2xl font-semibold text-white">Because the useful baseline should still be usable for free.</h2>
-        <ul class="copy mt-6 space-y-4 text-sm md:text-base">
-          <li><strong class="text-white">Free gets you driving:</strong> the core codec, supplied profile and Setup Assistant are enough to use MCP4SH as intended.</li>
-          <li><strong class="text-white">Premium gives you more control:</strong> Advanced tuning lets you change emphasis without dismantling the supported signal chain.</li>
-          <li><strong class="text-white">The product can keep moving:</strong> paid licenses directly support compatibility work, hardware testing, telemetry refinement and the boring release-engineering bits.</li>
-          <li><strong class="text-white">No profile-sharing dependency:</strong> the goal remains a coherent baseline that adapts across titles and rigs, not a library of game-specific profiles you have to keep hunting down.</li>
-        </ul>
-      </div>
+
+      <p class="purchase-footnote">Premium is currently listed at €10.99 and the core version remains free. The earlier Pioneer tier is retired and existing Pioneer users remain grandfathered. Checkout remains the source of truth for promotions, location dependent taxes and the exact Premium feature set.</p>
     </section>
 
     <section id="features-roadmap" class="mt-12">
@@ -1140,6 +1308,22 @@
       </p>
     </section>
 
+    <section class="mt-12 conversion-strip" aria-label="MCP4SH Premium purchase">
+      <div class="conversion-strip-inner">
+        <div>
+          <p class="eyebrow">If MCP4SH has earned a place on your rig</p>
+          <h2 class="mt-3 text-2xl md:text-4xl font-semibold text-white">Premium unlocks the deeper control layer and helps keep the project moving.</h2>
+          <div class="purchase-price-line"><strong>Premium €10.99</strong><span class="purchase-price-sep">·</span><span>Free €0</span></div>
+          <p class="copy mt-3 text-sm md:text-base">Still deciding? The core experience remains free. Already using it? An honest review is useful too, whether the experience has been good, bad or weird.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a class="btn btn-primary js-premium-link" href="#">Get MCP4SH Premium</a>
+          <a class="btn btn-secondary js-free-link" href="#">Start free</a>
+          <a class="btn btn-secondary" href="reviews.html#leave-review">Leave a review</a>
+        </div>
+      </div>
+    </section>
+
     <section id="ecosystem" class="mt-12 ecosystem-strip">
       <p class="eyebrow">MCP4SH ecosystem</p>
       <div class="mt-3 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -1170,9 +1354,11 @@
   </main>
 
   <script>
-    document.getElementById('nav-download').href = MCP4SH_DOWNLOAD_URL;
+    document.getElementById('nav-premium').href = MCP4SH_LICENSE_URL;
     document.getElementById('hero-download').href = MCP4SH_DOWNLOAD_URL;
     document.getElementById('hero-license').href = MCP4SH_LICENSE_URL;
+    document.querySelectorAll('.js-premium-link').forEach(link => { link.href = MCP4SH_LICENSE_URL; });
+    document.querySelectorAll('.js-free-link').forEach(link => { link.href = MCP4SH_DOWNLOAD_URL; });
 
     (function loadMcp4shCredits() {
       const target = document.getElementById('mcp4sh-credits');

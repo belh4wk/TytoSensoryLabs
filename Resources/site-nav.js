@@ -40,8 +40,8 @@
       .site-nav-toggle {
         display: inline-grid;
         place-items: center;
-        width: 22px;
-        height: 28px;
+        width: 24px;
+        height: 38px;
         margin: 0 0 0 -.1rem;
         padding: 0;
         border: 0;
@@ -80,7 +80,7 @@
         min-width: 212px;
         padding: .45rem;
         border: 1px solid rgba(225,230,236,.15);
-        border-radius: 15px;
+        border-radius: 12px;
         background: rgba(0,0,0,.88);
         backdrop-filter: blur(9px) saturate(50%);
         -webkit-backdrop-filter: blur(9px) saturate(50%);
@@ -122,7 +122,7 @@
         align-items: center;
         min-height: 40px;
         padding: .58rem .72rem;
-        border-radius: 10px;
+        border-radius: 9px;
         color: #bfc4ca !important;
         font-size: .82rem;
         font-weight: 650;
@@ -163,7 +163,7 @@
       .mobile-menu-group {
         margin: .18rem 0;
         padding: .12rem 0 .2rem;
-        border-radius: 12px;
+        border-radius: 10px;
       }
 
       .mobile-menu-group.is-active {
@@ -200,7 +200,7 @@
         background: rgba(122,105,64,.11);
       }
 
-      @media (max-width: 767px) {
+      @media (max-width: 1039px) {
         .site-nav-group { display: none; }
       }
 

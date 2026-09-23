@@ -321,3 +321,163 @@ body.review-modal-open .topbar { filter: none; }
   .topbar > div > a:first-child { min-width:0; font-size:.78rem; letter-spacing:.145em; }
   .topbar > div > a.btn { flex:0 0 auto; }
 }
+
+/* Shared control geometry
+   Keep actions visually intentional by using a small set of repeatable sizes.
+   Standard page CTAs share one footprint. Header controls and navigation use
+   their own compact footprint so the top bar remains usable on smaller screens. */
+:root {
+  --tyto-control-width: 228px;
+  --tyto-control-height: 52px;
+  --tyto-header-control-width: 158px;
+  --tyto-header-control-height: 40px;
+  --tyto-nav-item-width: 92px;
+  --tyto-nav-item-height: 40px;
+  --tyto-control-radius: 12px;
+  --tyto-nav-radius: 10px;
+}
+
+.btn {
+  width: var(--tyto-control-width) !important;
+  min-width: var(--tyto-control-width) !important;
+  min-height: var(--tyto-control-height) !important;
+  height: var(--tyto-control-height) !important;
+  padding: 0 1.05rem !important;
+  box-sizing: border-box !important;
+  border-radius: var(--tyto-control-radius) !important;
+  text-align: center !important;
+  font-size: .84rem !important;
+  font-weight: 650 !important;
+  line-height: 1.16 !important;
+  text-wrap: balance;
+  white-space: normal !important;
+  backdrop-filter: blur(8px) saturate(52%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(52%) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, rgba(122,105,64,.28), rgba(5,5,5,.42)) !important;
+  border: 1px solid rgba(212,194,143,.48) !important;
+  color: #f0e3bc !important;
+  -webkit-text-fill-color: #f0e3bc !important;
+}
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: linear-gradient(180deg, rgba(122,105,64,.38), rgba(8,8,8,.52)) !important;
+  border-color: rgba(232,215,168,.72) !important;
+  color: #fff6df !important;
+  -webkit-text-fill-color: #fff6df !important;
+}
+.btn-secondary {
+  background: linear-gradient(180deg, rgba(10,10,10,.42), rgba(1,1,1,.28)) !important;
+  border: 1px solid rgba(220,225,232,.14) !important;
+  color: #c7cbd0 !important;
+}
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  background: linear-gradient(180deg, rgba(18,18,18,.52), rgba(4,4,4,.38)) !important;
+  border-color: rgba(220,225,232,.26) !important;
+  color: #f4f4f4 !important;
+}
+
+.topbar > div > a.btn {
+  width: var(--tyto-header-control-width) !important;
+  min-width: var(--tyto-header-control-width) !important;
+  min-height: var(--tyto-header-control-height) !important;
+  height: var(--tyto-header-control-height) !important;
+  padding: 0 .78rem !important;
+  border-radius: var(--tyto-nav-radius) !important;
+  font-size: .78rem !important;
+  line-height: 1.1 !important;
+  white-space: normal !important;
+}
+
+.site-global-nav {
+  gap: .38rem !important;
+}
+.site-global-nav > a,
+.site-global-nav > .site-nav-group {
+  width: var(--tyto-nav-item-width);
+  min-width: var(--tyto-nav-item-width);
+  height: var(--tyto-nav-item-height);
+  min-height: var(--tyto-nav-item-height);
+  box-sizing: border-box;
+  border: 1px solid rgba(220,225,232,.075);
+  border-radius: var(--tyto-nav-radius);
+  background: linear-gradient(180deg, rgba(8,8,8,.24), rgba(0,0,0,.16));
+  backdrop-filter: blur(6px) saturate(50%);
+  -webkit-backdrop-filter: blur(6px) saturate(50%);
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+.site-global-nav > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 .55rem;
+  font-size: .78rem;
+}
+.site-global-nav > a:hover,
+.site-global-nav > a:focus-visible,
+.site-global-nav > .site-nav-group:hover,
+.site-global-nav > .site-nav-group:focus-within {
+  border-color: rgba(220,225,232,.18);
+  background: linear-gradient(180deg, rgba(16,16,16,.34), rgba(2,2,2,.24));
+}
+.site-global-nav > a[aria-current="page"],
+.site-global-nav > .site-nav-group.is-active {
+  border-color: rgba(212,194,143,.30);
+  background: linear-gradient(180deg, rgba(122,105,64,.13), rgba(3,3,3,.22));
+}
+.site-nav-group > .site-nav-parent {
+  min-width: 0;
+  flex: 1 1 auto;
+  justify-content: center;
+  padding-left: .5rem;
+  font-size: .78rem;
+}
+
+.mobile-site-menu-panel > a,
+.mobile-site-menu-panel > .mobile-menu-group,
+.mobile-site-menu-panel .mobile-menu-parent,
+.mobile-site-menu-panel .mobile-menu-sub a,
+.site-nav-submenu a {
+  box-sizing: border-box;
+}
+.mobile-site-menu-panel > a,
+.mobile-site-menu-panel .mobile-menu-parent,
+.mobile-site-menu-panel .mobile-menu-sub a,
+.site-nav-submenu a {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 9px !important;
+}
+
+/* Move the compact menu breakpoint high enough that equal-width desktop nav
+   items never have to squeeze beside the brand and primary CTA. */
+@media (min-width: 1040px) {
+  .site-global-nav { display: flex !important; }
+  .mobile-site-menu { display: none !important; }
+}
+@media (max-width: 1039px) {
+  .site-global-nav { display: none !important; }
+  .mobile-site-menu { display: block !important; }
+  .mobile-global-links { display: none !important; }
+}
+
+@media (max-width: 620px) {
+  main .btn,
+  .content .btn,
+  section .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .topbar > div > a.btn {
+    width: 146px !important;
+    min-width: 146px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+}

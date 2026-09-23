@@ -640,6 +640,9 @@
     .layer-slab:nth-child(2){margin-left:3%}.layer-slab:nth-child(3){margin-left:6%;border-color:rgba(212,194,143,.24);background:rgba(110,96,63,.08)}.layer-slab:nth-child(4){margin-left:9%}.layer-slab:nth-child(5){margin-left:12%}
     .layer-slab span{display:block;transform:skewX(5deg);color:#9ca1a5;font-size:.8rem}.layer-slab.core span{color:#e2d7ba}
 
+    .matrix-scroll{width:100%;overflow-x:auto;overscroll-behavior-inline:contain}
+    .matrix-scroll::-webkit-scrollbar{height:6px}
+    .matrix-scroll::-webkit-scrollbar-thumb{background:rgba(212,194,143,.18);border-radius:999px}
     .compat-table{width:100%;margin-top:1.2rem;border-collapse:collapse;font-size:.8rem}
     .compat-table th,.compat-table td{padding:.8rem .7rem;border-bottom:1px solid rgba(255,255,255,.07);text-align:left}
     .compat-table th{color:#777d82;text-transform:uppercase;letter-spacing:.09em;font-size:.66rem}
@@ -658,6 +661,7 @@
       .flow-stack{grid-template-columns:1fr}
       .flow-arrow{min-height:28px;transform:rotate(90deg)}
       .signal-bus,.fidelity-map{grid-template-columns:1fr}
+      .bus-side,.bus-core{min-height:auto}
       .tactile-stops{grid-template-columns:1fr 1fr}
       .tactile-line{display:none}
       .tactile-stop::before{top:.15rem}
@@ -668,29 +672,93 @@
     }
     @media(max-width:620px){
       .content{padding-top:88px}
-      .panel{border-radius:24px}
-      .three-grid,.hardware-grid,.sim-grid,.metrics,.sequence{grid-template-columns:1fr}
-      .reading-section{padding-top:2.8rem;padding-bottom:2.8rem}
-      .state-label{white-space:normal;width:140px}
-      .example{padding:1.05rem}
-      .tactile-stops{grid-template-columns:1fr}
-      .scope-grid{grid-template-columns:1fr}
-      .rig-schematic{min-height:380px}
-      .rig-label{max-width:120px;font-size:.69rem}
-      .domain-map{min-height:520px}
-      .domain-circle{width:230px;height:230px;padding:2rem}
-      .domain-circle.auto{left:50%;top:32%;transform:translate(-50%,-50%)}
-      .domain-circle.flight{right:auto;left:50%;top:68%;transform:translate(-50%,-50%)}
-      .domain-overlap{top:50%}
+      .page-wrap{width:min(1160px,calc(100% - 1.2rem))}
+      .panel{border-radius:22px}
+      .page-hero{padding:1.35rem}
+      .reading-section{padding:2.55rem .15rem}
+      .copy,.lead{line-height:1.72}
+      .principle{padding:1rem 1.05rem;font-size:.96rem}
+      .example{padding:1rem;border-radius:18px}
 
-      .calibration-rail{grid-template-columns:1fr 1fr}
+      /* Peer groups become swipe rails instead of tall stacks. */
+      .three-grid,.hardware-grid,.sim-grid,.sequence{
+        display:flex;
+        gap:.8rem;
+        overflow-x:auto;
+        overflow-y:hidden;
+        scroll-snap-type:x mandatory;
+        overscroll-behavior-inline:contain;
+        padding:.05rem .55rem .55rem 0;
+        scrollbar-width:none;
+      }
+      .three-grid::-webkit-scrollbar,.hardware-grid::-webkit-scrollbar,.sim-grid::-webkit-scrollbar,.sequence::-webkit-scrollbar,.tactile-stops::-webkit-scrollbar{display:none}
+      .three-grid>*,.hardware-grid>*,.sim-grid>*,.sequence>*{
+        flex:0 0 min(82vw,330px);
+        scroll-snap-align:start;
+      }
+      .metrics{grid-template-columns:1fr 1fr;gap:.65rem}
+      .metric{min-height:0;padding:1rem}
+      .metric strong{font-size:.9rem;line-height:1.4}
+
+      /* Ordered flows remain vertical, but are compressed for a phone. */
+      .signal-bus{gap:.6rem}
+      .bus-side,.bus-core{padding:.8rem;min-height:auto}
+      .bus-core{padding:.85rem 1rem}
+      .bus-title{margin-bottom:.45rem}
+      .bus-item{margin:.28rem 0;padding:.45rem .58rem;font-size:.77rem}
+      .bus-core .bus-rail{display:none}
+      .flow-stack{gap:.45rem}
+      .flow-box{min-height:46px;padding:.62rem .7rem;font-size:.78rem}
+      .flow-arrow{min-height:20px}
+
+      .fidelity-map{gap:.65rem}
+      .source-traces,.semantic-lanes{padding:.8rem}
+      .trace{grid-template-columns:92px 1fr;gap:.55rem;margin:.52rem 0}
+      .trace-label{font-size:.7rem}
+      .semantic-lane{grid-template-columns:96px 1fr;gap:.55rem;padding:.58rem 0}
+      .semantic-lane strong,.semantic-lane span{font-size:.71rem}
+
+      .tactile-stops{display:flex;gap:.8rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.5rem;scrollbar-width:none}
+      .tactile-stop{flex:0 0 min(82vw,330px);scroll-snap-align:start;padding:1rem;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(0,0,0,.18)}
+      .tactile-stop::before{display:none}
+      .tactile-timeline{padding:0;margin-top:1.1rem}
+
+      .scope-grid{grid-template-columns:1fr;gap:.45rem}
+      .scope-label{padding-top:.2rem}
+      .scope-caption{grid-template-columns:1fr;gap:.45rem}
+
+      .rig-schematic{min-height:350px}
+      .rig-frame{width:190px;height:150px}
+      .rig-seat{width:62px;height:92px}
+      .rig-pedals{left:calc(50% + 74px);width:52px}
+      .rig-label{max-width:112px;font-size:.66rem}
+
+      .calibration-rail{grid-template-columns:1fr 1fr;gap:.75rem}
       .calibration-rail::before{display:none}
-      .cal-step{padding-top:1.3rem}
-      .cal-step::before{top:.25rem}
-      .title-fanout{grid-template-columns:1fr 1fr 1fr}
-      .calibration-rail{grid-template-columns:1fr}
+      .cal-step{padding:1.2rem .75rem .75rem;border:1px solid rgba(255,255,255,.06);border-radius:14px;background:rgba(0,0,0,.16)}
+      .cal-step::before{top:.25rem;left:.75rem}
       .title-fanout{grid-template-columns:1fr 1fr}
-      .baseline-spine::before,.baseline-spine::after{width:18%}
+      .baseline-spine::before,.baseline-spine::after{width:14%}
+
+      .matrix-scroll,.carrier-matrix-wrap{margin-left:-.15rem;margin-right:-.15rem;padding-bottom:.45rem}
+      .scale-matrix{min-width:610px;margin-top:1.05rem}
+      .carrier-matrix{min-width:620px}
+      .compat-table{min-width:640px}
+
+      .layer-slab{width:100%;margin-left:0!important;transform:none}
+      .layer-slab span{transform:none}
+
+      .domain-map{min-height:430px}
+      .domain-circle{width:200px;height:200px;padding:1.45rem}
+      .domain-circle.auto{left:50%;top:29%;transform:translate(-50%,-50%)}
+      .domain-circle.flight{right:auto;left:50%;top:71%;transform:translate(-50%,-50%)}
+      .domain-overlap{top:50%;width:155px;padding:.8rem;font-size:.7rem}
+      .state-label{white-space:normal;width:130px}
+    }
+    @media(max-width:350px){
+      .metrics{grid-template-columns:1fr}
+      .calibration-rail{grid-template-columns:1fr}
+      .three-grid>*,.hardware-grid>*,.sim-grid>*,.sequence>*,.tactile-stop{flex-basis:88vw}
     }
   </style>
   <link rel="stylesheet" href="Resources/site-theme.css" />
@@ -723,7 +791,8 @@
         </p>
         <div class="principle"><strong>Preserve meaning. Adapt the carrier.</strong></div>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="mcp4sh.html" class="btn btn-primary">MCP4SH product page</a>
+          <a href="https://tytosensorylabs.lemonsqueezy.com/checkout/buy/1f9c1205-e6c6-422f-bb82-ce822d53ee2a" class="btn btn-primary">Get MCP4SH Premium</a>
+          <a href="mcp4sh.html" class="btn btn-secondary">MCP4SH product page</a>
           <a href="mcp4sh-research.html" class="btn btn-secondary">Research and engineering basis</a>
         </div>
       </section>
@@ -1008,12 +1077,14 @@
             <h3 class="example-title">Scaling problem · bespoke links grow in both directions</h3>
             <span class="example-note">N inputs × M outputs</span>
           </div>
-          <div class="scale-matrix" aria-label="Many to many integration matrix">
-            <div class="matrix-cell head">Input \ Output</div><div class="matrix-cell head">Shakers</div><div class="matrix-cell head">Haptic pad</div><div class="matrix-cell head">Pedal motor</div><div class="matrix-cell head">Future device</div>
-            <div class="matrix-cell axis">Assetto Corsa</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
-            <div class="matrix-cell axis">Le Mans Ultimate</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
-            <div class="matrix-cell axis">F1 25</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
-            <div class="matrix-cell axis">Flight input</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+          <div class="matrix-scroll">
+            <div class="scale-matrix" aria-label="Many to many integration matrix">
+              <div class="matrix-cell head">Input \ Output</div><div class="matrix-cell head">Shakers</div><div class="matrix-cell head">Haptic pad</div><div class="matrix-cell head">Pedal motor</div><div class="matrix-cell head">Future device</div>
+              <div class="matrix-cell axis">Assetto Corsa</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+              <div class="matrix-cell axis">Le Mans Ultimate</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+              <div class="matrix-cell axis">F1 25</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+              <div class="matrix-cell axis">Flight input</div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div><div class="matrix-cell hit"></div>
+            </div>
           </div>
           <div class="semantic-spine">
             <div class="spine-side">Specialised input adapters preserve source-specific richness.</div>
@@ -1251,8 +1322,10 @@
           Neither requires rebuilding the whole interpretation stack between them.
         </p>
         <p class="copy mt-4">That is the problem MCP4SH is designed to solve.</p>
+        <p class="copy mt-3">If that approach makes sense for your rig, Premium is the direct way to unlock the deeper control layer and support continued development. The core experience remains available free.</p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="mcp4sh.html" class="btn btn-primary">Try MCP4SH</a>
+          <a href="https://tytosensorylabs.lemonsqueezy.com/checkout/buy/1f9c1205-e6c6-422f-bb82-ce822d53ee2a" class="btn btn-primary">Get MCP4SH Premium</a>
+          <a href="https://github.com/belh4wk/MCP4SH/releases" class="btn btn-secondary">Start free</a>
           <a href="mcp4sh-research.html" class="btn btn-secondary">Read the research basis</a>
         </div>
       </section>
