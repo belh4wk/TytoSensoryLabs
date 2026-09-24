@@ -899,22 +899,22 @@
       <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div>
           <p class="eyebrow">Current public release</p>
-          <h2 class="headline mt-3 text-3xl md:text-5xl">MCP4SH <span class="accent">1.1.14</span></h2>
+          <h2 class="headline mt-3 text-3xl md:text-5xl">MCP4SH <span class="accent">1.1.14.1</span></h2>
           <p class="copy mt-5 text-sm md:text-base">
-            MCP4SH 1.1.14 is a focused maintenance release for the install and update path. It keeps the established 1.1.13.x haptics baseline intact while making file replacement safer when SimHub or MCP4SH Setup Assistant is still running.
+            MCP4SH 1.1.14.1 is a small mapping-convenience hotfix on top of the 1.1.14 installer/update reliability work. The haptics baseline is unchanged; this one makes it easier to correct common physical routing mistakes without rerunning the whole mapping wizard.
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
-            <a href="https://github.com/belh4wk/MCP4SH/releases/tag/1.1.14" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">1.1.14 release notes</a>
+            <a href="https://github.com/belh4wk/MCP4SH/releases/tag/1.1.14.1" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">1.1.14.1 release notes</a>
             <a href="labnotes.html" class="btn btn-secondary">Lab Notes</a>
           </div>
         </div>
         <div>
           <ul class="copy space-y-3 text-sm md:text-base">
-            <li><strong class="text-white">Safer file replacement:</strong> the installer now uses application-in-use handling before replacing MCP4SH executables and DLLs.</li>
-            <li><strong class="text-white">Cleaner SimHub handoff:</strong> staged updates continue to request a normal SimHub shutdown rather than force-killing the host.</li>
-            <li><strong class="text-white">Setup Assistant protection:</strong> manual and staged install paths account for MCP4SH Setup Assistant as well as known SimHub process names.</li>
-            <li><strong class="text-white">Better diagnostics:</strong> installer logging is enabled and update-related logs are retained locally when possible.</li>
-            <li><strong class="text-white">Same haptics baseline:</strong> 1.1.14 does not retune MCP4SH effects; the release is about update and installation reliability.</li>
+            <li><strong class="text-white">Seat-side correction:</strong> completed maps can swap saved SeatBottom left/right assignments without restarting the full mapping wizard.</li>
+            <li><strong class="text-white">Front/rear convenience:</strong> eligible simple layouts can safely swap saved front/rear assignments on a per-device basis.</li>
+            <li><strong class="text-white">Mapping-safe:</strong> intentional shared-channel assignments are preserved, while ambiguous or dedicated seat-side layouts are left alone by the front/rear action.</li>
+            <li><strong class="text-white">Safer updates:</strong> the 1.1.14 application-in-use handling, clean SimHub handoff and installer diagnostics remain part of the stable baseline.</li>
+            <li><strong class="text-white">Same haptics baseline:</strong> 1.1.14.1 does not retune MCP4SH effects or replace the canonical SimHub profiles.</li>
             <li><strong class="text-white">v1.2 stays preview-only:</strong> the existing flight preview assets remain previews; v1.2 development has not been promoted into the stable runtime.</li>
           </ul>
         </div>
